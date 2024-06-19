@@ -29,6 +29,7 @@ const IssuePostForm = () => {
           />
         </TouchableOpacity>
       </View>
+
       <View>
         <TextInput
           multiline={true}
@@ -36,14 +37,13 @@ const IssuePostForm = () => {
           placeholder="Issue title in short"
           placeholderTextColor={'#c0c0c0'}
         />
-
-        {/* </TextI> */}
         <TextInput
           multiline={true}
           placeholderTextColor={'#c0c0c0'}
           placeholder="Describe your issue here."
           style={styles.IssueContent}></TextInput>
       </View>
+
       <View style={styles.ActionButtonView}>
         <View style={styles.ButtonView}>
           <TouchableOpacity>
@@ -75,10 +75,7 @@ const IssuePostForm = () => {
             gap: 5,
             paddingVertical: 8,
             borderRadius: 6,
-            // paddingHorizontal: 15,
             width: 90,
-            // paddingVertical: 8,
-            // paddingHorizontal: 12,
           }}>
           <Text style={{fontSize: 16, color: 'white', fontWeight: '500'}}>
             Post
@@ -98,20 +95,18 @@ export default IssuePostForm;
 const styles = StyleSheet.create({
   FormMainView: {
     backgroundColor: 'white',
-    height: Dimensions.get('screen').height,
-    // paddingHorizontal: 20,
     paddingTop: 5,
   },
   CloseIcon: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     objectFit: 'contain',
   },
   IssueTitle: {
     // marginTop: 10,
     lineHeight: 25,
-    fontWeight: '500',
-    // fontFamily: 'Inter-semibold',
+    // fontWeight: '500',
+    fontFamily: 'Inter-SemiBold',
     color: 'black',
     fontSize: 19,
     // borderBottomWidth: 1.2,
@@ -121,6 +116,7 @@ const styles = StyleSheet.create({
     // marginTop: 5,
     lineHeight: 25,
     color: 'black',
+    fontFamily: 'Inter-Medium',
     fontSize: 16,
   },
   ActionButtonView: {
@@ -129,7 +125,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  ButtonView: {display: 'flex', flexDirection: 'row', gap: 8},
+  ButtonView: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 8,
+  },
   ActionButtonIcon: {
     width: 24,
     height: 24,
