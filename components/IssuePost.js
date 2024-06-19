@@ -1,11 +1,26 @@
 import React from 'react';
-import {Image, Pressable, Text, View} from 'react-native';
+import {Image, Pressable} from 'react-native';
 
 const IssuePost = () => {
   return (
-    <View>
-      <Text>Issue Post Page</Text>
-    </View>
+    <Pressable
+      style={{
+        backgroundColor: '#548DFE',
+        height: 45,
+        width: 45,
+        borderRadius: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 110,
+        right: 20,
+      }}>
+      <Image
+        style={{height: 19, width: 19}}
+        source={require('../assets/images/icons/issue-post-plus-icon.png')}
+      />
+    </Pressable>
   );
 };
 
