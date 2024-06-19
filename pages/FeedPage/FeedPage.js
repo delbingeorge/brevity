@@ -1,9 +1,10 @@
-import {Image, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import IssuePost from '../../components/IssuePost';
 
 const FeedPage = () => {
   return (
-    <View style={styles.MainView}>
-      {/* <View style={styles.NavView}>
+    <SafeAreaView style={styles.MainView}>
+      <View style={styles.NavView}>
         <Image
           style={styles.NavLogo}
           source={require('../../assets/images/logo/brevity.png')}
@@ -12,9 +13,9 @@ const FeedPage = () => {
           style={styles.CrownRank}
           source={require('../../assets/images/icons/crown-rank.png')}
         />
-      </View> */}
-      <Text>Feed Page</Text>
-    </View>
+      </View>
+      <IssuePost />
+    </SafeAreaView>
   );
 };
 
@@ -22,7 +23,9 @@ export default FeedPage;
 
 const styles = StyleSheet.create({
   MainView: {
+    backgroundColor: 'white',
     paddingHorizontal: 15,
+    height: Dimensions.get('screen').height,
   },
   NavView: {
     marginVertical: 5,
@@ -32,13 +35,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   NavLogo: {
-    height: 27,
-    width: 100,
+    height: 22,
+    width: 76,
     objectFit: 'contain',
   },
   CrownRank: {
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
   },
   BottomNavBar: {
     display: 'flex',

@@ -6,6 +6,7 @@ import {StatusBar} from 'react-native';
 const App = () => {
   return (
     <NavigationContainer>
+      <StatusBar barStyle={'dark-content'} backgroundColor={'white'} />
       <BottomNavBar />
     </NavigationContainer>
   );

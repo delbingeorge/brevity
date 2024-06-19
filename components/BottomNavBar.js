@@ -14,7 +14,7 @@ const BottomNavBar = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 55,
+          height: 58,
         },
       }}>
       <TabRoute.Screen
