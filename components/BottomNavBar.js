@@ -4,10 +4,8 @@ import FeedPage from '../pages/FeedPage/FeedPage';
 import ExplorePage from '../pages/ExplorePage/ExplorePage';
 import ListsPage from '../pages/ListsPage/ListsPage';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const TabRoute = createBottomTabNavigator();
-
 const BottomNavBar = () => {
   return (
     <TabRoute.Navigator

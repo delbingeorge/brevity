@@ -6,6 +6,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -29,17 +30,19 @@ const IssuePostForm = () => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text style={styles.IssueTitle}>
-          Simple API Calls with Node.js and Express
-        </Text>
-        <Text style={styles.IssueContent}>
-          I'm just getting started with Node, APIs, and web applications. I
-          understand the basic workings of Node.js and Express, but now I want
-          to start making calls to other service's APIs and to do stuff with
-          their data. Can you outline basic HTTP requests and how to grab/parse
-          the responses in Node? I'm also interested in adding specific headers
-          to my request.
-        </Text>
+        <TextInput
+          multiline={true}
+          style={styles.IssueTitle}
+          placeholder="Issue title in short"
+          placeholderTextColor={'#c0c0c0'}
+        />
+
+        {/* </TextI> */}
+        <TextInput
+          multiline={true}
+          placeholderTextColor={'#c0c0c0'}
+          placeholder="Describe your issue here."
+          style={styles.IssueContent}></TextInput>
       </View>
       <View style={styles.ActionButtonView}>
         <View style={styles.ButtonView}>
@@ -105,14 +108,17 @@ const styles = StyleSheet.create({
     objectFit: 'contain',
   },
   IssueTitle: {
-    marginTop: 10,
+    // marginTop: 10,
+    lineHeight: 25,
     fontWeight: '500',
     // fontFamily: 'Inter-semibold',
     color: 'black',
     fontSize: 19,
+    // borderBottomWidth: 1.2,
+    borderBottomColor: '#c0c0c0',
   },
   IssueContent: {
-    marginTop: 5,
+    // marginTop: 5,
     lineHeight: 25,
     color: 'black',
     fontSize: 16,

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Pressable,
 } from 'react-native';
 import IssuePost from '../../components/IssuePost';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -13,26 +14,35 @@ import ListsPage from '../ListsPage/ListsPage';
 import IssuePostForm from '../IssuePostForm/IssuePostForm';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
+import ProfileRank from '../ProfileRank/ProfileRank';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const StackRoute = createNativeStackNavigator();
 
 const FeedPage = () => {
   const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.MainView}>
-      <View style={styles.NavView}>
+      {/* <View style={styles.NavView}>
         <Image
           style={styles.NavLogo}
           source={require('../../assets/images/logo/brevity.png')}
         />
-        <Image
-          style={styles.CrownRank}
-          source={require('../../assets/images/icons/crown-rank.png')}
-        />
-      </View>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('ProfileRank');
+          }}>
+          <Image
+            style={styles.CrownRank}
+            source={require('../../assets/images/icons/crown-rank.png')}
+          />
+        </Pressable>
+      </View> */}
       <StackRoute.Navigator screenOptions={{headerShown: false}}>
         <StackRoute.Screen name="Text" component={IssueComponent} />
         <StackRoute.Screen name="IssuePostFrame" component={IssuePostForm} />
+        <StackRoute.Screen name="ProfileRank" component={ProfileRank} />
       </StackRoute.Navigator>
       <TouchableOpacity
         style={{
