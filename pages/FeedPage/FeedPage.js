@@ -1,7 +1,23 @@
-import {Dimensions, Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+} from 'react-native';
 import IssuePost from '../../components/IssuePost';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import ListsPage from '../ListsPage/ListsPage';
+import IssuePostForm from '../IssuePostForm/IssuePostForm';
+import {useNavigation} from '@react-navigation/native';
+import IssueComponent from '../../components/IssueComponent';
+
+const StackRoute = createNativeStackNavigator();
 
 const FeedPage = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.MainView}>
       <View style={styles.NavView}>
@@ -14,7 +30,30 @@ const FeedPage = () => {
           source={require('../../assets/images/icons/crown-rank.png')}
         />
       </View>
-      <IssuePost />
+      <StackRoute.Navigator screenOptions={{headerShown: false}}>
+        <StackRoute.Screen name="Text" component={IssueComponent} />
+        <StackRoute.Screen name="IssuePostFrame" component={IssuePostForm} />
+      </StackRoute.Navigator>
+      <TouchableOpacity
+        style={{
+          backgroundColor: '#548DFE',
+          height: 45,
+          width: 45,
+          borderRadius: 50,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          bottom: 105,
+          right: 20,
+        }}
+        onPress={() => navigation.navigate('IssuePostFrame')} // Use navigation.navigate to push IssuePostForm onto the stack
+      >
+        <Image
+          style={{height: 19, width: 19}}
+          source={require('../../assets/images/icons/issue-post-plus-icon.png')}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
