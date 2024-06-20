@@ -19,82 +19,83 @@ import ReactNativeModal from 'react-native-modal';
 const IssuePostForm = () => {
   const navigation = useNavigation();
   return (
-    <Modal>
-      <View style={styles.FormMainView}>
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <Image
-              style={styles.CloseIcon}
-              source={require('../../assets/images/icons/close-cross-icon-bk.png')}
-            />
-          </TouchableOpacity>
-        </View>
-        <ScrollView>
-          <TextInput
-            multiline={true}
-            style={styles.IssueTitle}
-            placeholder="Issue title in short"
-            maxLength={100}
-            // value="Simple API Calls with Node.js and Express"
-            placeholderTextColor={'#c0c0c0'}
+    // <Modal>
+    <View style={styles.FormMainView}>
+      <StatusBar backgroundColor={'white'} />
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Image
+            style={styles.CloseIcon}
+            source={require('../../assets/images/icons/close-cross-icon-bk.png')}
           />
-          <TextInput
-            multiline={true}
-            maxLength={1200}
-            placeholderTextColor={'#c0c0c0'}
-            placeholder="Describe your issue here."
-            // value={
-            //   "Im just getting started with Node, APIs, and web applications. I understand the basic workings of Node.js and Express, but now I want to start making calls to other service's APIs and to do stuff with their data. Can you outline basic HTTP requests and how to grab/parse the responses in Node?"
-            // }
-            style={styles.IssueContent}></TextInput>
-        </ScrollView>
-        <View style={styles.ActionButtonView}>
-          <View style={styles.ButtonView}>
-            <TouchableOpacity>
-              <Image
-                style={styles.ActionButtonIcon}
-                source={require('../../assets/images/icons/image-icon-bk.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={styles.ActionButtonIcon}
-                source={require('../../assets/images/icons/code-icon-bk.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={styles.ActionButtonIcon}
-                source={require('../../assets/images/icons/link-icon-bk.png')}
-              />
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            style={{
-              backgroundColor: colorScheme['primary-color'],
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 5,
-              paddingVertical: 8,
-              borderRadius: 6,
-              width: 90,
-            }}>
-            <Text style={{fontSize: 16, color: 'white', fontWeight: '500'}}>
-              Post
-            </Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView>
+        <TextInput
+          multiline={true}
+          style={styles.IssueTitle}
+          placeholder="Issue title in short"
+          maxLength={100}
+          // value="Simple API Calls with Node.js and Express"
+          placeholderTextColor={'#c0c0c0'}
+        />
+        <TextInput
+          multiline={true}
+          maxLength={1200}
+          placeholderTextColor={'#c0c0c0'}
+          placeholder="Describe your issue here."
+          // value={
+          //   "Im just getting started with Node, APIs, and web applications. I understand the basic workings of Node.js and Express, but now I want to start making calls to other service's APIs and to do stuff with their data. Can you outline basic HTTP requests and how to grab/parse the responses in Node?"
+          // }
+          style={styles.IssueContent}></TextInput>
+      </ScrollView>
+      <View style={styles.ActionButtonView}>
+        <View style={styles.ButtonView}>
+          <TouchableOpacity>
             <Image
-              style={{width: 20, height: 20}}
-              source={require('../../assets/images/icons/add-icon.png')}
+              style={styles.ActionButtonIcon}
+              source={require('../../assets/images/icons/image-icon-bk.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              style={styles.ActionButtonIcon}
+              source={require('../../assets/images/icons/code-icon-bk.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              style={styles.ActionButtonIcon}
+              source={require('../../assets/images/icons/link-icon-bk.png')}
             />
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: colorScheme['primary-color'],
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 5,
+            paddingVertical: 8,
+            borderRadius: 6,
+            width: 90,
+          }}>
+          <Text style={{fontSize: 16, color: 'white', fontWeight: '500'}}>
+            Post
+          </Text>
+          <Image
+            style={{width: 20, height: 20}}
+            source={require('../../assets/images/icons/add-icon.png')}
+          />
+        </TouchableOpacity>
       </View>
-    </Modal>
+    </View>
+    // </Modal>
   );
 };
 
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
   FormMainView: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor: 'white',
     // paddingBottom: 15,
   },
   CloseIcon: {

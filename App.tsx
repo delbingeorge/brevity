@@ -12,7 +12,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import ReactNativeModal from 'react-native-modal';
 
 const App = () => {
   const [modalVisible, setModalVisible] = useState(true);

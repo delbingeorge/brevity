@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import EditProfile from './EditProfile';
+import EditProfile from '../settings/EditProfile/EditProfile';
 import {useNavigation} from '@react-navigation/native';
 
 const ProfilePage = () => {
