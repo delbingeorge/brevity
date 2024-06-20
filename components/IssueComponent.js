@@ -8,8 +8,8 @@ const IssueComponent = () => {
         backgroundColor: 'white',
         height: Dimensions.get('screen').height,
       }}>
-          <Text>Hello</Text>
-      </SafeAreaView>
+      <Text style={{color: 'black'}}>This is Issue Page</Text>
+    </SafeAreaView>
   );
 };
 

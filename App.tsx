@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import BottomNavBar from './components/BottomNavBar';
 import {
   Dimensions,
@@ -12,18 +12,20 @@ import {
   Text,
   View,
 } from 'react-native';
+import ReactNativeModal from 'react-native-modal';
 
 const App = () => {
-  const authValue = !false;
+  const [modalVisible, setModalVisible] = useState(true);
+  const authValue = !true;
   return (
     <NavigationContainer>
       <StatusBar barStyle={'dark-content'} backgroundColor={'white'} />
       <BottomNavBar />
-      {!authValue ? (
-        <Modal animationType="slide">
+      {authValue ? (
+        <Modal>
           <View
             style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              backgroundColor: 'rgba(0, 0, 0, 0.50)',
               height: Dimensions.get('screen').height,
               display: 'flex',
               alignItems: 'flex-start',

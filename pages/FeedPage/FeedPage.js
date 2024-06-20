@@ -8,7 +8,6 @@ import {
   View,
   Pressable,
 } from 'react-native';
-import IssuePost from '../../components/IssuePost';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import IssuePostForm from '../IssuePostForm/IssuePostForm';
 import {useNavigation} from '@react-navigation/native';
@@ -22,7 +21,7 @@ const FeedPage = () => {
 
   return (
     <SafeAreaView style={styles.MainView}>
-      {/* <View style={styles.NavView}>
+      <View style={styles.NavView}>
         <Image
           style={styles.NavLogo}
           source={require('../../assets/images/logo/brevity.png')}
@@ -36,12 +35,18 @@ const FeedPage = () => {
             source={require('../../assets/images/icons/crown-rank.png')}
           />
         </Pressable>
-      </View> */}
+      </View>
       <StackRoute.Navigator screenOptions={{headerShown: false}}>
-        <StackRoute.Screen name="Text" component={IssueComponent} />
+        <StackRoute.Screen name="TextPage" component={IssueComponent} />
         <StackRoute.Screen name="IssuePostForm" component={IssuePostForm} />
         <StackRoute.Screen name="ProfileRank" component={ProfileRank} />
       </StackRoute.Navigator>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('TextPage');
+        }}>
+        <Text style={{color: 'black'}}>Hello</Text>
+      </Pressable>
       <TouchableOpacity
         style={{
           backgroundColor: '#548DFE',

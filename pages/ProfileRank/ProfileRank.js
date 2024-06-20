@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StatusBar, StyleSheet, Text, View} from 'react-native';
 
 const ProfileRank = () => {
   return (
@@ -7,7 +7,9 @@ const ProfileRank = () => {
       style={{
         backgroundColor: 'white',
         height: Dimensions.get('screen').height,
+        paddingHorizontal: 20,
       }}>
+      <StatusBar backgroundColor="white" />
       <View>
         <Text style={styles.TitleText}>Brevity Journey </Text>
         <Text style={styles.SubTitleText}>

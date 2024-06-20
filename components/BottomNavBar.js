@@ -4,8 +4,35 @@ import FeedPage from '../pages/FeedPage/FeedPage';
 import ExplorePage from '../pages/ExplorePage/ExplorePage';
 import ListsPage from '../pages/ListsPage/ListsPage';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import YourLists from '../pages/ProfilePage/YourLists';
+import EditProfile from '../pages/ProfilePage/EditProfile';
+import PublicProfile from '../pages/ProfilePage/PublicProfile';
+import SettingsPage from '../pages/ProfilePage/SettingsPage';
+import ProfileRank from '../pages/ProfileRank/ProfileRank';
 
 const TabRoute = createBottomTabNavigator();
+const ProfileStack = createNativeStackNavigator();
+
+const ProfileStackScreen = () => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen
+      options={{headerShown: false}}
+      name="ProfilePage"
+      component={ProfilePage}
+    />
+    <ProfileStack.Screen name="EditProfile" component={EditProfile} />
+    <ProfileStack.Screen
+      options={{headerShown: false}}
+      name="ProfileRank"
+      component={ProfileRank}
+    />
+    <ProfileStack.Screen name="YourLists" component={YourLists} />
+    <ProfileStack.Screen name="PublicProfile" component={PublicProfile} />
+    <ProfileStack.Screen name="SettingsPage" component={SettingsPage} />
+  </ProfileStack.Navigator>
+);
+
 const BottomNavBar = () => {
   return (
     <TabRoute.Navigator
@@ -62,8 +89,8 @@ const BottomNavBar = () => {
         }}
       />
       <TabRoute.Screen
-        name="ProfilePage"
-        component={ProfilePage}
+        name="ProfileStackScreen"
+        component={ProfileStackScreen}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({focused}) => {
