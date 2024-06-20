@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import EditProfile from '../settings/EditProfile/EditProfile';
+import EditProfile from './EditProfile';
 import {useNavigation} from '@react-navigation/native';
 
 const ProfilePage = () => {
@@ -16,22 +16,13 @@ const ProfilePage = () => {
   return (
     <View>
       <StatusBar backgroundColor={'#F6F6F6'} />
-      <View
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: Dimensions.get('screen').height / 3.2,
-          backgroundColor: '#F6F6F6',
-        }}>
+      <View style={styles.ProfileDetails}>
         <Image
-          style={{width: 95, height: 95}}
+          style={styles.ProfileImage}
           source={require('../../assets/images/icons/user-default-image.png')}
         />
-        <Text
-          style={{color: 'black', fontSize: 19, fontFamily: 'Inter-SemiBold'}}>
-          Rakshitha M
-        </Text>
+        <Text style={styles.ProfileName}>Rakshitha M</Text>
+        <Text style={styles.UserName}>raxhitam</Text>
       </View>
       <View
         style={{
@@ -120,6 +111,23 @@ const ProfilePage = () => {
 export default ProfilePage;
 
 const styles = StyleSheet.create({
+  ProfileDetails: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: Dimensions.get('screen').height / 3.2,
+    backgroundColor: '#F6F6F6',
+  },
+  ProfileImage: {
+    width: 100,
+    height: 100,
+    borderWidth: 3,
+    borderColor: 'black',
+    borderRadius: 50,
+    marginBottom: 5,
+  },
+  ProfileName: {color: 'black', fontSize: 19, fontFamily: 'Inter-SemiBold'},
+  UserName: {color: 'black', fontSize: 13, fontFamily: 'Inter-Medium'},
   SectionTitle: {
     color: 'black',
     fontSize: 16,

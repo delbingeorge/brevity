@@ -1,6 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useState} from 'react';
-import BottomNavBar from './components/BottomNavBar';
 import {
   Dimensions,
   Image,
@@ -12,6 +11,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import BrevityNavigation from './components/BrevityNavigation';
 
 const App = () => {
   const [modalVisible, setModalVisible] = useState(true);
@@ -19,7 +19,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <StatusBar barStyle={'dark-content'} backgroundColor={'white'} />
-      <BottomNavBar />
+      <BrevityNavigation />
       {authValue ? (
         <Modal>
           <View

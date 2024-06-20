@@ -10,20 +10,18 @@ import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import YourLists from '../pages/ProfilePage/YourLists';
 import PublicProfile from '../pages/ProfilePage/PublicProfile';
 import SettingsPage from '../pages/ProfilePage/SettingsPage';
-import EditProfile from '../pages/settings/EditProfile/EditProfile';
+import EditProfile from '../pages/ProfilePage/EditProfile';
+import IssueComponent from './IssueComponent';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
 
-function HomeTabs() {
+function TabNavigation() {
   return (
     <TabRoute.Navigator
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: {
-          height: 58,
-        },
       }}>
       <TabRoute.Screen
         name="FeedPage"
@@ -89,26 +87,43 @@ function HomeTabs() {
   );
 }
 
-function BottomNavBar() {
+function BrevityNavigation() {
   return (
-    <StackRoute.Navigator>
+    <StackRoute.Navigator
+      screenOptions={{
+        headerTitleStyle: {
+          fontFamily: 'Inter-Medium',
+          fontSize: 18,
+        },
+        headerShadowVisible: false,
+        animation: 'ios',
+      }}>
       <StackRoute.Screen
         options={{headerShown: false}}
-        name="Home"
-        component={HomeTabs}
+        name="TabNavigation"
+        component={TabNavigation}
       />
       <StackRoute.Screen
-        options={{headerShown: false}}
+        options={{headerShown: false, animation: 'slide_from_right'}}
         name="IssuePostForm"
         component={IssuePostForm}
       />
-      <StackRoute.Screen name="ProfileRank" component={ProfileRank} />
+      <StackRoute.Screen name="IssueComponent" component={IssueComponent} />
+      <StackRoute.Screen
+        options={{headerShown: false}}
+        name="ProfileRank"
+        component={ProfileRank}
+      />
       <StackRoute.Screen
         options={{headerShown: false}}
         name="ProfilePage"
         component={ProfilePage}
       />
-      <StackRoute.Screen name="EditProfile" component={EditProfile} />
+      <StackRoute.Screen
+        name="EditProfile"
+        options={{headerShown: false}}
+        component={EditProfile}
+      />
       <StackRoute.Screen name="YourLists" component={YourLists} />
       <StackRoute.Screen name="PublicProfile" component={PublicProfile} />
       <StackRoute.Screen name="SettingsPage" component={SettingsPage} />
@@ -116,7 +131,7 @@ function BottomNavBar() {
   );
 }
 
-export default BottomNavBar;
+export default BrevityNavigation;
 
 const styles = StyleSheet.create({
   NavIcon: {

@@ -36,14 +36,9 @@ const FeedPage = () => {
           />
         </Pressable>
       </View>
-      {/* <StackRoute.Navigator screenOptions={{headerShown: false}}>
-        <StackRoute.Screen name="TextPage" component={IssueComponent} />
-        <StackRoute.Screen name="IssuePostForm" component={IssuePostForm} />
-        <StackRoute.Screen name="ProfileRank" component={ProfileRank} />
-      </StackRoute.Navigator> */}
       <Pressable
         onPress={() => {
-          navigation.navigate('Text');
+          navigation.navigate('IssueComponent');
         }}>
         <Text style={{color: 'black'}}>Hello</Text>
       </Pressable>
