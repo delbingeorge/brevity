@@ -82,6 +82,18 @@ const ProfilePage = () => {
               />
               <Text style={styles.SettingsText}>Your Lists</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.Settings}
+              onPress={() => {
+                console.log('Navigating to Posted Issues'); // Check if navigation works
+                navigation.navigate('YourLists');
+              }}>
+              <Image
+                style={styles.SettingsImage}
+                source={require('../../assets/images/icons/settings/posted-issue-color.png')}
+              />
+              <Text style={styles.SettingsText}>Posted Issues</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.Settings}>
               <Image
                 style={styles.SettingsImage}

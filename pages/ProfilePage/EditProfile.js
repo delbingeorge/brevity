@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Dimensions,
   Image,
+  PermissionsAndroid,
   Pressable,
   StatusBar,
   StyleSheet,
@@ -11,6 +12,29 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+// const requestCameraPermission = async () => {
+//   try {
+//     const granted = await PermissionsAndroid.request(
+//       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+//       {
+//         title: 'Gallery Permission',
+//         message: 'Brevity needs access to your gallery to select an image.',
+//         buttonNeutral: 'Ask Me Later',
+//         buttonNegative: 'Cancel',
+//         buttonPositive: 'OK',
+//       },
+//     );
+//     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+//       console.log('You can access the gallery');
+//       // Add logic to open the gallery or image picker here
+//     } else {
+//       console.log('Gallery permission denied');
+//     }
+//   } catch (err) {
+//     console.warn(err);
+//   }
+// };
 
 const EditProfile = () => {
   return (
@@ -37,22 +61,6 @@ const EditProfile = () => {
         </Pressable>
       </View>
       <View style={{gap: 13}}>
-        <View style={styles.TextInputView}>
-          <Text style={styles.InputLabel}>Display Name</Text>
-          <TextInput style={styles.TextInput} value="Rakshitha M" />
-        </View>
-        <View style={styles.TextInputView}>
-          <Text style={styles.InputLabel}>Display Name</Text>
-          <TextInput style={styles.TextInput} value="Rakshitha M" />
-        </View>
-        <View style={styles.TextInputView}>
-          <Text style={styles.InputLabel}>Display Name</Text>
-          <TextInput style={styles.TextInput} value="Rakshitha M" />
-        </View>
-        <View style={styles.TextInputView}>
-          <Text style={styles.InputLabel}>Display Name</Text>
-          <TextInput style={styles.TextInput} value="Rakshitha M" />
-        </View>
         <View style={styles.TextInputView}>
           <Text style={styles.InputLabel}>Display Name</Text>
           <TextInput style={styles.TextInput} value="Rakshitha M" />

@@ -52,7 +52,7 @@ const FeedPage = () => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
-          bottom: 105,
+          bottom: 95,
           right: 20,
         }}
         onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack

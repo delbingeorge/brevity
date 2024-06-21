@@ -7,7 +7,7 @@ const ProfileRank = () => {
       style={{
         backgroundColor: 'white',
         height: Dimensions.get('screen').height,
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
       }}>
       <StatusBar backgroundColor="white" />
       <View>
