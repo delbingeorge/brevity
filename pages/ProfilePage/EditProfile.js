@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
-  PermissionsAndroid,
+  Linking,
   Pressable,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -12,60 +13,124 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-// const requestCameraPermission = async () => {
-//   try {
-//     const granted = await PermissionsAndroid.request(
-//       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-//       {
-//         title: 'Gallery Permission',
-//         message: 'Brevity needs access to your gallery to select an image.',
-//         buttonNeutral: 'Ask Me Later',
-//         buttonNegative: 'Cancel',
-//         buttonPositive: 'OK',
-//       },
-//     );
-//     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-//       console.log('You can access the gallery');
-//       // Add logic to open the gallery or image picker here
-//     } else {
-//       console.log('Gallery permission denied');
-//     }
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// };
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 const EditProfile = () => {
   return (
     <View style={styles.EditProfileView}>
       <StatusBar backgroundColor={'white'} />
-      <Text>Update your profile</Text>
-      <View style={styles.ProfileDetails}>
-        <Image
-          style={{
-            width: 100,
-            height: 100,
-            borderWidth: 3,
-            borderColor: 'black',
-            borderRadius: 50,
-            marginBottom: 5,
-          }}
-          source={require('../../assets/images/icons/user-default-image.png')}
-        />
-        <Pressable style={styles.UploadBtn}>
+      {/* <Text>Update your profile</Text> */}
+      <ScrollView>
+        <View style={styles.ProfileDetails}>
           <Image
-            style={styles.UploadIcon}
-            source={require('../../assets/images/icons/image-upload-icon-bk.png')}
+            style={styles.ProfileImage}
+            source={require('../../assets/images/icons/user-default-image.png')}
           />
-        </Pressable>
-      </View>
-      <View style={{gap: 13}}>
-        <View style={styles.TextInputView}>
-          <Text style={styles.InputLabel}>Display Name</Text>
-          <TextInput style={styles.TextInput} value="Rakshitha M" />
+          <Pressable style={styles.UploadBtn}>
+            <Image
+              style={styles.UploadIcon}
+              source={require('../../assets/images/icons/image-upload-icon-bk.png')}
+            />
+          </Pressable>
         </View>
-      </View>
+        <View style={{gap: 8, marginBottom: 80}}>
+          <View style={styles.TextInputView}>
+            <Text style={styles.InputLabel}>Display Name</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              placeholder="Verona Josephs"
+            />
+          </View>
+          <View style={styles.TextInputView}>
+            <Text style={styles.InputLabel}>Username</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              placeholder="veroncodes"
+            />
+          </View>
+          <View style={styles.TextInputView}>
+            <Text style={styles.InputLabel}>Bio</Text>
+            <TextInput
+              style={styles.TextInput}
+              maxLength={30}
+              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              placeholder="I love to code."
+            />
+          </View>
+          <View style={styles.TextInputView}>
+            <Text style={styles.InputLabel}>Mail Address</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              placeholder="veronajosephs@proton.me"
+            />
+          </View>
+          <View style={styles.TextInputView}>
+            <Text style={styles.InputLabel}>Social</Text>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}>
+              <TextInput
+                style={styles.SocialTextInput}
+                placeholderTextColor={'rgba(0,0,0,0.3)'}
+                placeholder="veronajosephs@proton.me"
+              />
+              <Pressable
+                style={{
+                  backgroundColor: '#f6f6f6',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                  width: '15%',
+                }}>
+                <Image
+                  style={{width: 28, height: 28, tintColor: 'black'}}
+                  source={require('../../assets/images/icons/add-icon.png')}
+                />
+              </Pressable>
+            </View>
+            <View style={styles.SocialView}>
+              <Pressable
+                style={styles.SocialButton}
+                onPress={() => {
+                  Linking.openURL('https://www.delb.in');
+                }}>
+                <Image
+                  style={styles.SocialIcon}
+                  source={require('../../assets/images/icons/socials/github-icon.png')}
+                />
+              </Pressable>
+              <Pressable
+                style={styles.SocialButton}
+                onPress={() => {
+                  Linking.openURL('https://www.delb.in');
+                }}>
+                <Image
+                  style={styles.SocialIcon}
+                  source={require('../../assets/images/icons/socials/linkedin-icon.png')}
+                />
+              </Pressable>
+              <Pressable
+                style={styles.SocialButton}
+                onPress={() => {
+                  Linking.openURL('https://www.delb.in');
+                }}>
+                <Image
+                  style={styles.SocialIcon}
+                  source={require('../../assets/images/icons/socials/youtube-icon.png')}
+                />
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
       <View style={styles.EditActionBtn}>
         {/* <TouchableOpacity style={styles.ActionBtnDiscard}>
           <Text style={styles.BtnText}>Discard</Text>
@@ -88,20 +153,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ProfileDetails: {
-    marginVertical: 15,
+    marginVertical: 25,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   ProfileImage: {
-    width: 100,
-    height: 100,
+    width: 110,
+    height: 110,
     borderWidth: 3,
     borderColor: 'black',
-    borderRadius: 50,
+    borderRadius: 100,
     marginBottom: 5,
   },
   UploadBtn: {
     position: 'absolute',
-    bottom: 5,
-    right: 0,
+    bottom: 6,
+    right: '35%',
     padding: 6,
     backgroundColor: 'black',
     borderRadius: 50,
@@ -121,6 +189,15 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     width: '100%',
+    color: 'black',
+    fontSize: 16,
+    backgroundColor: '#f6f6f6',
+    paddingLeft: 10,
+    fontFamily: 'Inter-Medium',
+    borderRadius: 5,
+  },
+  SocialTextInput: {
+    width: '82%',
     color: 'black',
     fontSize: 16,
     backgroundColor: '#f6f6f6',
@@ -157,5 +234,20 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontFamily: 'Inter-Medium',
+  },
+  SocialView: {
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: 8,
+    marginTop: 4,
+  },
+  SocialButton: {
+    padding: 10,
+    borderRadius: 6,
+    backgroundColor: '#f6f6f6',
+  },
+  SocialIcon: {
+    width: 30,
+    height: 30,
   },
 });

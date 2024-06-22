@@ -1,4 +1,3 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   Dimensions,
   Image,
@@ -8,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import EditProfile from './EditProfile';
 import {useNavigation} from '@react-navigation/native';
 
 const ProfilePage = () => {
@@ -16,13 +14,14 @@ const ProfilePage = () => {
   return (
     <View>
       <StatusBar backgroundColor={'#F6F6F6'} />
+      {/* <ScrollView> */}
       <View style={styles.ProfileDetails}>
         <Image
           style={styles.ProfileImage}
           source={require('../../assets/images/icons/user-default-image.png')}
         />
-        <Text style={styles.ProfileName}>Rakshitha M</Text>
-        <Text style={styles.UserName}>raxhitam</Text>
+        <Text style={styles.ProfileName}>Verona Josephs</Text>
+        <Text style={styles.UserName}>veroncodes</Text>
       </View>
       <View
         style={{
@@ -90,7 +89,7 @@ const ProfilePage = () => {
               }}>
               <Image
                 style={styles.SettingsImage}
-                source={require('../../assets/images/icons/settings/posted-issue-color.png')}
+                source={require('../../assets/images/icons/settings/posted-issues-icon-color.png')}
               />
               <Text style={styles.SettingsText}>Posted Issues</Text>
             </TouchableOpacity>
@@ -116,6 +115,7 @@ const ProfilePage = () => {
           </View>
         </View>
       </View>
+      {/* </ScrollView> */}
     </View>
   );
 };

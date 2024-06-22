@@ -27,7 +27,7 @@ function TabNavigation() {
         name="FeedPage"
         component={FeedPage}
         options={{
-          tabBarLabel: 'FeedPage',
+          tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => {
             return (
               <Image
@@ -42,7 +42,7 @@ function TabNavigation() {
         name="ExplorePage"
         component={ExplorePage}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'Explore',
           tabBarIcon: ({focused}) => {
             return (
               <Image
@@ -57,7 +57,7 @@ function TabNavigation() {
         name="ListsPage"
         component={ListsPage}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'Lists',
           tabBarIcon: ({focused}) => {
             return (
               <Image
@@ -72,7 +72,7 @@ function TabNavigation() {
         name="ProfilePage"
         component={ProfilePage}
         options={{
-          tabBarLabel: 'Profile Page',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({focused}) => {
             return (
               <Image
@@ -125,8 +125,16 @@ function BrevityNavigation() {
         component={EditProfile}
       />
       <StackRoute.Screen name="YourLists" component={YourLists} />
-      <StackRoute.Screen name="PublicProfile" component={PublicProfile} />
-      <StackRoute.Screen name="SettingsPage" component={SettingsPage} />
+      <StackRoute.Screen
+        options={{headerShown: false}}
+        name="PublicProfile"
+        component={PublicProfile}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false}}
+        name="SettingsPage"
+        component={SettingsPage}
+      />
     </StackRoute.Navigator>
   );
 }
@@ -141,25 +149,7 @@ const styles = StyleSheet.create({
   IconFocused: {
     height: 24,
     width: 24,
+    color: 'blue',
     tintColor: 'blue',
-  },
-  BottomNavBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: 'white',
-    paddingVertical: 12,
-    borderTopWidth: 3,
-    borderColor: 'white',
-  },
-  NavHome: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  NavText: {
-    fontSize: 12,
-    color: 'black',
-    fontFamily: 'Inter-semibold',
   },
 });
