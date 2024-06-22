@@ -68,27 +68,13 @@ const EditProfile = () => {
           </View>
           <View style={styles.TextInputView}>
             <Text style={styles.InputLabel}>Social</Text>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
+            <View style={styles.SocialInputView}>
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
                 placeholder="veronajosephs@proton.me"
               />
-              <Pressable
-                style={{
-                  backgroundColor: '#f6f6f6',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                  width: '15%',
-                }}>
+              <Pressable style={styles.NewSocialAdd}>
                 <Image
                   style={{width: 28, height: 28, tintColor: 'black'}}
                   source={require('../../assets/images/icons/add-icon.png')}
@@ -209,7 +195,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 10,
+    paddingVertical: 5,
     backgroundColor: 'white',
     bottom: 0,
     width: Dimensions.get('screen').width,
@@ -233,6 +219,20 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontFamily: 'Inter-Medium',
+  },
+  SocialInputView: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  NewSocialAdd: {
+    backgroundColor: '#f6f6f6',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    width: '15%',
   },
   SocialView: {
     display: 'flex',

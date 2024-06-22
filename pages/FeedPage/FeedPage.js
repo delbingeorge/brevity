@@ -7,6 +7,7 @@ import {
   Text,
   View,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import IssuePostForm from '../IssuePostForm/IssuePostForm';
@@ -36,12 +37,18 @@ const FeedPage = () => {
           />
         </Pressable>
       </View>
-      <Pressable
-        onPress={() => {
-          navigation.navigate('IssueComponent');
-        }}>
-        <Text style={{color: 'black'}}>Hello</Text>
-      </Pressable>
+      <ScrollView>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('IssueComponent');
+          }}>
+          <IssueComponent />
+          <IssueComponent />
+          <IssueComponent />
+          <IssueComponent />
+          <IssueComponent />
+        </Pressable>
+      </ScrollView>
       <TouchableOpacity
         style={{
           backgroundColor: '#548DFE',
@@ -71,7 +78,7 @@ export default FeedPage;
 const styles = StyleSheet.create({
   MainView: {
     backgroundColor: 'white',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     height: Dimensions.get('screen').height,
   },
   NavView: {
@@ -80,6 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 15,
   },
   NavLogo: {
     height: 22,

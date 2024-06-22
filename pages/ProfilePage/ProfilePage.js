@@ -23,7 +23,6 @@ const ProfilePage = () => {
   return (
     <View>
       <StatusBar backgroundColor={'#F6F6F6'} />
-      {/* <ScrollView> */}
       <View style={styles.ProfileDetails}>
         <Image
           style={styles.ProfileImage}
@@ -32,13 +31,7 @@ const ProfilePage = () => {
         <Text style={styles.ProfileName}>Rakshitha M</Text>
         <Text style={styles.UserName}>rxkshita</Text>
       </View>
-      <View
-        style={{
-          backgroundColor: 'white',
-          paddingHorizontal: 20,
-          height: Dimensions.get('screen').height,
-          borderRadius: 30,
-        }}>
+      <View style={styles.ProfileTab}>
         <View>
           <Text style={styles.SectionTitle}>Account Management</Text>
           <View style={styles.AccountSettings}>
@@ -121,14 +114,9 @@ const ProfilePage = () => {
           </View>
         </View>
       </View>
-      {/* </ScrollView> */}
+
       <ReactNativeModal
-        style={{
-          margin: 0,
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
+        style={styles.ReactModal}
         isVisible={isModalVisible}
         onBackdropPress={() => {
           toggleModal(false);
@@ -147,31 +135,9 @@ const ProfilePage = () => {
           <Text style={styles.ProfileName}>Rakshitha M</Text>
           <Text style={styles.UserName}>Epic Compiler</Text>
 
-          <View
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 20,
-              // marginTop: 10,
-            }}>
-            <Text
-              style={{
-                fontSize: 45,
-                fontFamily: 'Inter-ExtraBold',
-                color: 'black',
-              }}>
-              1900
-            </Text>
-            <Text
-              style={{
-                fontSize: 17,
-                fontFamily: 'Inter-Medium',
-                color: 'black',
-                marginTop: -7,
-              }}>
-              Issues solved since 2024
-            </Text>
+          <View style={styles.ModalView}>
+            <Text style={styles.IssueCount}>1900</Text>
+            <Text style={styles.AccountSince}>Issues solved since 2024</Text>
           </View>
           <View style={styles.SocialView}>
             <Pressable
@@ -248,6 +214,12 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     fontFamily: 'Inter-SemiBold',
   },
+  ProfileTab: {
+    backgroundColor: 'white',
+    paddingHorizontal: 20,
+    height: Dimensions.get('screen').height,
+    borderRadius: 30,
+  },
   AccountSettings: {},
   Settings: {
     display: 'flex',
@@ -270,8 +242,31 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height: Dimensions.get('screen').height / 2,
+    height: Dimensions.get('screen').height / 2.1,
     width: Dimensions.get('screen').width,
+  },
+  ReactModal: {
+    margin: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  ModalView: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  IssueCount: {
+    fontSize: 45,
+    fontFamily: 'Inter-ExtraBold',
+    color: 'black',
+  },
+  AccountSince: {
+    fontSize: 17,
+    fontFamily: 'Inter-Medium',
+    color: 'black',
+    marginTop: -7,
   },
   ModalCloseTab: {
     position: 'absolute',
