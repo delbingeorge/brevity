@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import ImageCropPicker from 'react-native-image-crop-picker';
 
 const EditProfile = () => {
   return (

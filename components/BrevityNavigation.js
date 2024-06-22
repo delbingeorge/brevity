@@ -125,11 +125,11 @@ function BrevityNavigation() {
         component={EditProfile}
       />
       <StackRoute.Screen name="YourLists" component={YourLists} />
-      <StackRoute.Screen
+      {/* <StackRoute.Screen
         options={{headerShown: false}}
         name="PublicProfile"
         component={PublicProfile}
-      />
+      /> */}
       <StackRoute.Screen
         options={{headerShown: false}}
         name="SettingsPage"

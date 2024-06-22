@@ -1,6 +1,8 @@
 import {
   Dimensions,
   Image,
+  Linking,
+  Pressable,
   StatusBar,
   StyleSheet,
   Text,
@@ -8,9 +10,16 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useState} from 'react';
+import {ReactNativeModal} from 'react-native-modal';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   return (
     <View>
       <StatusBar backgroundColor={'#F6F6F6'} />
@@ -20,8 +29,8 @@ const ProfilePage = () => {
           style={styles.ProfileImage}
           source={require('../../assets/images/icons/user-default-image.png')}
         />
-        <Text style={styles.ProfileName}>Verona Josephs</Text>
-        <Text style={styles.UserName}>veroncodes</Text>
+        <Text style={styles.ProfileName}>Rakshitha M</Text>
+        <Text style={styles.UserName}>rxkshita</Text>
       </View>
       <View
         style={{
@@ -35,7 +44,7 @@ const ProfilePage = () => {
           <View style={styles.AccountSettings}>
             <TouchableOpacity
               onPress={() => {
-                console.log('Navigating to EditProfile'); // Check if navigation works
+                console.log('Navigating to EditProfile');
                 navigation.navigate('EditProfile');
               }}
               style={styles.Settings}>
@@ -47,10 +56,7 @@ const ProfilePage = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.Settings}
-              onPress={() => {
-                console.log('Navigating to Public Profile'); // Check if navigation works
-                navigation.navigate('PublicProfile');
-              }}>
+              onPress={() => setModalVisible(true)}>
               <Image
                 style={styles.SettingsImage}
                 source={require('../../assets/images/icons/settings/eye-icon-color.png')}
@@ -60,7 +66,7 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to ProfileRank'); // Check if navigation works
+                console.log('Navigating to ProfileRank');
                 navigation.navigate('ProfileRank');
               }}>
               <Image
@@ -72,7 +78,7 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to Your Lists'); // Check if navigation works
+                console.log('Navigating to Your Lists');
                 navigation.navigate('YourLists');
               }}>
               <Image
@@ -84,7 +90,7 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to Posted Issues'); // Check if navigation works
+                console.log('Navigating to Posted Issues');
                 navigation.navigate('YourLists');
               }}>
               <Image
@@ -103,7 +109,7 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to Settings'); // Check if navigation works
+                console.log('Navigating to Settings');
                 navigation.navigate('SettingsPage');
               }}>
               <Image
@@ -116,6 +122,101 @@ const ProfilePage = () => {
         </View>
       </View>
       {/* </ScrollView> */}
+      <ReactNativeModal
+        style={{
+          margin: 0,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+        isVisible={isModalVisible}
+        onBackdropPress={() => {
+          toggleModal(false);
+        }}
+        backdropColor="black">
+        <View style={styles.ProfileModal}>
+          {/* <Pressable
+            style={styles.ModalCloseTab}
+            onPress={() => {
+              toggleModal(false);
+            }}></Pressable> */}
+          <Image
+            style={styles.ProfileImage}
+            source={require('../../assets/images/icons/user-default-image.png')}
+          />
+          <Text style={styles.ProfileName}>Rakshitha M</Text>
+          <Text style={styles.UserName}>Epic Compiler</Text>
+
+          <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 20,
+              // marginTop: 10,
+            }}>
+            <Text
+              style={{
+                fontSize: 45,
+                fontFamily: 'Inter-ExtraBold',
+                color: 'black',
+              }}>
+              1900
+            </Text>
+            <Text
+              style={{
+                fontSize: 17,
+                fontFamily: 'Inter-Medium',
+                color: 'black',
+                marginTop: -7,
+              }}>
+              Issues solved since 2024
+            </Text>
+          </View>
+          <View style={styles.SocialView}>
+            <Pressable
+              style={styles.SocialButton}
+              onPress={() => {
+                Linking.openURL('https://www.delb.in');
+              }}>
+              <Image
+                style={styles.SocialIcon}
+                source={require('../../assets/images/icons/socials/github-icon.png')}
+              />
+            </Pressable>
+            <Pressable
+              style={styles.SocialButton}
+              onPress={() => {
+                Linking.openURL('https://www.delb.in');
+              }}>
+              <Image
+                style={styles.SocialIcon}
+                source={require('../../assets/images/icons/socials/linkedin-icon.png')}
+              />
+            </Pressable>
+            <Pressable
+              style={styles.SocialButton}
+              onPress={() => {
+                Linking.openURL('https://www.delb.in');
+              }}>
+              <Image
+                style={styles.SocialIcon}
+                source={require('../../assets/images/icons/socials/youtube-icon.png')}
+              />
+            </Pressable>
+            <Pressable
+              style={styles.SocialButton}
+              onPress={() => {
+                Linking.openURL('https://www.delb.in');
+              }}>
+              <Image
+                style={styles.SocialIcon}
+                source={require('../../assets/images/icons/socials/external-icon.png')}
+              />
+            </Pressable>
+          </View>
+        </View>
+      </ReactNativeModal>
     </View>
   );
 };
@@ -133,7 +234,7 @@ const styles = StyleSheet.create({
   ProfileImage: {
     width: 100,
     height: 100,
-    borderWidth: 3,
+    borderWidth: 3.5,
     borderColor: 'black',
     borderRadius: 50,
     marginBottom: 5,
@@ -161,4 +262,38 @@ const styles = StyleSheet.create({
     height: 38,
   },
   SettingsText: {color: 'black', fontSize: 16.8, fontFamily: 'Inter-Medium'},
+  ProfileModal: {
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 25,
+    backgroundColor: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: Dimensions.get('screen').height / 2,
+    width: Dimensions.get('screen').width,
+  },
+  ModalCloseTab: {
+    position: 'absolute',
+    top: 4,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 100,
+    width: 120,
+    height: 4,
+  },
+  SocialView: {
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: 8,
+    marginTop: 4,
+  },
+  SocialButton: {
+    padding: 10,
+    borderRadius: 6,
+    backgroundColor: '#f6f6f6',
+  },
+  SocialIcon: {
+    width: 30,
+    height: 30,
+  },
 });
