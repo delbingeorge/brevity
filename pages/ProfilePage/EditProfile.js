@@ -19,7 +19,7 @@ const EditProfile = () => {
     <View style={styles.EditProfileView}>
       <StatusBar backgroundColor={'white'} />
       {/* <Text>Update your profile</Text> */}
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ProfileDetails}>
           <Image
             style={styles.ProfileImage}
@@ -81,6 +81,7 @@ const EditProfile = () => {
                 />
               </Pressable>
             </View>
+            {/* <Text style={{color: 'red', fontSize: 13}}>Enter a valid URL.</Text> */}
             <View style={styles.SocialView}>
               <Pressable
                 style={styles.SocialButton}
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ProfileDetails: {
-    marginVertical: 25,
+    marginVertical: 35,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

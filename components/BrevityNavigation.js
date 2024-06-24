@@ -8,7 +8,6 @@ import ListsPage from '../pages/ListsPage/ListsPage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import YourLists from '../pages/ProfilePage/YourLists';
-import PublicProfile from '../pages/ProfilePage/PublicProfile';
 import SettingsPage from '../pages/ProfilePage/SettingsPage';
 import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';

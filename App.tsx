@@ -14,8 +14,8 @@ import {
 import BrevityNavigation from './components/BrevityNavigation';
 
 const App = () => {
-  const [modalVisible, setModalVisible] = useState(true);
-  const authValue = !true;
+  
+  const authValue = true;
   return (
     <NavigationContainer>
       <StatusBar barStyle={'dark-content'} backgroundColor={'white'} />

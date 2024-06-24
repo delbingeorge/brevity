@@ -16,7 +16,7 @@ const IssueComponent = () => {
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
 
   const handlePress = () => {
-    setIsPressed(!isPressed); // Toggle state on button press
+    setIsPressed(!isPressed);
   };
   return (
     <View style={styles.IssueComponent}>
@@ -75,14 +75,14 @@ const IssueComponent = () => {
             style={styles.IssueActionIcon}
             source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
           />
-          <Text style={styles.IssueActionCount}>12k</Text>
+          <Text style={styles.IssueActionCount}>15</Text>
         </View>
         <View style={styles.IssueAction}>
           <Image
             style={styles.IssueActionIcon}
             source={require('../assets/images/icons/issue-actions/issue-reach-icon.png')}
           />
-          <Text style={styles.IssueActionCount}>12k</Text>
+          <Text style={styles.IssueActionCount}>109</Text>
         </View>
         <View style={styles.IssueAction}>
           <Image
@@ -157,6 +157,6 @@ const styles = StyleSheet.create({
     columnGap: 8,
     marginVertical: 10,
   },
-  IssueActionIcon: {width: 22, height: 22},
+  IssueActionIcon: {width: 20, height: 20},
   IssueActionCount: {color: 'black', fontSize: 16, fontFamily: 'Inter-Medium'},
 });

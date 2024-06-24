@@ -4,24 +4,20 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Text,
   View,
   Pressable,
   ScrollView,
+  StatusBar,
 } from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import IssuePostForm from '../IssuePostForm/IssuePostForm';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
-import ProfileRank from '../ProfileRank/ProfileRank';
-
-const StackRoute = createNativeStackNavigator();
 
 const FeedPage = () => {
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.MainView}>
+      <StatusBar backgroundColor={'white'} />
       <View style={styles.NavView}>
         <Image
           style={styles.NavLogo}
@@ -45,8 +41,6 @@ const FeedPage = () => {
           <IssueComponent />
           <IssueComponent />
           <IssueComponent />
-          <IssueComponent />
-          <IssueComponent />
         </Pressable>
       </ScrollView>
       <TouchableOpacity
@@ -59,7 +53,7 @@ const FeedPage = () => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
-          bottom: 95,
+          bottom: Dimensions.get('screen').height - 680,
           right: 20,
         }}
         onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack
@@ -82,7 +76,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('screen').height,
   },
   NavView: {
-    marginVertical: 5,
+    marginVertical: 6,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
