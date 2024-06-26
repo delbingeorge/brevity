@@ -237,12 +237,12 @@ const styles = StyleSheet.create({
   ProfileModal: {
     borderRadius: 25,
     paddingHorizontal: 20,
-    paddingVertical: 25,
+    paddingVertical: 50,
     backgroundColor: 'white',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height: Dimensions.get('screen').height / 2.1,
+    // height: Dimensions.get('screen').height / 2.1,
     width: Dimensions.get('screen').width,
   },
   ReactModal: {

@@ -11,10 +11,14 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
+import {BrevityStore} from '../../provider/RecoilStore';
+import {useRecoilState} from 'recoil';
 
 const FeedPage = () => {
   const navigation = useNavigation();
   const authValue = false;
+  // useRecoilState(BrevityStore);
+  console.log(authValue);
 
   return (
     <SafeAreaView style={styles.MainView}>
@@ -37,6 +41,7 @@ const FeedPage = () => {
       </View>
       <ScrollView>
         <Pressable
+          style={{paddingBottom: 150}}
           onPress={() => {
             navigation.navigate('IssueComponent');
           }}>

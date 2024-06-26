@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
-  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -10,9 +9,14 @@ import {
   View,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
+import {BrevityStore} from '../provider/RecoilStore';
+import {useRecoilState} from 'recoil';
 
 const IssueComponent = () => {
+  const authValue = false;
+  // const authValue = useRecoilState(BrevityStore);
   const [isPressed, setIsPressed] = useState(false);
+  const [modalView, setModalView] = useState(false);
 
   const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -20,10 +24,6 @@ const IssueComponent = () => {
   const handlePress = () => {
     setIsPressed(!isPressed);
   };
-
-  const authValue = false;
-
-  const [modalView, setModalView] = useState(false);
 
   return (
     <View style={styles.IssueComponent}>
@@ -113,15 +113,6 @@ const IssueComponent = () => {
         }}
         backdropColor="black">
         <View style={styles.AuthView}>
-          {/* <Pressable
-                style={{
-                  width: 75,
-                  height: 4,
-                  borderRadius: 15,
-                  position: 'absolute',
-                  top: 4,
-                  backgroundColor: 'rgba(0,0,0,0.4)',
-                }}></Pressable> */}
           <Text style={styles.AuthTitle}>Sign In</Text>
           <Text style={styles.AuthSubTitle}>
             Authenticate yourself to continue using bervity.
@@ -161,7 +152,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#D9D9D9',
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
-    paddingVertical: 10,
+    // paddingVertical: 10,
+    marginBottom: 15,
     // marginVertical: 8,
     paddingHorizontal: 15,
   },
@@ -223,8 +215,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 25,
     backgroundColor: 'white',
-    height: Dimensions.get('screen').height / 2.9,
-    width: Dimensions.get('screen').width,
+    width: Dimensions.get('window').width,
   },
   AuthInnerView: {
     marginTop: 15,

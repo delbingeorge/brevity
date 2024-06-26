@@ -16,6 +16,7 @@ const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
 
 function TabNavigation() {
+  const authValue = false;
   return (
     <TabRoute.Navigator
       screenOptions={{
@@ -109,7 +110,7 @@ function BrevityNavigation() {
       />
       <StackRoute.Screen
         name="IssueComponent"
-        options={{title:""}}
+        options={{title: ''}}
         component={IssueComponent}
       />
       <StackRoute.Screen
