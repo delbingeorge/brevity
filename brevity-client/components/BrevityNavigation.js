@@ -107,7 +107,11 @@ function BrevityNavigation() {
         name="IssuePostForm"
         component={IssuePostForm}
       />
-      <StackRoute.Screen name="IssueComponent" component={IssueComponent} />
+      <StackRoute.Screen
+        name="IssueComponent"
+        options={{title:""}}
+        component={IssueComponent}
+      />
       <StackRoute.Screen
         options={{headerShown: false}}
         name="ProfileRank"

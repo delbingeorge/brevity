@@ -2,12 +2,14 @@ import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
+  Modal,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import ReactNativeModal from 'react-native-modal';
 
 const IssueComponent = () => {
   const [isPressed, setIsPressed] = useState(false);
@@ -18,6 +20,11 @@ const IssueComponent = () => {
   const handlePress = () => {
     setIsPressed(!isPressed);
   };
+
+  const authValue = false;
+
+  const [modalView, setModalView] = useState(false);
+
   return (
     <View style={styles.IssueComponent}>
       <View style={styles.IssueHeader}>
@@ -62,7 +69,14 @@ const IssueComponent = () => {
 
       <View style={styles.IssueActionView}>
         <View style={styles.IssueAction}>
-          <Pressable onPress={handlePress}>
+          <Pressable
+            onPress={
+              authValue == true
+                ? handlePress
+                : () => {
+                    setModalView(true);
+                  }
+            }>
             <Image
               style={styles.IssueActionIcon}
               source={isPressed ? pressedImage : defaultImage}
@@ -91,6 +105,51 @@ const IssueComponent = () => {
           />
         </View>
       </View>
+      <ReactNativeModal
+        style={styles.ReactModal}
+        isVisible={modalView}
+        onBackdropPress={() => {
+          setModalView(false);
+        }}
+        backdropColor="black">
+        <View style={styles.AuthView}>
+          {/* <Pressable
+                style={{
+                  width: 75,
+                  height: 4,
+                  borderRadius: 15,
+                  position: 'absolute',
+                  top: 4,
+                  backgroundColor: 'rgba(0,0,0,0.4)',
+                }}></Pressable> */}
+          <Text style={styles.AuthTitle}>Sign In</Text>
+          <Text style={styles.AuthSubTitle}>
+            Authenticate yourself to continue using bervity.
+          </Text>
+          <View style={styles.AuthInnerView}>
+            <TouchableOpacity style={styles.AuthBtn}>
+              <Image
+                style={styles.AuthServiceLogo}
+                source={require('../assets/images/icons/github-icon.png')}
+              />
+              <Text style={styles.AuthBtnText}>Github</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.AuthBtn}>
+              <Image
+                style={styles.AuthServiceLogo}
+                source={require('../assets/images/icons/google-icon.png')}
+              />
+              <Text style={styles.AuthBtnText}>Google</Text>
+            </TouchableOpacity>
+          </View>
+          <Pressable
+            onPress={() => {
+              setModalView(false);
+            }}>
+            <Text style={styles.SubText}>I don’t want to sign in</Text>
+          </Pressable>
+        </View>
+      </ReactNativeModal>
     </View>
   );
 };
@@ -159,4 +218,57 @@ const styles = StyleSheet.create({
   },
   IssueActionIcon: {width: 20, height: 20},
   IssueActionCount: {color: 'black', fontSize: 16, fontFamily: 'Inter-Medium'},
+  AuthView: {
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 25,
+    backgroundColor: 'white',
+    height: Dimensions.get('screen').height / 2.9,
+    width: Dimensions.get('screen').width,
+  },
+  AuthInnerView: {
+    marginTop: 15,
+  },
+  AuthTitle: {
+    color: 'black',
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 22,
+  },
+  AuthSubTitle: {
+    color: '#39404A',
+    fontFamily: 'Inter-Regular',
+    fontSize: 18,
+  },
+  AuthServiceLogo: {
+    width: 26,
+    height: 26,
+    objectFit: 'contain',
+  },
+  AuthBtn: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    borderRadius: 10,
+    gap: 8,
+    marginBottom: 10,
+    backgroundColor: '#F6F6F6',
+    paddingVertical: 15,
+    paddingHorizontal: 18,
+  },
+  AuthBtnText: {color: 'black', fontSize: 19, fontFamily: 'Inter-Medium'},
+  SubText: {
+    textDecorationLine: 'underline',
+    color: 'black',
+    fontSize: 15,
+    fontFamily: 'Inter-Medium',
+    marginTop: 15,
+    textAlign: 'center',
+  },
+  ReactModal: {
+    margin: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
 });

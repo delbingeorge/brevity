@@ -14,6 +14,7 @@ import IssueComponent from '../../components/IssueComponent';
 
 const FeedPage = () => {
   const navigation = useNavigation();
+  const authValue = false;
 
   return (
     <SafeAreaView style={styles.MainView}>
@@ -24,6 +25,7 @@ const FeedPage = () => {
           source={require('../../assets/images/logo/brevity.png')}
         />
         <Pressable
+          style={{display: authValue == true ? 'flex' : 'none'}}
           onPress={() => {
             navigation.navigate('ProfileRank');
           }}>
@@ -53,7 +55,7 @@ const FeedPage = () => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
-          bottom: Dimensions.get('screen').height - 680,
+          bottom: 140,
           right: 20,
         }}
         onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack

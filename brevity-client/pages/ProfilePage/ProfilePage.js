@@ -28,8 +28,8 @@ const ProfilePage = () => {
           style={styles.ProfileImage}
           source={require('../../assets/images/icons/user-default-image.png')}
         />
-        <Text style={styles.ProfileName}>Rakshitha M</Text>
-        <Text style={styles.UserName}>rxkshita</Text>
+        <Text style={styles.ProfileName}>Verona Josephs</Text>
+        <Text style={styles.UserName}>veron-codes</Text>
       </View>
       <View style={styles.ProfileTab}>
         <View>
