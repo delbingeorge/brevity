@@ -11,23 +11,26 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
-import {BrevityStore} from '../../provider/RecoilStore';
+import {authState} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 
 const FeedPage = () => {
   const navigation = useNavigation();
-  const authValue = false;
-  // useRecoilState(BrevityStore);
-  console.log(authValue);
+  const [authValue, setAuthValue] = useRecoilState(authState);
 
   return (
     <SafeAreaView style={styles.MainView}>
       <StatusBar backgroundColor={'white'} />
       <View style={styles.NavView}>
-        <Image
-          style={styles.NavLogo}
-          source={require('../../assets/images/logo/brevity.png')}
-        />
+        <Pressable
+          onPress={() => {
+            navigation.navigate('SignIn');
+          }}>
+          <Image
+            style={styles.NavLogo}
+            source={require('../../assets/images/logo/brevity.png')}
+          />
+        </Pressable>
         <Pressable
           style={{display: authValue == true ? 'flex' : 'none'}}
           onPress={() => {
@@ -50,26 +53,30 @@ const FeedPage = () => {
           <IssueComponent />
         </Pressable>
       </ScrollView>
-      <TouchableOpacity
-        style={{
-          backgroundColor: '#548DFE',
-          height: 45,
-          width: 45,
-          borderRadius: 50,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'absolute',
-          bottom: 140,
-          right: 20,
-        }}
-        onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack
-      >
-        <Image
-          style={{height: 19, width: 19}}
-          source={require('../../assets/images/icons/issue-post-plus-icon.png')}
-        />
-      </TouchableOpacity>
+      {authValue == true ? (
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#548DFE',
+            height: 45,
+            width: 45,
+            borderRadius: 50,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            bottom: 140,
+            right: 20,
+          }}
+          onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack
+        >
+          <Image
+            style={{height: 19, width: 19}}
+            source={require('../../assets/images/icons/issue-post-plus-icon.png')}
+          />
+        </TouchableOpacity>
+      ) : (
+        console.log('Hi')
+      )}
     </SafeAreaView>
   );
 };

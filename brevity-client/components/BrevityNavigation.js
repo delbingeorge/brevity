@@ -11,12 +11,16 @@ import YourLists from '../pages/ProfilePage/YourLists';
 import SettingsPage from '../pages/ProfilePage/SettingsPage';
 import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
+import {useRecoilState} from 'recoil';
+import {authState} from '../provider/RecoilStore';
+import ReactModal from './ReactModal';
+import SignIn from '../pages/AuthScreen/SignIn';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
 
 function TabNavigation() {
-  const authValue = false;
+  const [authValue, setAuthValue] = useRecoilState(authState);
   return (
     <TabRoute.Navigator
       screenOptions={{
@@ -107,6 +111,11 @@ function BrevityNavigation() {
         options={{headerShown: false, animation: 'slide_from_right'}}
         name="IssuePostForm"
         component={IssuePostForm}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="SignIn"
+        component={SignIn}
       />
       <StackRoute.Screen
         name="IssueComponent"

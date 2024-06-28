@@ -9,12 +9,11 @@ import {
   View,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
-import {BrevityStore} from '../provider/RecoilStore';
+import {BrevityStore, authState} from '../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 
 const IssueComponent = () => {
-  const authValue = false;
-  // const authValue = useRecoilState(BrevityStore);
+  const [authValue, setAuthValue] = useRecoilState(authState);
   const [isPressed, setIsPressed] = useState(false);
   const [modalView, setModalView] = useState(false);
 

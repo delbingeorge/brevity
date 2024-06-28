@@ -19,8 +19,9 @@ const persistAtom = key => {
   };
 };
 
-export const BrevityStore = atom({
-  key: 'authValue',
-  default: true,
-  effects_UNSTABLE: [persistAtom('persistCounter')],
+//   effects_UNSTABLE: [persistAtom('persistCounter')],
+
+export const authState = atom({
+  key: 'authState', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
 });

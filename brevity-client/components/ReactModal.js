@@ -15,9 +15,6 @@ const ReactModal = () => {
     <ReactNativeModal
       style={styles.ReactModal}
       isVisible={true}
-      onBackdropPress={() => {
-        setModalView(false);
-      }}
       backdropColor="black">
       <View style={styles.AuthView}>
         <Text style={styles.AuthTitle}>Sign In</Text>
@@ -40,10 +37,7 @@ const ReactModal = () => {
             <Text style={styles.AuthBtnText}>Google</Text>
           </TouchableOpacity>
         </View>
-        <Pressable
-          onPress={() => {
-            setModalView(false);
-          }}>
+        <Pressable>
           <Text style={styles.SubText}>I don’t want to sign in</Text>
         </Pressable>
       </View>

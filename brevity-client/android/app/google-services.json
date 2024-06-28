@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "531508705755",
+    "project_id": "app-brevity",
+    "storage_bucket": "app-brevity.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531508705755:android:f84a3c61b98d11698c4ffe",
+        "android_client_info": {
+          "package_name": "com.brevity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531508705755-885llg0afibmoqmconc8c9h394dekbd7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brevity",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "531508705755-pnoc43u22q280straf9u822d028pd9n9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz1jEMN5bQL0NCnX0ubCHZCU7VCtdnJpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531508705755-pnoc43u22q280straf9u822d028pd9n9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
