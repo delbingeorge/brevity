@@ -15,6 +15,7 @@ import {useRecoilState} from 'recoil';
 import {authState} from '../provider/RecoilStore';
 import ReactModal from './ReactModal';
 import SignIn from '../pages/AuthScreen/SignIn';
+import SignUp from '../pages/AuthScreen/SignUp';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -103,6 +104,16 @@ function BrevityNavigation() {
         animation: 'ios',
       }}>
       <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="SignIn"
+        component={SignIn}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="SignUp"
+        component={SignUp}
+      />
+      <StackRoute.Screen
         options={{headerShown: false}}
         name="TabNavigation"
         component={TabNavigation}
@@ -111,11 +122,6 @@ function BrevityNavigation() {
         options={{headerShown: false, animation: 'slide_from_right'}}
         name="IssuePostForm"
         component={IssuePostForm}
-      />
-      <StackRoute.Screen
-        options={{headerShown: false, animation: 'slide_from_right'}}
-        name="SignIn"
-        component={SignIn}
       />
       <StackRoute.Screen
         name="IssueComponent"

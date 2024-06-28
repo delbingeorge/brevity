@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-const SignIn = () => {
+const SignUp = () => {
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView style={styles.SignIn}>
@@ -30,31 +30,28 @@ const SignIn = () => {
         </Text>
       </View>
       <View style={styles.SignInInput}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="yourname@example.com"
-        />
-        <TextInput
-          style={styles.TextInput}
-          placeholder="yourname@example.com"
-        />
+        <TextInput style={styles.TextInput} placeholder="Full Name" />
+        <TextInput style={styles.TextInput} placeholder="Username" />
+        <TextInput style={styles.TextInput} placeholder="Email Address" />
+        <TextInput style={styles.TextInput} placeholder="Password" />
+        <TextInput style={styles.TextInput} placeholder="Re-type" />
         <Pressable style={styles.SignInButton}>
-          <Text style={styles.SignInButtonText}>Continue</Text>
+          <Text style={styles.SignInButtonText}>Sign Up</Text>
         </Pressable>
       </View>
       <Pressable
         onPress={() => {
-          navigation.navigate('SignUp');
+          navigation.navigate('SignIn');
         }}
         style={styles.SignUpButton}>
-        <Text style={styles.SignUpText}>Join our family!</Text>
-        <Text style={styles.SignUpTextButton}>create an account.</Text>
+        <Text style={styles.SignUpText}>I'm already a member!</Text>
+        <Text style={styles.SignUpTextButton}>Sign In here</Text>
       </Pressable>
     </KeyboardAvoidingView>
   );
 };
 
-export default SignIn;
+export default SignUp;
 
 const styles = StyleSheet.create({
   SignIn: {
@@ -100,6 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F6F6',
     color: 'black',
     textAlign: 'center',
+    fontFamily: 'Inter-SemiBold',
     fontSize: 18,
     paddingVertical: 16,
     borderRadius: 8,
