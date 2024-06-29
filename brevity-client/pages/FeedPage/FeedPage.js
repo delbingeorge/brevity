@@ -44,7 +44,7 @@ const FeedPage = () => {
       </View>
       <ScrollView>
         <Pressable
-          style={{paddingBottom: 150}}
+          style={{paddingBottom: 80}}
           onPress={() => {
             navigation.navigate('IssueComponent');
           }}>

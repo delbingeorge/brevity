@@ -27,6 +27,9 @@ function TabNavigation() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarStyle: {
+          display: authValue == true ? 'flex' : 'none',
+        },
       }}>
       <TabRoute.Screen
         name="FeedPage"
@@ -103,7 +106,7 @@ function BrevityNavigation() {
         headerShadowVisible: false,
         animation: 'ios',
       }}>
-      <StackRoute.Screen
+      {/* <StackRoute.Screen
         options={{headerShown: false, animation: 'slide_from_right'}}
         name="SignIn"
         component={SignIn}
@@ -112,7 +115,7 @@ function BrevityNavigation() {
         options={{headerShown: false, animation: 'slide_from_right'}}
         name="SignUp"
         component={SignUp}
-      />
+      /> */}
       <StackRoute.Screen
         options={{headerShown: false}}
         name="TabNavigation"

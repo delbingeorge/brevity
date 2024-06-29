@@ -22,6 +22,6 @@ const persistAtom = key => {
 //   effects_UNSTABLE: [persistAtom('persistCounter')],
 
 export const authState = atom({
-  key: 'authState', // unique ID (with respect to other atoms/selectors)
-  default: false, // default value (aka initial value)
+  key: 'authState', 
+  default: false, 
 });
