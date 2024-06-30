@@ -23,5 +23,5 @@ const persistAtom = key => {
 
 export const authState = atom({
   key: 'authState', 
-  default: false, 
+  default: true, 
 });

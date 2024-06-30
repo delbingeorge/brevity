@@ -128,7 +128,7 @@ function BrevityNavigation() {
       />
       <StackRoute.Screen
         name="IssueComponent"
-        options={{title: ''}}
+        options={{headerShown: false}}
         component={IssueComponent}
       />
       <StackRoute.Screen
