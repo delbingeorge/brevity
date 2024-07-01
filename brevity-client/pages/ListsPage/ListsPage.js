@@ -2,7 +2,7 @@ import {Text, View} from 'react-native';
 
 const ListsPage = () => {
   return (
-    <View>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <Text>ListsPage</Text>
     </View>
   );

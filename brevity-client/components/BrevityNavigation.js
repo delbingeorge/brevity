@@ -13,9 +13,6 @@ import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
 import {useRecoilState} from 'recoil';
 import {authState} from '../provider/RecoilStore';
-import ReactModal from './ReactModal';
-import SignIn from '../pages/AuthScreen/SignIn';
-import SignUp from '../pages/AuthScreen/SignUp';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();

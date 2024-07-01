@@ -17,15 +17,13 @@ import {useRecoilState} from 'recoil';
 const FeedPage = () => {
   const navigation = useNavigation();
   const [authValue, setAuthValue] = useRecoilState(authState);
+  const [modalView, setModalView] = useRecoilState(modalView);
 
   return (
     <SafeAreaView style={styles.MainView}>
       <StatusBar backgroundColor={'white'} />
       <View style={styles.NavView}>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('SignIn');
-          }}>
+        <Pressable>
           <Image
             style={styles.NavLogo}
             source={require('../../assets/images/logo/brevity.png')}
@@ -41,6 +39,16 @@ const FeedPage = () => {
             source={require('../../assets/images/icons/crown-rank.png')}
           />
         </Pressable>
+        <Pressable
+          style={{display: authValue == true ? 'none' : 'flex'}}
+          onPress={() => {
+            navigation.navigate('ProfileRank');
+          }}>
+          <Image
+            style={styles.CrownRank}
+            source={require('../../assets/images/icons/profile-icon-bk.png')}
+          />
+        </Pressable>
       </View>
       <ScrollView>
         <Pressable
@@ -53,30 +61,26 @@ const FeedPage = () => {
           <IssueComponent />
         </Pressable>
       </ScrollView>
-      {authValue == true ? (
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#548DFE',
-            height: 45,
-            width: 45,
-            borderRadius: 50,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
-            bottom: 140,
-            right: 20,
-          }}
-          onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack
-        >
-          <Image
-            style={{height: 19, width: 19}}
-            source={require('../../assets/images/icons/issue-post-plus-icon.png')}
-          />
-        </TouchableOpacity>
-      ) : (
-        console.log('Hi')
-      )}
+      <TouchableOpacity
+        style={{
+          backgroundColor: '#548DFE',
+          height: 45,
+          width: 45,
+          borderRadius: 50,
+          display: authValue == true ? 'flex' : 'none',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          bottom: 140,
+          right: 20,
+        }}
+        onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack
+      >
+        <Image
+          style={{height: 19, width: 19}}
+          source={require('../../assets/images/icons/issue-post-plus-icon.png')}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -90,12 +94,12 @@ const styles = StyleSheet.create({
     height: Dimensions.get('screen').height,
   },
   NavView: {
-    marginVertical: 6,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
+    paddingVertical: 12,
   },
   NavLogo: {
     height: 22,

@@ -10,9 +10,28 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {authState, userInfo} from '../../provider/RecoilStore';
+import {useRecoilState} from 'recoil';
 
 const SettingsPage = () => {
   const navigation = useNavigation();
+  const [authValue, setAuthValue] = useRecoilState(authState);
+  const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      setAuthValue(false);
+      setUserInfoState({});
+      navigation.navigate('FeedPage');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <View style={styles.SettingsView}>
       <StatusBar backgroundColor={'white'} />
@@ -29,12 +48,7 @@ const SettingsPage = () => {
       </Pressable>
       <View>
         <View style={styles.AccountSettings}>
-          <TouchableOpacity
-            onPress={() => {
-              console.log('Navigating to EditProfile'); // Check if navigation works
-              navigation.navigate('EditProfile');
-            }}
-            style={styles.Settings}>
+          <TouchableOpacity onPress={signOut} style={styles.Settings}>
             <Image
               style={styles.SettingsImage}
               source={require('../../assets/images/icons/signout-icon.png')}
