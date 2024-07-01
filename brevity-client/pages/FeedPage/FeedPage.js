@@ -17,7 +17,6 @@ import {useRecoilState} from 'recoil';
 const FeedPage = () => {
   const navigation = useNavigation();
   const [authValue, setAuthValue] = useRecoilState(authState);
-  const [modalView, setModalView] = useRecoilState(modalView);
 
   return (
     <SafeAreaView style={styles.MainView}>

@@ -22,7 +22,7 @@ const IssueComponent = () => {
 
   GoogleSignin.configure({
     webClientId:
-      '',
+      '531508705755-pnoc43u22q280straf9u822d028pd9n9.apps.googleusercontent.com',
     offlineAccess: true,
   });
 
