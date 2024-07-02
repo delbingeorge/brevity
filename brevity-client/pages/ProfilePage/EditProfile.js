@@ -9,12 +9,16 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Touchable,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {userInfo} from '../../provider/RecoilStore';
+import {useRecoilState} from 'recoil';
 
 const EditProfile = () => {
+  const profileInfo = useRecoilState(userInfo);
+  const username = profileInfo[0].name.toLowerCase().replaceAll(' ', '');
+  console.log(profileInfo)
   return (
     <View style={styles.EditProfileView}>
       <StatusBar backgroundColor={'white'} />
@@ -23,7 +27,7 @@ const EditProfile = () => {
         <View style={styles.ProfileDetails}>
           <Image
             style={styles.ProfileImage}
-            source={require('../../assets/images/icons/user-default-image.png')}
+            source={{uri: profileInfo[0].photo}}
           />
           <Pressable style={styles.UploadBtn}>
             <Image
@@ -38,7 +42,7 @@ const EditProfile = () => {
             <TextInput
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder="Verona Josephs"
+              placeholder={profileInfo[0].name}
             />
           </View>
           <View style={styles.TextInputView}>
@@ -46,7 +50,7 @@ const EditProfile = () => {
             <TextInput
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder="veroncodes"
+              placeholder={username}
             />
           </View>
           <View style={styles.TextInputView}>
@@ -63,7 +67,7 @@ const EditProfile = () => {
             <TextInput
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder="veronajosephs@proton.me"
+              placeholder={profileInfo[0].email}
             />
           </View>
           <View style={styles.TextInputView}>

@@ -12,24 +12,33 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
 import {ReactNativeModal} from 'react-native-modal';
+import {useRecoilState} from 'recoil';
+import {userInfo} from '../../provider/RecoilStore';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
 
+  const profileInfo = useRecoilState(userInfo);
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
   return (
     <View>
       <StatusBar backgroundColor={'#F6F6F6'} />
       <View style={styles.ProfileDetails}>
         <Image
           style={styles.ProfileImage}
-          source={require('../../assets/images/icons/user-default-image.png')}
+          source={
+            profileInfo[0].photo
+              ? {uri: profileInfo[0].photo}
+              : require('../../assets/images/icons/user-default-image.png')
+          }
         />
-        <Text style={styles.ProfileName}>Verona Josephs</Text>
-        <Text style={styles.UserName}>veron-codes</Text>
+        <Text style={styles.ProfileName}>{profileInfo[0].name}</Text>
+        <Text style={styles.UserName}>{profileInfo[0].email}</Text>
       </View>
       <View style={styles.ProfileTab}>
         <View>
@@ -130,9 +139,13 @@ const ProfilePage = () => {
             }}></Pressable> */}
           <Image
             style={styles.ProfileImage}
-            source={require('../../assets/images/icons/user-default-image.png')}
+            source={
+              profileInfo[0].photo
+                ? {uri: profileInfo[0].photo}
+                : require('../../assets/images/icons/user-default-image.png')
+            }
           />
-          <Text style={styles.ProfileName}>Rakshitha M</Text>
+          <Text style={styles.ProfileName}>{profileInfo[0].name}</Text>
           <Text style={styles.UserName}>Epic Compiler</Text>
 
           <View style={styles.ModalView}>

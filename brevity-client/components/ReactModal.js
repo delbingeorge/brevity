@@ -3,18 +3,79 @@ import {
   Dimensions,
   Image,
   Pressable,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
+import {authState, modalView, userInfo} from '../provider/RecoilStore';
+import {useRecoilState} from 'recoil';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import axios from 'axios';
 
 const ReactModal = () => {
+  const [showModalView, setShowModalView] = useRecoilState(modalView);
+  const [authValue, setAuthValue] = useRecoilState(authState);
+  const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+
+  GoogleSignin.configure({
+    webClientId:
+      '531508705755-pnoc43u22q280straf9u822d028pd9n9.apps.googleusercontent.com',
+    offlineAccess: true,
+  });
+
+  const signInWithGithub = async () => {
+    console.log('Github authentication!');
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const response = await axios.post(
+        'http://10.0.2.2:8000/api/google-signin',
+        {
+          name: userInfo.user.name,
+          email: userInfo.user.email,
+          photo: userInfo.user.photo,
+        },
+      );
+
+      if (response.status == 200) {
+        setUserInfoState(response.data.user);
+        setAuthValue(true);
+        setShowModalView(false);
+      } else {
+        console.log(response.statusText);
+      }
+      
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('Sign in was cancelled by the user.');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Sign in is already in progress.');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Google Play Services are not available or outdated.');
+      } else {
+        console.log('An unknown error occurred. Please try again.');
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <ReactNativeModal
       style={styles.ReactModal}
-      isVisible={true}
+      isVisible={showModalView}
+      onBackdropPress={() => {
+        setShowModalView(false);
+      }}
+      animationIn={'slideInUp'}
       backdropColor="black">
       <View style={styles.AuthView}>
         <Text style={styles.AuthTitle}>Sign In</Text>
@@ -22,14 +83,14 @@ const ReactModal = () => {
           Authenticate yourself to continue using bervity.
         </Text>
         <View style={styles.AuthInnerView}>
-          <TouchableOpacity style={styles.AuthBtn}>
+          {/* <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGithub}>
             <Image
               style={styles.AuthServiceLogo}
               source={require('../assets/images/icons/github-icon.png')}
             />
             <Text style={styles.AuthBtnText}>Github</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.AuthBtn}>
+          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGoogle}>
             <Image
               style={styles.AuthServiceLogo}
               source={require('../assets/images/icons/google-icon.png')}
@@ -37,7 +98,10 @@ const ReactModal = () => {
             <Text style={styles.AuthBtnText}>Google</Text>
           </TouchableOpacity>
         </View>
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            setShowModalView(false);
+          }}>
           <Text style={styles.SubText}>I don’t want to sign in</Text>
         </Pressable>
       </View>

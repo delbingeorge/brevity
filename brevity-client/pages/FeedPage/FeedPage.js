@@ -11,12 +11,14 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
-import {authState} from '../../provider/RecoilStore';
+import {authState, modalView} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
+import ReactModal from '../../components/ReactModal';
 
 const FeedPage = () => {
   const navigation = useNavigation();
   const [authValue, setAuthValue] = useRecoilState(authState);
+  const [showModalView, setShowModalView] = useRecoilState(modalView);
 
   return (
     <SafeAreaView style={styles.MainView}>
@@ -41,7 +43,8 @@ const FeedPage = () => {
         <Pressable
           style={{display: authValue == true ? 'none' : 'flex'}}
           onPress={() => {
-            navigation.navigate('ProfileRank');
+            setShowModalView(true);
+            console.log('Auth profile button clicked!');
           }}>
           <Image
             style={styles.CrownRank}
@@ -70,7 +73,7 @@ const FeedPage = () => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
-          bottom: 140,
+          bottom: 110,
           right: 20,
         }}
         onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack
@@ -80,6 +83,8 @@ const FeedPage = () => {
           source={require('../../assets/images/icons/issue-post-plus-icon.png')}
         />
       </TouchableOpacity>
+
+      {showModalView === true ? <ReactModal /> : ''}
     </SafeAreaView>
   );
 };
