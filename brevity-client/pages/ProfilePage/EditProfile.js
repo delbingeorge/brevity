@@ -18,7 +18,7 @@ import {useRecoilState} from 'recoil';
 const EditProfile = () => {
   const profileInfo = useRecoilState(userInfo);
   const username = profileInfo[0].name.toLowerCase().replaceAll(' ', '');
-  console.log(profileInfo)
+  // console.log(profileInfo)
   return (
     <View style={styles.EditProfileView}>
       <StatusBar backgroundColor={'white'} />

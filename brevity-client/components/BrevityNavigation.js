@@ -20,8 +20,6 @@ const StackRoute = createNativeStackNavigator();
 
 function TabNavigation() {
   const [authValue, setAuthValue] = useRecoilState(authState);
-  const [newUser, isNewUser] = useRecoilState(userInfo);
-
   return (
     <TabRoute.Navigator
       screenOptions={{

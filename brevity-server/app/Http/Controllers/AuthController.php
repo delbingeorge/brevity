@@ -17,6 +17,7 @@ class AuthController extends Controller
           $user = User::where('email', $email)->first();
 
           $newUser = false;
+          $authValue = true;
 
           if (!$user) {
                $user = User::create([
@@ -26,10 +27,11 @@ class AuthController extends Controller
                ]);
 
                $newUser = true;
+               $authValue = true;
           }
 
           Auth::login($user);
 
-          return response()->json(['user' => $user, 'newUser' => $newUser, 'token' => $user->createToken('authToken')->plainTextToken]);
+          return response()->json(['user' => $user, 'newUser' => $newUser, 'authValue' => $authValue, 'token' => $user->createToken('authToken')->plainTextToken]);
      }
 }

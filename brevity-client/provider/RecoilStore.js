@@ -1,23 +1,5 @@
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useEffect} from 'react';
 import {atom} from 'recoil';
-
-// const persistAtom = key => {
-//   return ({setSelf, onSet}) => {
-//     setSelf(
-//       AsyncStorage.getItem(key).then(savedValue =>
-//         savedValue != null ? JSON.parse(savedValue) : new DefaultValue(),
-//       ),
-//     );
-
-//     onSet(newValue => {
-//       if (newValue instanceof DefaultValue) {
-//         AsyncStorage.removeItem(key);
-//       } else {
-//         AsyncStorage.setItem(key, JSON.stringify(newValue));
-//       }
-//     });
-//   };
-// };
 
 export const authState = atom({
   key: 'authState',
@@ -32,7 +14,6 @@ export const modalView = atom({
 export const userInfo = atom({
   key: 'userInfo',
   default: {},
-  // effects_UNSTABLE: [persistAtom('userInfo')],
 });
 
 export const newUser = atom({

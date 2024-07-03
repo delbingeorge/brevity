@@ -17,13 +17,12 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
-  const [newUserr, isNewUser] = useRecoilState(newUser);
-  const [loading, showLoading] = useState(false);
 
   GoogleSignin.configure({
     webClientId:
@@ -31,12 +30,7 @@ const ReactModal = () => {
     offlineAccess: true,
   });
 
-  // const signInWithGithub = async () => {
-  //   console.log('Github authentication!');
-  // };
-
   const signInWithGoogle = async () => {
-    // console.log('Sign in with Google function called!');
     try {
       console.log('Try block begins!');
       await GoogleSignin.hasPlayServices();
@@ -51,14 +45,17 @@ const ReactModal = () => {
       );
 
       if (response.status == 200) {
-        // console.log('Response text done!');
         setUserInfoState(response.data.user);
-        setAuthValue(true);
-        isNewUser(response.data);
+        await AsyncStorage.setItem(
+          'userInfo',
+          JSON.stringify(response.data.user),
+        );
+        await AsyncStorage.setItem(
+          'authValue',
+          JSON.stringify(response.data['authValue']),
+        );
+        setAuthValue(response.data['authValue']);
         setShowModalView(false);
-        // console.log('New user variable set!');
-        // console.log(response.data);
-        // console.log(response.data);
       } else {
         console.log(response.statusText);
       }

@@ -22,19 +22,33 @@ import {useRecoilState} from 'recoil';
 import ReactModal from '../../components/ReactModal';
 import Onboarding from '../Onboarding/Onboarding';
 import * as Burnt from 'burnt';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useEffect} from 'react';
 
 const FeedPage = () => {
   const navigation = useNavigation();
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [showModalView, setShowModalView] = useRecoilState(modalView);
-  const [checkNewUser, isNewUser] = useRecoilState(newUser);
+  const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
 
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Hello',
-    });
+  const initializeApp = async () => {
+    try {
+      const storedUserInfo = await AsyncStorage.getItem('userInfo');
+      if (storedUserInfo) {
+        const userInfo = JSON.parse(storedUserInfo);
+        // Initialize Recoil state or any other state management here
+        setUserInfoState(userInfo);
+        setAuthValue(true); // Assuming user is authenticated if userInfo exists
+      }
+    } catch (error) {
+      console.error('Error retrieving user info from AsyncStorage:', error);
+    }
   };
+
+  // Call initializeApp when your app starts or when necessary
+  useEffect(() => {
+    initializeApp();
+  }, []);
 
   return (
     <SafeAreaView style={styles.MainView}>
