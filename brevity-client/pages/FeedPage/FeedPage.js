@@ -1,6 +1,5 @@
 import {
   Dimensions,
-  Text,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -12,43 +11,15 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
-import {
-  authState,
-  modalView,
-  newUser,
-  userInfo,
-} from '../../provider/RecoilStore';
+import {authState, modalView} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import ReactModal from '../../components/ReactModal';
-import Onboarding from '../Onboarding/Onboarding';
-import * as Burnt from 'burnt';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useEffect} from 'react';
+// import * as Burnt from 'burnt';
 
 const FeedPage = () => {
   const navigation = useNavigation();
-  const [authValue, setAuthValue] = useRecoilState(authState);
+  const authValue = useRecoilState(authState);
   const [showModalView, setShowModalView] = useRecoilState(modalView);
-  const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
-
-  const initializeApp = async () => {
-    try {
-      const storedUserInfo = await AsyncStorage.getItem('userInfo');
-      if (storedUserInfo) {
-        const userInfo = JSON.parse(storedUserInfo);
-        // Initialize Recoil state or any other state management here
-        setUserInfoState(userInfo);
-        setAuthValue(true); // Assuming user is authenticated if userInfo exists
-      }
-    } catch (error) {
-      console.error('Error retrieving user info from AsyncStorage:', error);
-    }
-  };
-
-  // Call initializeApp when your app starts or when necessary
-  useEffect(() => {
-    initializeApp();
-  }, []);
 
   return (
     <SafeAreaView style={styles.MainView}>
@@ -106,8 +77,7 @@ const FeedPage = () => {
           bottom: 110,
           right: 20,
         }}
-        onPress={() => navigation.navigate('IssuePostForm')} // Use navigation.navigate to push IssuePostForm onto the stack
-      >
+        onPress={() => navigation.navigate('IssuePostForm')}>
         <Image
           style={{height: 19, width: 19}}
           source={require('../../assets/images/icons/issue-post-plus-icon.png')}

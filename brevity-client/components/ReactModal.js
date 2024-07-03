@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Dimensions,
   Image,
   Pressable,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
-import {authState, modalView, newUser, userInfo} from '../provider/RecoilStore';
+import {authState, modalView, userInfo} from '../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import {
   GoogleSignin,
@@ -24,15 +23,8 @@ const ReactModal = () => {
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
 
-  GoogleSignin.configure({
-    webClientId:
-      '531508705755-pnoc43u22q280straf9u822d028pd9n9.apps.googleusercontent.com',
-    offlineAccess: true,
-  });
-
   const signInWithGoogle = async () => {
     try {
-      console.log('Try block begins!');
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const response = await axios.post(

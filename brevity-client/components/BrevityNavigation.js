@@ -13,13 +13,34 @@ import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
 import {useRecoilState} from 'recoil';
 import {authState, userInfo} from '../provider/RecoilStore';
-import Onboarding from '../pages/Onboarding/Onboarding';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useEffect} from 'react';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
 
 function TabNavigation() {
   const [authValue, setAuthValue] = useRecoilState(authState);
+
+  const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+
+  const initializeApp = async () => {
+    try {
+      const storedUserInfo = await AsyncStorage.getItem('userInfo');
+      if (storedUserInfo) {
+        const userInfo = JSON.parse(storedUserInfo);
+        setUserInfoState(userInfo);
+        setAuthValue(true);
+      }
+    } catch (error) {
+      console.error('Error retrieving user info from AsyncStorage:', error);
+    }
+  };
+
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
   return (
     <TabRoute.Navigator
       screenOptions={{

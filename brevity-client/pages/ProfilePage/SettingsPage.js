@@ -1,7 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
-  Dimensions,
   Image,
   Pressable,
   StatusBar,
@@ -10,12 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {authState, userInfo} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsPage = () => {
   const navigation = useNavigation();
@@ -25,6 +22,7 @@ const SettingsPage = () => {
   const signOut = async () => {
     try {
       await GoogleSignin.signOut();
+      await AsyncStorage.removeItem('userInfo');
       setAuthValue(false);
       setUserInfoState({});
       navigation.navigate('FeedPage');
