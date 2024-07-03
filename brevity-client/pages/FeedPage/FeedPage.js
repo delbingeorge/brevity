@@ -23,7 +23,6 @@ const FeedPage = () => {
 
   return (
     <SafeAreaView style={styles.MainView}>
-      <StatusBar backgroundColor={'white'} />
       <View style={styles.NavView}>
         <Pressable>
           <Image
@@ -31,8 +30,9 @@ const FeedPage = () => {
             source={require('../../assets/images/logo/brevity.png')}
           />
         </Pressable>
+
         <Pressable
-          style={{display: authValue == true ? 'flex' : 'none'}}
+          style={{display: authValue[0] == true ? 'flex' : 'none'}}
           onPress={() => {
             navigation.navigate('ProfileRank');
           }}>
@@ -41,8 +41,9 @@ const FeedPage = () => {
             source={require('../../assets/images/icons/crown-rank.png')}
           />
         </Pressable>
+
         <Pressable
-          style={{display: authValue == true ? 'none' : 'flex'}}
+          style={{display: authValue[0] == true ? 'none' : 'flex'}}
           onPress={() => {
             setShowModalView(true);
             console.log('Auth profile button clicked!');

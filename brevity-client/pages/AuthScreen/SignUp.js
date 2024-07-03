@@ -15,8 +15,7 @@ const SignUp = () => {
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView style={styles.SignIn}>
-      <StatusBar barStyle={'light-content'} />
-      <View style={styles.SignInHeader}>
+     <View style={styles.SignInHeader}>
         {/* <Image
           style={styles.NavAppLogo}
           source={require('../../assets/images/logo/brevity-app-logo.png')}

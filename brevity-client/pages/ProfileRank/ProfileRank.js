@@ -9,7 +9,7 @@ const ProfileRank = () => {
         height: Dimensions.get('screen').height,
         paddingHorizontal: 15,
       }}>
-      <StatusBar backgroundColor="white" />
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <View>
         <Text style={styles.TitleText}>Brevity Journey </Text>
         <Text style={styles.SubTitleText}>

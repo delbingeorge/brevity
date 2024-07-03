@@ -29,7 +29,6 @@ const ExplorePage = () => {
 
   return (
     <View style={styles.ExplorePageView}>
-      <StatusBar backgroundColor={'white'} />
       <View style={styles.SearchInput}>
         <TextInput
           placeholder="Search"

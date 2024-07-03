@@ -16,8 +16,8 @@ const App = () => {
 
   return (
     <RecoilRoot>
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <NavigationContainer>
-        <StatusBar barStyle={'dark-content'} backgroundColor={'white'} />
         <BrevityNavigation />
       </NavigationContainer>
     </RecoilRoot>

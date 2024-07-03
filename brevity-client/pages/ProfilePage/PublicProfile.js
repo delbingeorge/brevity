@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   Image,
@@ -13,7 +13,6 @@ const PublicProfile = () => {
   const navigation = useNavigation();
   return (
     <View>
-      <StatusBar backgroundColor={'white'} />
       <Pressable
         onPress={() => {
           navigation.goBack();

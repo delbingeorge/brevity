@@ -27,7 +27,6 @@ const ProfilePage = () => {
 
   return (
     <View>
-      <StatusBar backgroundColor={'#F6F6F6'} />
       <View style={styles.ProfileDetails}>
         <Image
           style={styles.ProfileImage}

@@ -32,8 +32,7 @@ const SettingsPage = () => {
   };
   return (
     <View style={styles.SettingsView}>
-      <StatusBar backgroundColor={'white'} />
-      <Pressable
+       <Pressable
         onPress={() => {
           navigation.goBack();
         }}

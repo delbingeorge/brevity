@@ -15,7 +15,6 @@ const SignIn = () => {
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView style={styles.SignIn}>
-      <StatusBar barStyle={'light-content'} />
       <View style={styles.SignInHeader}>
         {/* <Image
           style={styles.NavAppLogo}

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
   Pressable,
+  StatusBar,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -22,9 +25,11 @@ const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+  const [loading, setLoading] = useState(false);
 
   const signInWithGoogle = async () => {
     try {
+      setLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const response = await axios.post(
@@ -48,6 +53,7 @@ const ReactModal = () => {
         );
         setAuthValue(response.data['authValue']);
         setShowModalView(false);
+        setLoading(false);
       } else {
         console.log(response.statusText);
       }
@@ -66,43 +72,80 @@ const ReactModal = () => {
   };
 
   return (
-    <ReactNativeModal
-      style={styles.ReactModal}
-      isVisible={showModalView}
-      onBackdropPress={() => {
-        setShowModalView(false);
-      }}
-      animationIn={'slideInUp'}
-      backdropColor="black">
-      <View style={styles.AuthView}>
-        <Text style={styles.AuthTitle}>Sign In</Text>
-        <Text style={styles.AuthSubTitle}>
-          Authenticate yourself to continue using bervity.
-        </Text>
-        <View style={styles.AuthInnerView}>
-          {/* <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGithub}>
+    <>
+      <ReactNativeModal
+        style={styles.ReactModal}
+        isVisible={showModalView}
+        onBackdropPress={() => {
+          setShowModalView(false);
+        }}
+        animationIn={'slideInUp'}
+        backdropColor="black">
+        <StatusBar barStyle={'light-content'} backgroundColor={'black'} />
+        {loading == false ? (
+          <View style={styles.AuthView}>
+            <Text style={styles.AuthTitle}>Sign In</Text>
+            <Text style={styles.AuthSubTitle}>
+              Authenticate yourself to continue using bervity.
+            </Text>
+            <View style={styles.AuthInnerView}>
+              {/* <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGithub}>
+          <Image
+            style={styles.AuthServiceLogo}
+            source={require('../assets/images/icons/github-icon.png')}
+          />
+          <Text style={styles.AuthBtnText}>Github</Text>
+        </TouchableOpacity> */}
+              <TouchableOpacity
+                style={styles.AuthBtn}
+                onPress={signInWithGoogle}>
+                <Image
+                  style={styles.AuthServiceLogo}
+                  source={require('../assets/images/icons/google-icon.png')}
+                />
+                <Text style={styles.AuthBtnText}>Google</Text>
+              </TouchableOpacity>
+            </View>
+            <Pressable
+              onPress={() => {
+                setShowModalView(false);
+              }}>
+              <Text style={styles.SubText}>I don’t want to sign in</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <View style={styles.AuthViewLoader}>
             <Image
-              style={styles.AuthServiceLogo}
-              source={require('../assets/images/icons/github-icon.png')}
+              style={{
+                width: 120,
+                height: 120,
+                objectFit: 'contain',
+              }}
+              source={require('../assets/images/logo/brevity-app-logo.png')}
             />
-            <Text style={styles.AuthBtnText}>Github</Text>
-          </TouchableOpacity> */}
-          <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGoogle}>
-            <Image
-              style={styles.AuthServiceLogo}
-              source={require('../assets/images/icons/google-icon.png')}
-            />
-            <Text style={styles.AuthBtnText}>Google</Text>
-          </TouchableOpacity>
-        </View>
-        <Pressable
-          onPress={() => {
-            setShowModalView(false);
-          }}>
-          <Text style={styles.SubText}>I don’t want to sign in</Text>
-        </Pressable>
-      </View>
-    </ReactNativeModal>
+            <View style={{marginVertical:15}}>
+              <Text
+                style={{
+                  color: 'black',
+                  textAlign: 'center',
+                  fontFamily: 'Inter-Medium',
+                }}>
+                Hold on for a moment
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  textAlign: 'center',
+                  fontFamily: 'Inter-Medium',
+                }}>
+                We are setting up brevity!
+              </Text>
+            </View>
+            <ActivityIndicator size="large" color="#00ff00" />
+          </View>
+        )}
+      </ReactNativeModal>
+    </>
   );
 };
 
@@ -178,6 +221,15 @@ const styles = StyleSheet.create({
     // height: Dimensions.get('screen').height / 2.9,
     width: Dimensions.get('screen').width,
   },
+  AuthViewLoader: {
+    alignItems: 'center',
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 25,
+    backgroundColor: 'white',
+    // height: Dimensions.get('screen').height / 2.9,
+    width: Dimensions.get('screen').width,
+  },
   AuthInnerView: {
     marginTop: 15,
   },
@@ -205,7 +257,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 10,
     backgroundColor: '#F6F6F6',
-    paddingVertical: 15,
+    paddingVertical: 11,
     paddingHorizontal: 18,
   },
   AuthBtnText: {color: 'black', fontSize: 19, fontFamily: 'Inter-Medium'},

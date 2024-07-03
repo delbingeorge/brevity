@@ -21,7 +21,6 @@ const EditProfile = () => {
   // console.log(profileInfo)
   return (
     <View style={styles.EditProfileView}>
-      <StatusBar backgroundColor={'white'} />
       {/* <Text>Update your profile</Text> */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ProfileDetails}>

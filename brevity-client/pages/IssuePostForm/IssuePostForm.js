@@ -21,8 +21,7 @@ const IssuePostForm = () => {
   return (
     // <Modal>
     <View style={styles.FormMainView}>
-      <StatusBar backgroundColor={'white'} />
-      <View>
+     <View>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
