@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  Text,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -11,14 +12,29 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
-import {authState, modalView} from '../../provider/RecoilStore';
+import {
+  authState,
+  modalView,
+  newUser,
+  userInfo,
+} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import ReactModal from '../../components/ReactModal';
+import Onboarding from '../Onboarding/Onboarding';
+import * as Burnt from 'burnt';
 
 const FeedPage = () => {
   const navigation = useNavigation();
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [showModalView, setShowModalView] = useRecoilState(modalView);
+  const [checkNewUser, isNewUser] = useRecoilState(newUser);
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Hello',
+    });
+  };
 
   return (
     <SafeAreaView style={styles.MainView}>
@@ -83,7 +99,6 @@ const FeedPage = () => {
           source={require('../../assets/images/icons/issue-post-plus-icon.png')}
         />
       </TouchableOpacity>
-
       {showModalView === true ? <ReactModal /> : ''}
     </SafeAreaView>
   );

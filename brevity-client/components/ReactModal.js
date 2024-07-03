@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
-import {authState, modalView, userInfo} from '../provider/RecoilStore';
+import {authState, modalView, newUser, userInfo} from '../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import {
   GoogleSignin,
@@ -22,6 +22,8 @@ const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+  const [newUserr, isNewUser] = useRecoilState(newUser);
+  const [loading, showLoading] = useState(false);
 
   GoogleSignin.configure({
     webClientId:
@@ -29,16 +31,18 @@ const ReactModal = () => {
     offlineAccess: true,
   });
 
-  const signInWithGithub = async () => {
-    console.log('Github authentication!');
-  };
+  // const signInWithGithub = async () => {
+  //   console.log('Github authentication!');
+  // };
 
   const signInWithGoogle = async () => {
+    // console.log('Sign in with Google function called!');
     try {
+      console.log('Try block begins!');
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const response = await axios.post(
-        'http://10.0.2.2:8000/api/google-signin',
+        'http://192.168.1.105:8000/api/google-signin',
         {
           name: userInfo.user.name,
           email: userInfo.user.email,
@@ -47,13 +51,17 @@ const ReactModal = () => {
       );
 
       if (response.status == 200) {
+        // console.log('Response text done!');
         setUserInfoState(response.data.user);
         setAuthValue(true);
+        isNewUser(response.data);
         setShowModalView(false);
+        // console.log('New user variable set!');
+        // console.log(response.data);
+        // console.log(response.data);
       } else {
         console.log(response.statusText);
       }
-      
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('Sign in was cancelled by the user.');

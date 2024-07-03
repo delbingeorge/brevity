@@ -12,13 +12,16 @@ import SettingsPage from '../pages/ProfilePage/SettingsPage';
 import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
 import {useRecoilState} from 'recoil';
-import {authState} from '../provider/RecoilStore';
+import {authState, userInfo} from '../provider/RecoilStore';
+import Onboarding from '../pages/Onboarding/Onboarding';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
 
 function TabNavigation() {
   const [authValue, setAuthValue] = useRecoilState(authState);
+  const [newUser, isNewUser] = useRecoilState(userInfo);
+
   return (
     <TabRoute.Navigator
       screenOptions={{
@@ -105,13 +108,8 @@ function BrevityNavigation() {
       }}>
       {/* <StackRoute.Screen
         options={{headerShown: false, animation: 'slide_from_right'}}
-        name="SignIn"
-        component={SignIn}
-      />
-      <StackRoute.Screen
-        options={{headerShown: false, animation: 'slide_from_right'}}
-        name="SignUp"
-        component={SignUp}
+        name="Onboarding"
+        component={Onboarding}
       /> */}
       <StackRoute.Screen
         options={{headerShown: false}}

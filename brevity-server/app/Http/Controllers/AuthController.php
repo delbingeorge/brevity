@@ -16,16 +16,20 @@ class AuthController extends Controller
 
           $user = User::where('email', $email)->first();
 
+          $newUser = false;
+
           if (!$user) {
                $user = User::create([
                     'name' => $name,
                     'email' => $email,
                     'photo' => $photo,
                ]);
+
+               $newUser = true;
           }
 
           Auth::login($user);
 
-          return response()->json(['user' => $user, 'token' => $user->createToken('authToken')->plainTextToken]);
+          return response()->json(['user' => $user, 'newUser' => $newUser, 'token' => $user->createToken('authToken')->plainTextToken]);
      }
 }
