@@ -47,7 +47,7 @@ function TabNavigation() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          display: authValue == true ? 'flex' : 'none',
+          display: authValue == true ? 'flex' : 'none'
         },
       }}>
       <TabRoute.Screen

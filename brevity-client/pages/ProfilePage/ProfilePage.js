@@ -21,6 +21,9 @@ const ProfilePage = () => {
 
   const profileInfo = useRecoilState(userInfo);
 
+  const date = new Date(profileInfo[0]['created_at']);
+  const accountCreationDate = date.getFullYear();
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -144,7 +147,9 @@ const ProfilePage = () => {
 
           <View style={styles.ModalView}>
             <Text style={styles.IssueCount}>1900</Text>
-            <Text style={styles.AccountSince}>Issues solved since 2024</Text>
+            <Text style={styles.AccountSince}>
+              Issues solved since {accountCreationDate}
+            </Text>
           </View>
           <View style={styles.SocialView}>
             <Pressable

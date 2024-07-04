@@ -34,11 +34,18 @@ const ReactModal = () => {
       setLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+
+      //Must solve the username conflict
+      const username = userInfo.user.name.toLowerCase().replaceAll(' ', '');
+
+      console.log(username);
       const response = await axios.post(
-        'http://192.168.1.105:8000/api/google-signin',
+        // 'http://192.168.1.105:8000/api/google-signin',
+        'http://10.0.2.2:8000/api/google-signin',
         // 'https://41e7-103-175-137-59.ngrok-free.app/api/google-signin',
         {
           name: userInfo.user.name,
+          username: username,
           email: userInfo.user.email,
           photo: userInfo.user.photo,
         },
@@ -129,6 +136,7 @@ const ReactModal = () => {
           />
           <Text style={styles.AuthBtnText}>Github</Text>
         </TouchableOpacity> */}
+
               <TouchableOpacity
                 style={styles.AuthBtn}
                 onPress={signInWithGoogle}>
@@ -163,8 +171,6 @@ const ReactModal = () => {
                   textAlign: 'center',
                   fontFamily: 'Inter-Medium',
                 }}>
-                {/* Hold on for a moment */}
-                {/* Brewing code coffee... */}
                 Hang tight!
               </Text>
               <Text
@@ -173,8 +179,6 @@ const ReactModal = () => {
                   textAlign: 'center',
                   fontFamily: 'Inter-Medium',
                 }}>
-                {/* We are setting up brevity! */}
-                {/* Please wait! */}
                 We're brewing some fresh code coffee.
               </Text>
               <Text
@@ -183,9 +187,6 @@ const ReactModal = () => {
                   textAlign: 'center',
                   fontFamily: 'Inter-Medium',
                 }}>
-                {/* We are setting up brevity! */}
-                {/* Please wait! */}
-                {/* We're brewing some fresh code coffee. */}
                 This won't take long!
               </Text>
             </View>

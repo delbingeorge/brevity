@@ -11,6 +11,7 @@ class AuthController extends Controller
      public function googleSignIn(Request $request)
      {
           $name = $request->input('name');
+          $username = $request->input('username');
           $email = $request->input('email');
           $photo = $request->input('photo');
 
@@ -22,6 +23,7 @@ class AuthController extends Controller
           if (!$user) {
                $user = User::create([
                     'name' => $name,
+                    'username' => $username,
                     'email' => $email,
                     'photo' => $photo,
                ]);

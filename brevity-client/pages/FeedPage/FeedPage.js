@@ -7,8 +7,6 @@ import {
   View,
   Pressable,
   ScrollView,
-  StatusBar,
-  Text,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
@@ -16,7 +14,6 @@ import {
   authState,
   modalView,
   newUser,
-  userInfo,
 } from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import ReactModal from '../../components/ReactModal';
@@ -99,6 +96,7 @@ const FeedPage = () => {
       ) : (
         console.log('old user')
       )} */}
+
     </SafeAreaView>
   );
 };

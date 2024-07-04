@@ -6,6 +6,7 @@ import {RecoilRoot} from 'recoil';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const App = () => {
+  
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:

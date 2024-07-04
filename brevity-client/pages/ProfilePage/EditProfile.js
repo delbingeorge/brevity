@@ -17,16 +17,19 @@ import {launchImageLibrary} from 'react-native-image-picker';
 
 const EditProfile = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
-  const username = profileInfo.name.toLowerCase().replaceAll(' ', '');
   const [profileImage, setProfileImage] = useState(profileInfo.photo);
 
-  const [formData, setFormData] = useState({
-    fullName: profileInfo.name,
-    userName: username,
-    profileBio: '',
-    mailAddress: profileInfo.email,
-    socialLinks: ['', '', '', '', ''],
-  });
+  // const [formData, setFormData] = useState({
+  //   profilePhoto: profileImage,
+  //   fullName: profileInfo.name,
+  //   userName: username,
+  //   profileBio: '',
+  //   mailAddress: profileInfo.email,
+  //   linkFirst: '',
+  //   linkSecond: '',
+  //   linkThird: '',
+  //   linkForth: '',
+  // });
 
   const imagePicker = async () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
@@ -40,7 +43,6 @@ const EditProfile = () => {
       }
     });
   };
-
 
   return (
     <View style={styles.EditProfileView}>
@@ -63,14 +65,7 @@ const EditProfile = () => {
               placeholder={profileInfo.name}
             />
           </View>
-          <View style={styles.TextInputView}>
-            <Text style={styles.InputLabel}>Username</Text>
-            <TextInput
-              style={styles.TextInput}
-              placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder={username}
-            />
-          </View>
+
           <View style={styles.TextInputView}>
             <Text style={styles.InputLabel}>Bio</Text>
             <TextInput
@@ -80,12 +75,24 @@ const EditProfile = () => {
               placeholder="I love to code."
             />
           </View>
+
+          <View style={styles.TextInputView}>
+            <Text style={styles.InputLabel}>Username</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              placeholder={profileInfo.username}
+              editable={false}
+            />
+          </View>
+
           <View style={styles.TextInputView}>
             <Text style={styles.InputLabel}>Mail Address</Text>
             <TextInput
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
               placeholder={profileInfo.email}
+              editable={false}
             />
           </View>
           <View style={styles.TextInputView}>
@@ -94,17 +101,32 @@ const EditProfile = () => {
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder="veronajosephs@proton.me"
+                placeholder="Github"
               />
-              <Pressable style={styles.NewSocialAdd}>
+              <TextInput
+                style={styles.SocialTextInput}
+                placeholderTextColor={'rgba(0,0,0,0.3)'}
+                placeholder="LinkedIn"
+              />
+              <TextInput
+                style={styles.SocialTextInput}
+                placeholderTextColor={'rgba(0,0,0,0.3)'}
+                placeholder="YouTube"
+              />
+              <TextInput
+                style={styles.SocialTextInput}
+                placeholderTextColor={'rgba(0,0,0,0.3)'}
+                placeholder="Github"
+              />
+              {/* <Pressable style={styles.NewSocialAdd}>
                 <Image
                   style={{width: 28, height: 28, tintColor: 'black'}}
                   source={require('../../assets/images/icons/add-icon.png')}
                 />
-              </Pressable>
+              </Pressable> */}
             </View>
             {/* <Text style={{color: 'red', fontSize: 13}}>Enter a valid URL.</Text> */}
-            <View style={styles.SocialView}>
+            {/* <View style={styles.SocialView}>
               <Pressable
                 style={styles.SocialButton}
                 onPress={() => {
@@ -135,7 +157,7 @@ const EditProfile = () => {
                   source={require('../../assets/images/icons/socials/youtube-icon.png')}
                 />
               </Pressable>
-            </View>
+            </View> */}
           </View>
         </View>
       </ScrollView>
@@ -205,7 +227,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   SocialTextInput: {
-    width: '82%',
+    width: '100%',
     color: 'black',
     fontSize: 16,
     backgroundColor: '#f6f6f6',
@@ -233,7 +255,7 @@ const styles = StyleSheet.create({
   ActionBtn: {
     width: '95%',
     paddingHorizontal: 20,
-    paddingVertical: 14,
+    paddingVertical: 16,
     backgroundColor: 'black',
     borderRadius: 10,
   },
@@ -245,9 +267,10 @@ const styles = StyleSheet.create({
   },
   SocialInputView: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     width: '100%',
+    rowGap: 10,
   },
   NewSocialAdd: {
     backgroundColor: '#f6f6f6',
