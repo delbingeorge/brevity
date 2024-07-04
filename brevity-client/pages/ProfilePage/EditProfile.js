@@ -95,6 +95,7 @@ const EditProfile = () => {
               editable={false}
             />
           </View>
+          
           <View style={styles.TextInputView}>
             <Text style={styles.InputLabel}>Social</Text>
             <View style={styles.SocialInputView}>

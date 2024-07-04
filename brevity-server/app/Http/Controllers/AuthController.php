@@ -14,6 +14,7 @@ class AuthController extends Controller
           $username = $request->input('username');
           $email = $request->input('email');
           $photo = $request->input('photo');
+          $link = $request->input('link');
 
           $user = User::where('email', $email)->first();
 
@@ -26,6 +27,7 @@ class AuthController extends Controller
                     'username' => $username,
                     'email' => $email,
                     'photo' => $photo,
+                    'link' => $link
                ]);
 
                $newUser = true;

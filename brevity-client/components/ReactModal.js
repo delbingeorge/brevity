@@ -7,7 +7,6 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -38,7 +37,6 @@ const ReactModal = () => {
       //Must solve the username conflict
       const username = userInfo.user.name.toLowerCase().replaceAll(' ', '');
 
-      console.log(username);
       const response = await axios.post(
         // 'http://192.168.1.105:8000/api/google-signin',
         'http://10.0.2.2:8000/api/google-signin',
@@ -48,6 +46,7 @@ const ReactModal = () => {
           username: username,
           email: userInfo.user.email,
           photo: userInfo.user.photo,
+          link: '',
         },
       );
 

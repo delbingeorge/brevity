@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('photo');
+            $table->string('link')->nullable();
             $table->timestamps();
         });
     }
