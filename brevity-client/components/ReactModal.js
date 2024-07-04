@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
-import {authState, modalView, userInfo} from '../provider/RecoilStore';
+import {authState, modalView, newUser, userInfo} from '../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import {
   GoogleSignin,
@@ -20,11 +20,13 @@ import {
 } from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Burnt from 'burnt';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+  const [newUserState, setNewUserState] = useRecoilState(newUser);
   const [loading, setLoading] = useState(false);
 
   const signInWithGoogle = async () => {
@@ -34,6 +36,7 @@ const ReactModal = () => {
       const userInfo = await GoogleSignin.signIn();
       const response = await axios.post(
         'http://192.168.1.105:8000/api/google-signin',
+        // 'https://41e7-103-175-137-59.ngrok-free.app/api/google-signin',
         {
           name: userInfo.user.name,
           email: userInfo.user.email,
@@ -51,22 +54,52 @@ const ReactModal = () => {
           'authValue',
           JSON.stringify(response.data['authValue']),
         );
+        setNewUserState(response.data['newUser']);
         setAuthValue(response.data['authValue']);
         setShowModalView(false);
         setLoading(false);
       } else {
-        console.log(response.statusText);
+        Burnt.toast({
+          title: response.statusText,
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       }
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('Sign in was cancelled by the user.');
+        Burnt.toast({
+          title: 'Authentication cancelled by user!',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log('Sign in is already in progress.');
+        Burnt.toast({
+          title: 'Sign in is already in progress.',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('Google Play Services are not available or outdated.');
+        Burnt.toast({
+          title: 'Google Play Services are not available or outdated.',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       } else {
-        console.log('An unknown error occurred. Please try again.');
-        console.error(error);
+        Burnt.toast({
+          title: 'An unknown error occurred. Please try again.',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       }
     }
   };
@@ -123,14 +156,16 @@ const ReactModal = () => {
               }}
               source={require('../assets/images/logo/brevity-app-logo.png')}
             />
-            <View style={{marginVertical:15}}>
+            <View style={{marginVertical: 20}}>
               <Text
                 style={{
                   color: 'black',
                   textAlign: 'center',
                   fontFamily: 'Inter-Medium',
                 }}>
-                Hold on for a moment
+                {/* Hold on for a moment */}
+                {/* Brewing code coffee... */}
+                Hang tight!
               </Text>
               <Text
                 style={{
@@ -138,7 +173,20 @@ const ReactModal = () => {
                   textAlign: 'center',
                   fontFamily: 'Inter-Medium',
                 }}>
-                We are setting up brevity!
+                {/* We are setting up brevity! */}
+                {/* Please wait! */}
+                We're brewing some fresh code coffee.
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  textAlign: 'center',
+                  fontFamily: 'Inter-Medium',
+                }}>
+                {/* We are setting up brevity! */}
+                {/* Please wait! */}
+                {/* We're brewing some fresh code coffee. */}
+                This won't take long!
               </Text>
             </View>
             <ActivityIndicator size="large" color="#00ff00" />
@@ -225,9 +273,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     paddingHorizontal: 20,
-    paddingVertical: 25,
+    paddingVertical: 40,
     backgroundColor: 'white',
-    // height: Dimensions.get('screen').height / 2.9,
     width: Dimensions.get('screen').width,
   },
   AuthInnerView: {
@@ -257,7 +304,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 10,
     backgroundColor: '#F6F6F6',
-    paddingVertical: 11,
+    paddingVertical: 14,
     paddingHorizontal: 18,
   },
   AuthBtnText: {color: 'black', fontSize: 19, fontFamily: 'Inter-Medium'},

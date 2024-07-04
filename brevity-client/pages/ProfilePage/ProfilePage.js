@@ -45,7 +45,6 @@ const ProfilePage = () => {
           <View style={styles.AccountSettings}>
             <TouchableOpacity
               onPress={() => {
-                console.log('Navigating to EditProfile');
                 navigation.navigate('EditProfile');
               }}
               style={styles.Settings}>
@@ -67,7 +66,6 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to ProfileRank');
                 navigation.navigate('ProfileRank');
               }}>
               <Image
@@ -79,7 +77,6 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to Your Lists');
                 navigation.navigate('YourLists');
               }}>
               <Image
@@ -91,7 +88,6 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to Posted Issues');
                 navigation.navigate('YourLists');
               }}>
               <Image
@@ -110,7 +106,6 @@ const ProfilePage = () => {
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                console.log('Navigating to Settings');
                 navigation.navigate('SettingsPage');
               }}>
               <Image

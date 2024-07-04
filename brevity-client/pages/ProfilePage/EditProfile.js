@@ -5,7 +5,6 @@ import {
   Linking,
   Pressable,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -14,21 +13,41 @@ import {
 } from 'react-native';
 import {userInfo} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const EditProfile = () => {
-  const profileInfo = useRecoilState(userInfo);
-  const username = profileInfo[0].name.toLowerCase().replaceAll(' ', '');
-  // console.log(profileInfo)
+  const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
+  const username = profileInfo.name.toLowerCase().replaceAll(' ', '');
+  const [profileImage, setProfileImage] = useState(profileInfo.photo);
+
+  const [formData, setFormData] = useState({
+    fullName: profileInfo.name,
+    userName: username,
+    profileBio: '',
+    mailAddress: profileInfo.email,
+    socialLinks: ['', '', '', '', ''],
+  });
+
+  const imagePicker = async () => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
+      if (response.didCancel) {
+        console.log('user cancelled');
+      } else if (response.errorCode) {
+        console.log('Image picker error', response.errorMessage);
+      } else if (response.assets && response.assets.length > 0) {
+        const selectedImage = response.assets[0].uri;
+        setProfileImage(selectedImage);
+      }
+    });
+  };
+
+
   return (
     <View style={styles.EditProfileView}>
-      {/* <Text>Update your profile</Text> */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ProfileDetails}>
-          <Image
-            style={styles.ProfileImage}
-            source={{uri: profileInfo[0].photo}}
-          />
-          <Pressable style={styles.UploadBtn}>
+          <Image style={styles.ProfileImage} source={{uri: profileImage}} />
+          <Pressable style={styles.UploadBtn} onPress={imagePicker}>
             <Image
               style={styles.UploadIcon}
               source={require('../../assets/images/icons/image-upload-icon-bk.png')}
@@ -41,7 +60,7 @@ const EditProfile = () => {
             <TextInput
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder={profileInfo[0].name}
+              placeholder={profileInfo.name}
             />
           </View>
           <View style={styles.TextInputView}>
@@ -66,7 +85,7 @@ const EditProfile = () => {
             <TextInput
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder={profileInfo[0].email}
+              placeholder={profileInfo.email}
             />
           </View>
           <View style={styles.TextInputView}>

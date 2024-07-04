@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {
   Button,
   Image,
+  KeyboardAvoidingView,
   Pressable,
   StatusBar,
   StyleSheet,
@@ -28,7 +29,7 @@ const ExplorePage = () => {
   };
 
   return (
-    <View style={styles.ExplorePageView}>
+    <KeyboardAvoidingView style={styles.ExplorePageView}>
       <View style={styles.SearchInput}>
         <TextInput
           placeholder="Search"
@@ -43,7 +44,7 @@ const ExplorePage = () => {
           />
         </Pressable>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -53,9 +54,13 @@ const styles = StyleSheet.create({
   ExplorePageView: {flex: 1, backgroundColor: 'white', paddingHorizontal: 15},
   SearchInput: {
     marginTop: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#F9F9F9',
     fontFamily: 'Inter-Medium',
-    paddingVertical: 10,
+    paddingVertical: 2,
     paddingHorizontal: 12,
     borderRadius: 5,
   },

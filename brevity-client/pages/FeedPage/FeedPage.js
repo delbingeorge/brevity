@@ -8,10 +8,16 @@ import {
   Pressable,
   ScrollView,
   StatusBar,
+  Text,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
-import {authState, modalView} from '../../provider/RecoilStore';
+import {
+  authState,
+  modalView,
+  newUser,
+  userInfo,
+} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import ReactModal from '../../components/ReactModal';
 // import * as Burnt from 'burnt';
@@ -20,6 +26,7 @@ const FeedPage = () => {
   const navigation = useNavigation();
   const authValue = useRecoilState(authState);
   const [showModalView, setShowModalView] = useRecoilState(modalView);
+  const [newUserState, setNewUserState] = useRecoilState(newUser);
 
   return (
     <SafeAreaView style={styles.MainView}>
@@ -46,7 +53,6 @@ const FeedPage = () => {
           style={{display: authValue[0] == true ? 'none' : 'flex'}}
           onPress={() => {
             setShowModalView(true);
-            console.log('Auth profile button clicked!');
           }}>
           <Image
             style={styles.CrownRank}
@@ -71,7 +77,7 @@ const FeedPage = () => {
           height: 45,
           width: 45,
           borderRadius: 50,
-          display: authValue == true ? 'flex' : 'none',
+          display: authValue[0] == true ? 'flex' : 'none',
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
@@ -85,6 +91,14 @@ const FeedPage = () => {
         />
       </TouchableOpacity>
       {showModalView === true ? <ReactModal /> : ''}
+
+      {/* {newUserState == true ? (
+        <View style={{backgroundColor: 'red', position: 'absolute', top: 0}}>
+          <Text style={{color: 'green'}}>Howllo</Text>
+        </View>
+      ) : (
+        console.log('old user')
+      )} */}
     </SafeAreaView>
   );
 };
