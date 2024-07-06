@@ -3,7 +3,6 @@ import {
   Image,
   Linking,
   Pressable,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -160,46 +159,62 @@ const ProfilePage = () => {
             </Text>
           </View>
           <View style={styles.SocialView}>
-            <Pressable
-              style={styles.SocialButton}
-              onPress={() => {
-                Linking.openURL('https://www.delb.in');
-              }}>
-              <Image
-                style={styles.SocialIcon}
-                source={require('../../assets/images/icons/socials/github-icon.png')}
-              />
-            </Pressable>
-            <Pressable
-              style={styles.SocialButton}
-              onPress={() => {
-                Linking.openURL('https://www.delb.in');
-              }}>
-              <Image
-                style={styles.SocialIcon}
-                source={require('../../assets/images/icons/socials/linkedin-icon.png')}
-              />
-            </Pressable>
-            <Pressable
-              style={styles.SocialButton}
-              onPress={() => {
-                Linking.openURL('https://www.delb.in');
-              }}>
-              <Image
-                style={styles.SocialIcon}
-                source={require('../../assets/images/icons/socials/youtube-icon.png')}
-              />
-            </Pressable>
-            <Pressable
-              style={styles.SocialButton}
-              onPress={() => {
-                Linking.openURL('https://www.delb.in');
-              }}>
-              <Image
-                style={styles.SocialIcon}
-                source={require('../../assets/images/icons/socials/external-icon.png')}
-              />
-            </Pressable>
+            {profileInfo[0].linkFirst != 'null' ? (
+              <Pressable
+                style={styles.SocialButton}
+                onPress={() => {
+                  Linking.openURL(profileInfo[0].linkFirst);
+                }}>
+                <Image
+                  style={styles.SocialIcon}
+                  source={require('../../assets/images/icons/socials/github-icon.png')}
+                />
+              </Pressable>
+            ) : (
+              ''
+            )}
+            {profileInfo[0].linkSecond != 'null' ? (
+              <Pressable
+                style={styles.SocialButton}
+                onPress={() => {
+                  Linking.openURL(profileInfo[0].linkSecond);
+                }}>
+                <Image
+                  style={styles.SocialIcon}
+                  source={require('../../assets/images/icons/socials/linkedin-icon.png')}
+                />
+              </Pressable>
+            ) : (
+              ''
+            )}
+            {profileInfo[0].linkThird != 'null' ? (
+              <Pressable
+                style={styles.SocialButton}
+                onPress={() => {
+                  Linking.openURL(profileInfo[0].linkThird);
+                }}>
+                <Image
+                  style={styles.SocialIcon}
+                  source={require('../../assets/images/icons/socials/youtube-icon.png')}
+                />
+              </Pressable>
+            ) : (
+              ''
+            )}
+            {profileInfo[0].linkForth != 'null' ? (
+              <Pressable
+                style={styles.SocialButton}
+                onPress={() => {
+                  Linking.openURL(profileInfo[0].linkForth);
+                }}>
+                <Image
+                  style={styles.SocialIcon}
+                  source={require('../../assets/images/icons/socials/external-icon.png')}
+                />
+              </Pressable>
+            ) : (
+              ''
+            )}
           </View>
         </View>
       </ReactNativeModal>
@@ -257,7 +272,7 @@ const styles = StyleSheet.create({
   ProfileModal: {
     borderRadius: 25,
     paddingHorizontal: 20,
-    paddingVertical: 50,
+    paddingVertical: 40,
     backgroundColor: 'white',
     display: 'flex',
     alignItems: 'center',

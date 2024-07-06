@@ -84,7 +84,7 @@ const EditProfile = () => {
       );
 
       if (response.status === 200) {
-        console.log(response.data);
+        setProfileInfo(response.data.user);
         navigation.navigate('ProfilePage');
         Burnt.toast({
           title: 'Profile Updated!',
