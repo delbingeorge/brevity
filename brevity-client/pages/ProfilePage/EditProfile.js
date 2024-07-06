@@ -22,11 +22,11 @@ const EditProfile = () => {
   const navigation = useNavigation();
 
   const [formData, setFormData] = useState({
-    profilePhoto: profileImage,
     fullName: profileInfo.name,
     userName: profileInfo.username,
-    profileBio: profileInfo.bio,
     mailAddress: profileInfo.email,
+    profileBio: profileInfo.bio,
+    profilePhoto: profileImage,
     linkFirst: profileInfo.linkFirst,
     linkSecond: profileInfo.linkSecond,
     linkThird: profileInfo.linkThird,
@@ -44,7 +44,11 @@ const EditProfile = () => {
         setProfileImage(selectedImage);
         setFormData(prevState => ({
           ...prevState,
-          profilePhoto: response.assets,
+          profilePhoto: {
+            uri: selectedImage,
+            type: response.assets[0].type,
+            name: response.assets[0].fileName,
+          },
         }));
       }
     });
@@ -52,25 +56,35 @@ const EditProfile = () => {
 
   const formHandler = async () => {
     try {
-      const updatedProfile = {
-        ...profileInfo,
-        photo: formData.profilePhoto,
-        name: formData.fullName,
-        username: formData.userName,
-        email: formData.mailAddress,
-        bio: formData.profileBio,
-        linkFirst: formData.linkFirst,
-        linkSecond: formData.linkSecond,
-        linkThird: formData.linkThird,
-        linkForth: formData.linkForth,
-      };
+      const data = new FormData();
+      data.append('name', formData.fullName);
+      data.append('username', formData.userName);
+      data.append('email', formData.mailAddress);
+      data.append('bio', formData.profileBio);
+      if (formData.profilePhoto.uri) {
+        data.append('photo', {
+          uri: formData.profilePhoto.uri,
+          type: formData.profilePhoto.type,
+          name: formData.profilePhoto.name,
+        });
+      }
+      data.append('linkFirst', formData.linkFirst);
+      data.append('linkSecond', formData.linkSecond);
+      data.append('linkThird', formData.linkThird);
+      data.append('linkForth', formData.linkForth);
 
       const response = await axios.post(
         'http://192.168.1.105:8000/api/profile/update',
-        updatedProfile,
+        data,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
 
-      if (response.status == 200) {
+      if (response.status === 200) {
+        console.log(response.data);
         navigation.navigate('ProfilePage');
         Burnt.toast({
           title: 'Profile Updated!',
@@ -97,7 +111,17 @@ const EditProfile = () => {
     <View style={styles.EditProfileView}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ProfileDetails}>
-          <Image style={styles.ProfileImage} source={{uri: profileImage}} />
+          <Image
+            style={styles.ProfileImage}
+            source={
+              profileImage &&
+              profileImage.startsWith('https://lh3.googleusercontent.com')
+                ? {uri: profileImage}
+                : formData.profilePhoto.uri
+                ? {uri: formData.profilePhoto.uri}
+                : {uri: `http://192.168.1.105:8000/storage/${profileImage}`}
+            }
+          />
           <TouchableOpacity style={styles.UploadBtn} onPress={imagePicker}>
             <Image
               style={styles.UploadIcon}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
@@ -15,6 +16,7 @@ class ProfileController extends Controller
             'email' => 'required|email|max:255',
             'name' => 'nullable|string|max:255',
             'bio' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'linkFirst' => 'nullable|string|max:255',
             'linkSecond' => 'nullable|string|max:255',
             'linkThird' => 'nullable|string|max:255',
@@ -35,7 +37,15 @@ class ProfileController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
 
-        $photo = $request->input('photo');
+        if ($request->hasFile('photo')) {
+
+            if ($user->photo) {
+                Storage::delete('public/' . $user->photo);
+            }
+
+            $path = $request->file('photo')->store('profile_photos', 'public');
+            $user->photo =  $path;
+        }
 
         $user->name = $request->input('name');
         $user->username = $request->input('username');
@@ -48,6 +58,6 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return response()->json(['user' => $photo, 'message' => 'Profile updated successfully']);
+        return response()->json(['user' => $user, 'message' => 'Profile updated successfully']);
     }
 }

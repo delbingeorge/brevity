@@ -34,9 +34,12 @@ const ProfilePage = () => {
         <Image
           style={styles.ProfileImage}
           source={
-            profileInfo[0].photo
+            profileInfo[0].photo &&
+            profileInfo[0].photo.startsWith('https://lh3.googleusercontent.com')
               ? {uri: profileInfo[0].photo}
-              : require('../../assets/images/icons/user-default-image.png')
+              : {
+                  uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
+                }
           }
         />
         <Text style={styles.ProfileName}>{profileInfo[0].name}</Text>
@@ -137,9 +140,14 @@ const ProfilePage = () => {
           <Image
             style={styles.ProfileImage}
             source={
-              profileInfo[0].photo
+              profileInfo[0].photo &&
+              profileInfo[0].photo.startsWith(
+                'https://lh3.googleusercontent.com',
+              )
                 ? {uri: profileInfo[0].photo}
-                : require('../../assets/images/icons/user-default-image.png')
+                : {
+                    uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
+                  }
             }
           />
           <Text style={styles.ProfileName}>{profileInfo[0].name}</Text>
