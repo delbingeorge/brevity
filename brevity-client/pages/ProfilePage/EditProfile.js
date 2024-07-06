@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
-  Linking,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,34 +12,85 @@ import {
 import {userInfo} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import {launchImageLibrary} from 'react-native-image-picker';
+import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
+import * as Burnt from 'burnt';
 
 const EditProfile = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [profileImage, setProfileImage] = useState(profileInfo.photo);
+  const navigation = useNavigation();
 
-  // const [formData, setFormData] = useState({
-  //   profilePhoto: profileImage,
-  //   fullName: profileInfo.name,
-  //   userName: username,
-  //   profileBio: '',
-  //   mailAddress: profileInfo.email,
-  //   linkFirst: '',
-  //   linkSecond: '',
-  //   linkThird: '',
-  //   linkForth: '',
-  // });
+  const [formData, setFormData] = useState({
+    profilePhoto: profileImage,
+    fullName: profileInfo.name,
+    userName: profileInfo.username,
+    profileBio: profileInfo.bio,
+    mailAddress: profileInfo.email,
+    linkFirst: profileInfo.linkFirst,
+    linkSecond: profileInfo.linkSecond,
+    linkThird: profileInfo.linkThird,
+    linkForth: profileInfo.linkForth,
+  });
 
   const imagePicker = async () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
       if (response.didCancel) {
-        console.log('user cancelled');
+        console.log('User cancelled image picker');
       } else if (response.errorCode) {
         console.log('Image picker error', response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
         const selectedImage = response.assets[0].uri;
         setProfileImage(selectedImage);
+        setFormData(prevState => ({
+          ...prevState,
+          profilePhoto: response.assets,
+        }));
       }
     });
+  };
+
+  const formHandler = async () => {
+    try {
+      const updatedProfile = {
+        ...profileInfo,
+        photo: formData.profilePhoto,
+        name: formData.fullName,
+        username: formData.userName,
+        email: formData.mailAddress,
+        bio: formData.profileBio,
+        linkFirst: formData.linkFirst,
+        linkSecond: formData.linkSecond,
+        linkThird: formData.linkThird,
+        linkForth: formData.linkForth,
+      };
+
+      const response = await axios.post(
+        'http://192.168.1.105:8000/api/profile/update',
+        updatedProfile,
+      );
+
+      if (response.status == 200) {
+        navigation.navigate('ProfilePage');
+        Burnt.toast({
+          title: 'Profile Updated!',
+        });
+      } else {
+        navigation.navigate('ProfilePage');
+        Burnt.toast({
+          title: response.statusText,
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleInputChange = (name, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (
@@ -49,12 +98,12 @@ const EditProfile = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ProfileDetails}>
           <Image style={styles.ProfileImage} source={{uri: profileImage}} />
-          <Pressable style={styles.UploadBtn} onPress={imagePicker}>
+          <TouchableOpacity style={styles.UploadBtn} onPress={imagePicker}>
             <Image
               style={styles.UploadIcon}
               source={require('../../assets/images/icons/image-upload-icon-bk.png')}
             />
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <View style={{gap: 8, marginBottom: 80}}>
           <View style={styles.TextInputView}>
@@ -63,6 +112,8 @@ const EditProfile = () => {
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
               placeholder={profileInfo.name}
+              value={formData.fullName}
+              onChangeText={value => handleInputChange('fullName', value)}
             />
           </View>
 
@@ -72,7 +123,9 @@ const EditProfile = () => {
               style={styles.TextInput}
               maxLength={30}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder="I love to code."
+              placeholder={profileInfo.profileBio}
+              value={formData.profileBio}
+              onChangeText={value => handleInputChange('profileBio', value)}
             />
           </View>
 
@@ -82,6 +135,7 @@ const EditProfile = () => {
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
               placeholder={profileInfo.username}
+              // value={formData.userName}
               editable={false}
             />
           </View>
@@ -92,81 +146,48 @@ const EditProfile = () => {
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
               placeholder={profileInfo.email}
+              // value={formData.mailAddress}
               editable={false}
             />
           </View>
-          
+
           <View style={styles.TextInputView}>
             <Text style={styles.InputLabel}>Social</Text>
             <View style={styles.SocialInputView}>
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder="Github"
+                placeholder={profileInfo.linkFirst}
+                value={formData.linkFirst}
+                onChangeText={value => handleInputChange('linkFirst', value)}
               />
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder="LinkedIn"
+                placeholder={profileInfo.linkSecond}
+                value={formData.linkSecond}
+                onChangeText={value => handleInputChange('linkSecond', value)}
               />
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder="YouTube"
+                placeholder={profileInfo.linkThird}
+                value={formData.linkThird}
+                onChangeText={value => handleInputChange('linkThird', value)}
               />
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder="Github"
+                placeholder={profileInfo.linkForth}
+                value={formData.linkForth}
+                onChangeText={value => handleInputChange('linkForth', value)}
               />
-              {/* <Pressable style={styles.NewSocialAdd}>
-                <Image
-                  style={{width: 28, height: 28, tintColor: 'black'}}
-                  source={require('../../assets/images/icons/add-icon.png')}
-                />
-              </Pressable> */}
             </View>
-            {/* <Text style={{color: 'red', fontSize: 13}}>Enter a valid URL.</Text> */}
-            {/* <View style={styles.SocialView}>
-              <Pressable
-                style={styles.SocialButton}
-                onPress={() => {
-                  Linking.openURL('https://www.delb.in');
-                }}>
-                <Image
-                  style={styles.SocialIcon}
-                  source={require('../../assets/images/icons/socials/github-icon.png')}
-                />
-              </Pressable>
-              <Pressable
-                style={styles.SocialButton}
-                onPress={() => {
-                  Linking.openURL('https://www.delb.in');
-                }}>
-                <Image
-                  style={styles.SocialIcon}
-                  source={require('../../assets/images/icons/socials/linkedin-icon.png')}
-                />
-              </Pressable>
-              <Pressable
-                style={styles.SocialButton}
-                onPress={() => {
-                  Linking.openURL('https://www.delb.in');
-                }}>
-                <Image
-                  style={styles.SocialIcon}
-                  source={require('../../assets/images/icons/socials/youtube-icon.png')}
-                />
-              </Pressable>
-            </View> */}
           </View>
         </View>
       </ScrollView>
       <View style={styles.EditActionBtn}>
-        {/* <TouchableOpacity style={styles.ActionBtnDiscard}>
-          <Text style={styles.BtnText}>Discard</Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity style={styles.ActionBtn}>
+        <TouchableOpacity style={styles.ActionBtn} onPress={formHandler}>
           <Text style={styles.BtnText}>Save Profile</Text>
         </TouchableOpacity>
       </View>
@@ -184,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ProfileDetails: {
-    marginVertical: 35,
+    marginVertical: 10,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -229,12 +250,14 @@ const styles = StyleSheet.create({
   },
   SocialTextInput: {
     width: '100%',
+    height: 50,
     color: 'black',
     fontSize: 16,
     backgroundColor: '#f6f6f6',
     paddingLeft: 10,
     fontFamily: 'Inter-Medium',
     borderRadius: 5,
+    flexGrow: 1,
   },
   EditActionBtn: {
     position: 'absolute',

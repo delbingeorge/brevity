@@ -34,24 +34,31 @@ const ReactModal = () => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
-      //Must solve the username conflict
-      const username = userInfo.user.name.toLowerCase().replaceAll(' ', '');
+      // const username = userInfo.user.name.toLowerCase().replaceAll(' ', '');
+      const username = userInfo.user.email.split('@');
 
       const response = await axios.post(
-        // 'http://192.168.1.105:8000/api/google-signin',
-        'http://10.0.2.2:8000/api/google-signin',
-        // 'https://41e7-103-175-137-59.ngrok-free.app/api/google-signin',
+        'http://192.168.1.105:8000/api/google-signin',
+        // 'http://10.0.2.2:8000/api/google-signin',
         {
           name: userInfo.user.name,
-          username: username,
+          username: username[0],
           email: userInfo.user.email,
+          bio: 'i love to code.',
           photo: userInfo.user.photo,
-          link: '',
+          linkFirst: 'https://github.com/',
+          linkSecond: 'https://www.linkedin.com/',
+          linkThird: 'https://www.example.com/',
+          linkForth: '',
         },
       );
 
       if (response.status == 200) {
         setUserInfoState(response.data.user);
+        await AsyncStorage.setItem(
+          'authToken',
+          JSON.stringify(response.data.token),
+        );
         await AsyncStorage.setItem(
           'userInfo',
           JSON.stringify(response.data.user),

@@ -13,8 +13,12 @@ class AuthController extends Controller
           $name = $request->input('name');
           $username = $request->input('username');
           $email = $request->input('email');
+          $bio = $request->input('bio');
           $photo = $request->input('photo');
-          $link = $request->input('link');
+          $linkFirst = $request->input('linkFirst');
+          $linkSecond = $request->input('linkSecond');
+          $linkThird = $request->input('linkThird');
+          $linkForth = $request->input('linkForth');
 
           $user = User::where('email', $email)->first();
 
@@ -26,8 +30,12 @@ class AuthController extends Controller
                     'name' => $name,
                     'username' => $username,
                     'email' => $email,
+                    'bio' => $bio,
                     'photo' => $photo,
-                    'link' => $link
+                    'linkFirst' => $linkFirst,
+                    'linkSecond' => $linkSecond,
+                    'linkThird' => $linkThird,
+                    'linkForth' => $linkForth
                ]);
 
                $newUser = true;

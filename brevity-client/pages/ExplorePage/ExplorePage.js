@@ -29,22 +29,30 @@ const ExplorePage = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.ExplorePageView}>
+    <View style={styles.ExplorePageView}>
       <View style={styles.SearchInput}>
         <TextInput
           placeholder="Search"
           placeholderTextColor={'black'}
           value={searchText}
           onChangeText={setSearchText}
+          style={{
+            fontSize: 15,
+            color: 'black',
+            width: '85%',
+          }}
         />
         <Pressable>
           <Image
-            style={{width: 24, height: 24}}
+            style={{width: 25, height: 25}}
             source={require('../../assets/images/icons/search-icon-bk.png')}
           />
         </Pressable>
       </View>
-    </KeyboardAvoidingView>
+      <View>
+        <Text>Top Lists</Text>
+      </View>
+    </View>
   );
 };
 
@@ -58,9 +66,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#f8f8f8',
     fontFamily: 'Inter-Medium',
-    paddingVertical: 2,
     paddingHorizontal: 12,
     borderRadius: 5,
   },

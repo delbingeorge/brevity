@@ -18,8 +18,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->string('bio')->nullable();
             $table->string('photo');
-            $table->string('link')->nullable();
+            $table->string('linkFirst')->nullable();
+            $table->string('linkSecond')->nullable();
+            $table->string('linkThird')->nullable();
+            $table->string('linkForth')->nullable();
             $table->timestamps();
         });
     }

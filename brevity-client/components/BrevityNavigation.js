@@ -1,20 +1,23 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+// Module imports
+import {useRecoilState} from 'recoil';
 import {Image, StyleSheet} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useEffect} from 'react';
+import {authState, userInfo} from '../provider/RecoilStore';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Component imports
 import IssuePostForm from '../pages/IssuePostForm/IssuePostForm';
 import ProfileRank from '../pages/ProfileRank/ProfileRank';
 import FeedPage from '../pages/FeedPage/FeedPage';
 import ExplorePage from '../pages/ExplorePage/ExplorePage';
 import ListsPage from '../pages/ListsPage/ListsPage';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import YourLists from '../pages/ProfilePage/YourLists';
 import SettingsPage from '../pages/ProfilePage/SettingsPage';
 import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
-import {useRecoilState} from 'recoil';
-import {authState, userInfo} from '../provider/RecoilStore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useEffect} from 'react';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -47,7 +50,7 @@ function TabNavigation() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          display: authValue == true ? 'flex' : 'none'
+          display: authValue == true ? 'flex' : 'none',
         },
       }}>
       <TabRoute.Screen
@@ -160,7 +163,7 @@ function BrevityNavigation() {
       />
       <StackRoute.Screen
         name="EditProfile"
-        options={{headerShown: false}}
+        options={{headerShown: true}}
         component={EditProfile}
       />
       <StackRoute.Screen name="YourLists" component={YourLists} />
