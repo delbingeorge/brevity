@@ -7,5 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lists extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'list_name', 'description',
+    ];
+
+    // Relationships
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+
+    public function issues()
+    {
+        return $this->hasMany(Issue::class);
+    }
 }

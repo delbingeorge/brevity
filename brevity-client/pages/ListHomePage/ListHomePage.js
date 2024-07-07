@@ -1,9 +1,19 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import ListFeedPage from './ListNavigation/ListFeedPage/ListFeedPage';
 import ListInsights from './ListNavigation/ListInsights/ListInsights';
 import ListRanking from './ListNavigation/ListRanking/ListRanking';
+import axios from 'axios';
+import {useRecoilState} from 'recoil';
+import {userInfo} from '../../provider/RecoilStore';
 
 const ListHomePage = () => {
   const [renderComponent, setRenderComponent] = useState('ListFeedPage');
@@ -11,10 +21,63 @@ const ListHomePage = () => {
   const navigation = useNavigation();
   const {item} = data.params;
   const [listJoin, setListJoin] = useState(false);
+  const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
+  const [loading, setLoading] = useState(false);
+  const [listArray, setListArray] = useState([]);
 
-  const ListJoinLogic = () => {
-    setListJoin(!listJoin);
-    console.log('Clicked!');
+  useEffect(() => {
+    const getListArray = async () => {
+      try {
+        const response = await axios.post(
+          'http://192.168.1.105:8000/api/get-joined-list-names',
+          {user_id: profileInfo.id},
+        );
+        if (response.status == 200) {
+          setListArray(response.data);
+        } else {
+          console.log(response.statusText);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getListArray();
+  }, [listJoin]);
+
+  console.log(listArray);
+
+  const ListJoinLogic = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        'http://192.168.1.105:8000/api/join-list',
+        {list_id: item.id, user_id: profileInfo.id},
+      );
+      if (response.status == 200) {
+        setListJoin(!listJoin);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const ListLeaveLogic = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        'http://192.168.1.105:8000/api/leave-list',
+        {list_id: item.id, user_id: profileInfo.id},
+      );
+      if (response.status == 200) {
+        setListJoin(!listJoin);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderViewLogic = () => {
@@ -79,20 +142,19 @@ const ListHomePage = () => {
             <Text style={styles.HeaderIconText}>30k</Text>
           </View>
         </View>
-        <Pressable onPress={ListJoinLogic}>
-          <Text
-            style={{
-              backgroundColor: listJoin == true ? 'rgba(0,0,0,1)' : 'black',
-              paddingVertical: 10,
-              borderRadius: 8,
-              textAlign: 'center',
-              color: 'white',
-              fontFamily: 'Inter-Medium',
-              fontSize: 15,
-            }}>
-            {listJoin == true ? 'Joined' : 'Join List'}
-          </Text>
-        </Pressable>
+        {listArray.includes(item.id) ? (
+          <Pressable onPress={ListLeaveLogic}>
+            <Text style={styles.ListLeaveBtn}>
+              {loading == true ? <ActivityIndicator /> : 'Leave List'}
+            </Text>
+          </Pressable>
+        ) : (
+          <Pressable onPress={ListJoinLogic}>
+            <Text style={styles.ListJoinBtn}>
+              {loading == true ? <ActivityIndicator /> : 'Join List'}
+            </Text>
+          </Pressable>
+        )}
       </View>
 
       <View
@@ -140,7 +202,11 @@ const ListHomePage = () => {
 export default ListHomePage;
 
 const styles = StyleSheet.create({
-  ListHomePageView: {flex: 1, backgroundColor: 'white', paddingHorizontal: 15},
+  ListHomePageView: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingHorizontal: 15,
+  },
   GoBack: {
     backgroundColor: 'white',
     display: 'flex',
@@ -218,5 +284,23 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Medium',
     fontSize: 20,
     color: 'black',
+  },
+  ListJoinBtn: {
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    borderRadius: 8,
+    textAlign: 'center',
+    color: 'white',
+    fontFamily: 'Inter-Medium',
+    fontSize: 15,
+  },
+  ListLeaveBtn: {
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    paddingVertical: 10,
+    borderRadius: 8,
+    textAlign: 'center',
+    color: 'white',
+    fontFamily: 'Inter-Medium',
+    fontSize: 15,
   },
 });

@@ -14,11 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_lists', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('list_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('list_id')->constrained()->onDelete('cascade');
             $table->primary(['user_id', 'list_id']);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('list_id')->references('id')->on('lists')->onDelete('cascade');
         });
     }
 

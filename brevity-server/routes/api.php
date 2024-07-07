@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\IssuePostController;
+use App\Http\Controllers\ListController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -29,9 +30,10 @@ Route::post('/post-issue', [IssuePostController::class, 'postIssue']);
 
 Route::post('/explore-search', [ExploreController::class, 'exploreSearch']);
 
+Route::post('/join-list', [ListController::class, 'joinList']);
 
+Route::post('/leave-list', [ListController::class, 'leaveList']);
 
+Route::post('/get-all-lists', [ListController::class, 'getMyLists']);
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::post('/get-joined-list-names', [ListController::class, 'getJoinedLists']);

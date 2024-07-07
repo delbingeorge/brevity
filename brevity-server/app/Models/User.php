@@ -29,7 +29,18 @@ class User extends Authenticatable
         'linkForth',
     ];
 
+    public function issues()
+    {
+        return $this->hasMany(Issue::class);
+    }
+
+    public function lists()
+    {
+        return $this->belongsToMany(Lists::class, 'user_lists', 'user_id', 'list_id');
+    }
+
     /**
+     * 
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>

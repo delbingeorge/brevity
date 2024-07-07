@@ -17,6 +17,7 @@ import {
 
 const ExplorePage = () => {
   const [searchText, setSearchText] = useState('');
+  const [reqText, setReqText] = useState('');
   const [searchRes, setSearchRes] = useState([]);
   const navigation = useNavigation();
 
@@ -29,7 +30,8 @@ const ExplorePage = () => {
 
       if (response.status == 200) {
         setSearchRes(response.data['searchResponse']);
-        console.log(response.data['searchResponse']);
+        setReqText(response.data['searchRequest']);
+        // console.log(response.data['searchRequest']);
       } else {
         console.log(response.statusText);
       }
@@ -89,12 +91,12 @@ const ExplorePage = () => {
           backgroundColor: 'rgba(0,0,0,0.1)',
         }}></View>
 
-      {searchRes.length > 0 ? (
+      {searchRes.length != 0 ? (
         <View>
           <View style={styles.ResultView}>
             <View style={styles.ResultTextView}>
               <Text style={styles.ResponseText}>Result for</Text>
-              <Text style={styles.ResponseSearchText}>"{searchText}"</Text>
+              <Text style={styles.ResponseSearchText}>"{reqText}"</Text>
             </View>
             <Pressable
               onPress={() => {
