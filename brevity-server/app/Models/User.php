@@ -29,11 +29,6 @@ class User extends Authenticatable
         'linkForth',
     ];
 
-    public function issues()
-    {
-        return $this->hasMany(Issue::class);
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -52,9 +47,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function lists()
-    {
-        return $this->belongsToMany(Lists::class, 'user_lists');
-    }
 }
