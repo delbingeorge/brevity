@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\IssuePostController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -22,6 +24,11 @@ use App\Http\Controllers\ProfileController;
 Route::post('/google-signin', [AuthController::class, 'googleSignIn']);
 
 Route::post('/profile/update', [ProfileController::class, 'editProfile']);
+
+Route::post('/post-issue', [IssuePostController::class, 'postIssue']);
+
+Route::post('/explore-search', [ExploreController::class, 'exploreSearch']);
+
 
 
 

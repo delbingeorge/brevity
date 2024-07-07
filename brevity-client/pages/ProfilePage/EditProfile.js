@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,6 +22,7 @@ const EditProfile = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [profileImage, setProfileImage] = useState(profileInfo.photo);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: profileInfo.name,
@@ -56,6 +59,7 @@ const EditProfile = () => {
 
   const formHandler = async () => {
     try {
+      setLoading(true);
       const data = new FormData();
       data.append('name', formData.fullName);
       data.append('username', formData.userName);
@@ -97,6 +101,8 @@ const EditProfile = () => {
       }
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,6 +115,17 @@ const EditProfile = () => {
 
   return (
     <View style={styles.EditProfileView}>
+      <Pressable
+        onPress={() => {
+          navigation.goBack();
+        }}
+        style={styles.GoBack}>
+        <Image
+          style={styles.GoBackIcon}
+          source={require('../../assets/images/icons/go-back-bk.png')}
+        />
+        <Text style={styles.GoBackText}>Settings</Text>
+      </Pressable>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ProfileDetails}>
           <Image
@@ -136,7 +153,7 @@ const EditProfile = () => {
               style={styles.TextInput}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
               placeholder={profileInfo.name}
-              value={formData.fullName}
+              // value={formData.fullName}
               onChangeText={value => handleInputChange('fullName', value)}
             />
           </View>
@@ -147,8 +164,8 @@ const EditProfile = () => {
               style={styles.TextInput}
               maxLength={30}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
-              placeholder={profileInfo.profileBio}
-              value={formData.profileBio}
+              placeholder={profileInfo.bio}
+              // value={formData.profileBio}
               onChangeText={value => handleInputChange('profileBio', value)}
             />
           </View>
@@ -182,28 +199,28 @@ const EditProfile = () => {
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
                 placeholder={profileInfo.linkFirst}
-                value={formData.linkFirst}
+                // value={formData.linkFirst}
                 onChangeText={value => handleInputChange('linkFirst', value)}
               />
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
                 placeholder={profileInfo.linkSecond}
-                value={formData.linkSecond}
+                // value={formData.linkSecond}
                 onChangeText={value => handleInputChange('linkSecond', value)}
               />
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
                 placeholder={profileInfo.linkThird}
-                value={formData.linkThird}
+                // value={formData.linkThird}
                 onChangeText={value => handleInputChange('linkThird', value)}
               />
               <TextInput
                 style={styles.SocialTextInput}
                 placeholderTextColor={'rgba(0,0,0,0.3)'}
                 placeholder={profileInfo.linkForth}
-                value={formData.linkForth}
+                // value={formData.linkForth}
                 onChangeText={value => handleInputChange('linkForth', value)}
               />
             </View>
@@ -212,7 +229,9 @@ const EditProfile = () => {
       </ScrollView>
       <View style={styles.EditActionBtn}>
         <TouchableOpacity style={styles.ActionBtn} onPress={formHandler}>
-          <Text style={styles.BtnText}>Save Profile</Text>
+          <Text style={styles.BtnText}>
+            {!loading ? 'Save Profile' : <ActivityIndicator />}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -229,7 +248,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ProfileDetails: {
-    marginVertical: 10,
+    marginVertical: 5,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -342,5 +361,25 @@ const styles = StyleSheet.create({
   SocialIcon: {
     width: 30,
     height: 30,
+  },
+  GoBack: {
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    width: '100%',
+    gap: 13,
+    paddingVertical: 10,
+    borderBottomWidth: 2.5,
+    borderColor: 'rgba(255,255,255,0.8)',
+  },
+  GoBackIcon: {
+    width: 25,
+    height: 25,
+  },
+  GoBackText: {
+    fontFamily: 'Inter-Medium',
+    fontSize: 18,
+    color: 'black',
   },
 });

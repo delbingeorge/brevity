@@ -48,8 +48,8 @@ const ReactModal = () => {
           photo: userInfo.user.photo,
           linkFirst: 'https://github.com/',
           linkSecond: 'https://www.linkedin.com/',
-          linkThird: 'https://www.example.com/',
-          linkForth: '',
+          linkThird: 'https://www.youtube.com/',
+          linkForth: 'https://www.example.com/',
         },
       );
 
@@ -71,6 +71,13 @@ const ReactModal = () => {
         setAuthValue(response.data['authValue']);
         setShowModalView(false);
         setLoading(false);
+        Burnt.toast({
+          title: 'Authenticated!',
+          preset: 'done',
+          haptic: 'success',
+          duration: 5,
+          from: 'top',
+        });
       } else {
         Burnt.toast({
           title: response.statusText,
@@ -270,7 +277,7 @@ const styles = StyleSheet.create({
   IssueActionCount: {color: 'black', fontSize: 16, fontFamily: 'Inter-Medium'},
   AuthView: {
     borderRadius: 25,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 25,
     backgroundColor: 'white',
     // height: Dimensions.get('screen').height / 2.9,

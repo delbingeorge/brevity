@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
+  Button,
   Dimensions,
   Image,
-  Modal,
-  SafeAreaView,
+  Pressable,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -14,14 +13,65 @@ import {
 } from 'react-native';
 import colorScheme from '../../assets/colors/colorScheme';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import {useRecoilState} from 'recoil';
+import {userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
 
 const IssuePostForm = () => {
   const navigation = useNavigation();
+  const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
+  const [listModalView, setListModalView] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState();
+  const [items, setItems] = useState([
+    {
+      key: 1,
+      value: 'Javascript',
+    },
+    {
+      key: 2,
+      value: 'Java',
+    },
+    {
+      key: 3,
+      value: 'Python',
+    },
+  ]);
+
+  const [issueContent, setIssueContent] = useState({
+    issuerUsername: profileInfo.username,
+    issuerMail: profileInfo.email,
+    issueTitle: '',
+    issueBody: '',
+    listName: '',
+  });
+
+  const inputHandler = (name, value) => {
+    setIssueContent({
+      ...issueContent,
+      [name]: value,
+    });
+  };
+
+  const issueHandler = async () => {
+    try {
+      const response = await axios.post(
+        'http://192.168.1.105:8000/api/post-issue',
+        issueContent,
+      );
+      if (response.status == 200) {
+        console.log('success');
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    // <Modal>
     <View style={styles.FormMainView}>
-     <View>
+      <View>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
@@ -32,13 +82,16 @@ const IssuePostForm = () => {
           />
         </TouchableOpacity>
       </View>
+
       <ScrollView>
         <TextInput
           multiline={true}
           style={styles.IssueTitle}
           placeholder="Issue title in short"
           maxLength={100}
-          // value="Simple API Calls with Node.js and Express"
+          onChangeText={value => {
+            inputHandler('issueTitle', value);
+          }}
           placeholderTextColor={'#c0c0c0'}
         />
         <TextInput
@@ -46,13 +99,43 @@ const IssuePostForm = () => {
           maxLength={1200}
           placeholderTextColor={'#c0c0c0'}
           placeholder="Describe your issue here."
-          // value={
-          //   "Im just getting started with Node, APIs, and web applications. I understand the basic workings of Node.js and Express, but now I want to start making calls to other service's APIs and to do stuff with their data. Can you outline basic HTTP requests and how to grab/parse the responses in Node?"
-          // }
+          onChangeText={value => {
+            inputHandler('issueBody', value);
+          }}
           style={styles.IssueContent}></TextInput>
       </ScrollView>
+
       <View style={styles.ActionButtonView}>
-        <View style={styles.ButtonView}>
+        <View style={{marginVertical: 1}}>
+          <Pressable
+            onPress={() => {
+              setListModalView(true);
+            }}
+            style={{
+              // borderWidth: 2,
+              // borderColor: '#dfdfdf',
+              backdropColor: 'white',
+              width: 150,
+              borderRadius: 10,
+              // paddingLeft: 12,
+            }}>
+            <Text
+              style={{
+                borderWidth: 1.5,
+                paddingVertical: 7,
+                paddingLeft: 10,
+                textAlign: 'left',
+                borderRadius: 8,
+                fontFamily: 'Inter-Medium',
+                color: 'black',
+                // backgroundColor: '#f6f6f6',
+                borderColor: '#f6f6f6',
+              }}>
+              {value ? value : 'Select List'}
+            </Text>
+          </Pressable>
+        </View>
+        {/* <View style={styles.ButtonView}>
           <TouchableOpacity>
             <Image
               style={styles.ActionButtonIcon}
@@ -71,8 +154,9 @@ const IssuePostForm = () => {
               source={require('../../assets/images/icons/link-icon-bk.png')}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
         <TouchableOpacity
+          onPress={issueHandler}
           style={{
             backgroundColor: colorScheme['primary-color'],
             display: 'flex',
@@ -93,17 +177,62 @@ const IssuePostForm = () => {
           />
         </TouchableOpacity>
       </View>
+      <ReactNativeModal
+        style={styles.ReactModal}
+        animationIn={'slideInUp'}
+        backdropColor="black"
+        onBackdropPress={() => {
+          setListModalView(false);
+        }}
+        isVisible={listModalView}>
+        <View style={styles.AuthView}>
+          {items.map(key => {
+            return (
+              <Pressable
+                onPress={() => {
+                  inputHandler('listName', key.value);
+                  setValue(key.value);
+                  setListModalView(false);
+                }}
+                key={key.key}>
+                <Text
+                  style={{
+                    paddingVertical: 10,
+                    fontSize: 15,
+                    color: 'black',
+                    fontFamily: 'Inter-Medium',
+                  }}>
+                  {key.value}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </ReactNativeModal>
     </View>
-    // </Modal>
   );
 };
 
 export default IssuePostForm;
 
 const styles = StyleSheet.create({
+  ReactModal: {
+    margin: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  AuthView: {
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    backgroundColor: 'white',
+    // height: Dimensions.get('screen').height / 2.9,
+    width: Dimensions.get('screen').width,
+  },
   FormMainView: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     backgroundColor: 'white',
     // paddingBottom: 15,
   },

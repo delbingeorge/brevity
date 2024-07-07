@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   NavLogo: {
     height: 22,

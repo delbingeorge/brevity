@@ -18,6 +18,7 @@ import YourLists from '../pages/ProfilePage/YourLists';
 import SettingsPage from '../pages/ProfilePage/SettingsPage';
 import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
+import ListHomePage from '../pages/ListHomePage/ListHomePage';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -163,8 +164,13 @@ function BrevityNavigation() {
       />
       <StackRoute.Screen
         name="EditProfile"
-        options={{headerShown: true}}
+        options={{headerShown: false}}
         component={EditProfile}
+      />
+      <StackRoute.Screen
+        name="ListHomePage"
+        options={{headerShown: false}}
+        component={ListHomePage}
       />
       <StackRoute.Screen name="YourLists" component={YourLists} />
       {/* <StackRoute.Screen
