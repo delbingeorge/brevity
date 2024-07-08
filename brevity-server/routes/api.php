@@ -36,4 +36,4 @@ Route::post('/leave-list', [ListController::class, 'leaveList']);
 
 Route::post('/get-all-lists', [ListController::class, 'getMyLists']);
 
-Route::post('/get-joined-list-names', [ListController::class, 'getJoinedLists']);
+// Route::post('/get-joined-list-names', [ListController::class, 'getJoinedLists']);

@@ -19,3 +19,8 @@ export const newUser = atom({
   key: 'newUser',
   default: {},
 });
+
+export const listMembershipStatus = atom({
+  key: 'listMembershipStatus',
+  default: false,
+});

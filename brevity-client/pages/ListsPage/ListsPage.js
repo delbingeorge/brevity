@@ -1,31 +1,33 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {userInfo} from '../../provider/RecoilStore';
-import {useRecoilState} from 'recoil';
+import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 
 const ListsPage = () => {
   const navigation = useNavigation();
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [listArray, setListArray] = useState([]);
+  const membershipChanged = useRecoilValue(listMembershipStatus);
+
+  const getJoinedLists = async () => {
+    try {
+      const response = await axios.post(
+        'http://192.168.1.105:8000/api/get-all-lists',
+        {user_id: profileInfo.id},
+      );
+      if (response.status == 200) {
+        setListArray(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const getJoinedLists = async () => {
-      try {
-        const response = await axios.post(
-          'http://192.168.1.105:8000/api/get-all-lists',
-          {user_id: profileInfo.id},
-        );
-        if (response.status == 200) {
-          setListArray(response.data.listDetails);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getJoinedLists();
-  }, [profileInfo.id]);
+  }, [profileInfo, membershipChanged]);
 
   const renderItem = ({item}) => (
     <Pressable
@@ -56,6 +58,7 @@ const ListsPage = () => {
           data={listArray}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
+          extraData={listArray}
         />
       </View>
     </View>

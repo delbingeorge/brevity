@@ -49,6 +49,7 @@ class ListController extends Controller
         return response()->json(['success' => true, 'list_id' => $listId, 'user_id' => $userId]);
     }
 
+    // get-all-lists
     public function getMyLists(Request $request)
     {
         $userId = $request->input('user_id');
@@ -60,23 +61,23 @@ class ListController extends Controller
 
         $lists = $user->lists()->get();
 
-        // $listDetails = $lists->pluck('id', 'list_name')->toArray();
-
-        return response()->json(['listDetails' => $lists]);
+        return response()->json($lists);
     }
-    public function getJoinedLists(Request $request)
-    {
-        $userId = $request->input('user_id');
 
-        $user = User::find($userId);
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
+    //get-joined-list-names 
+    // public function getJoinedLists(Request $request)
+    // {
+    //     $userId = $request->input('user_id');
 
-        $lists = $user->lists()->get();
+    //     $user = User::find($userId);
+    //     if (!$user) {
+    //         return response()->json(['error' => 'User not found'], 404);
+    //     }
 
-        $listIds = $lists->pluck('id')->toArray();
+    //     $lists = $user->lists()->get();
 
-        return  $listIds;
-    }
+    //     $listIds = $lists->pluck('id')->toArray();
+
+    //     return  $listIds;
+    // }
 }

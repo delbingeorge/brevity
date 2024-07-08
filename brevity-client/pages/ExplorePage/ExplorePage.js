@@ -34,8 +34,8 @@ const ExplorePage = () => {
         console.log(response.statusText);
       }
     } catch (error) {
-      console.log('Catch block!');
-    } 
+      console.log(error);
+    }
   };
 
   const searchItem = ({item}) => (

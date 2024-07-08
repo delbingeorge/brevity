@@ -13,15 +13,19 @@ import ListInsights from './ListNavigation/ListInsights/ListInsights';
 import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
-import {userInfo} from '../../provider/RecoilStore';
+import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
 
 const ListHomePage = () => {
   const [renderComponent, setRenderComponent] = useState('ListFeedPage');
-  const data = useRoute();
+  const {
+    params: {item},
+  } = useRoute();
+
   const navigation = useNavigation();
-  const {item} = data.params;
   const [listJoin, setListJoin] = useState(false);
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
+  const [listJoinStatus, setListJoinStatus] =
+    useRecoilState(listMembershipStatus);
   const [loading, setLoading] = useState(false);
   const [listArray, setListArray] = useState([]);
 
@@ -29,11 +33,12 @@ const ListHomePage = () => {
     const getListArray = async () => {
       try {
         const response = await axios.post(
-          'http://192.168.1.105:8000/api/get-joined-list-names',
+          'http://192.168.1.105:8000/api/get-all-lists',
           {user_id: profileInfo.id},
         );
         if (response.status == 200) {
           setListArray(response.data);
+          setListJoinStatus(!listJoinStatus);
         } else {
           console.log(response.statusText);
         }
@@ -44,6 +49,8 @@ const ListHomePage = () => {
     getListArray();
   }, [listJoin]);
 
+  const isItemInListArray = listArray.some(listItem => listItem.id === item.id);
+
   const ListJoinLogic = async () => {
     try {
       setLoading(true);
@@ -53,6 +60,7 @@ const ListHomePage = () => {
       );
       if (response.status == 200) {
         setListJoin(!listJoin);
+        setListJoinStatus(!listJoinStatus);
       }
     } catch (error) {
       console.log(error);
@@ -149,19 +157,21 @@ const ListHomePage = () => {
             <Text style={styles.HeaderIconText}>30k</Text>
           </View>
         </View>
-        {listArray.includes(item.id) ? (
-          <Pressable onPress={ListLeaveLogic}>
-            <Text style={styles.ListLeaveBtn}>
-              {loading == true ? <ActivityIndicator /> : 'Leave List'}
-            </Text>
-          </Pressable>
-        ) : (
-          <Pressable onPress={ListJoinLogic}>
-            <Text style={styles.ListJoinBtn}>
-              {loading == true ? <ActivityIndicator /> : 'Join List'}
-            </Text>
-          </Pressable>
-        )}
+        <View>
+          {isItemInListArray == true ? (
+            <Pressable onPress={ListLeaveLogic}>
+              <Text style={styles.ListLeaveBtn}>
+                {loading ? <ActivityIndicator /> : 'Leave List'}
+              </Text>
+            </Pressable>
+          ) : (
+            <Pressable onPress={ListJoinLogic}>
+              <Text style={styles.ListJoinBtn}>
+                {loading ? <ActivityIndicator /> : 'Join List'}
+              </Text>
+            </Pressable>
+          )}
+        </View>
       </View>
 
       <View
