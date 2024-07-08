@@ -1,10 +1,12 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {userInfo} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
+import {useNavigation} from '@react-navigation/native';
 
 const ListsPage = () => {
+  const navigation = useNavigation();
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [listArray, setListArray] = useState([]);
 
@@ -16,22 +18,46 @@ const ListsPage = () => {
           {user_id: profileInfo.id},
         );
         if (response.status == 200) {
-          console.log(response.data);
-          setListArray(response.data);
+          setListArray(response.data.listDetails);
         }
       } catch (error) {
         console.log(error);
       }
     };
     getJoinedLists();
-  }, []);
+  }, [profileInfo.id]);
+
+  const renderItem = ({item}) => (
+    <Pressable
+      onPress={() => {
+        navigation.navigate('ListHomePage', {item});
+      }}
+      style={styles.ResultRenderItem}>
+      <Image
+        style={{width: 32, height: 32}}
+        source={require('../../assets/images/icons/user-default-image1.png')}
+      />
+      <View>
+        <Text style={styles.RenderItemTitle}>{item.list_name}</Text>
+        <Text style={styles.RenderItemSubtitle}>
+          {item.description.substring(0, 40) + '...'}
+        </Text>
+      </View>
+    </Pressable>
+  );
 
   return (
     <View style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 15}}>
       <View>
         <Text style={styles.TabTitle}>Lists you are on.</Text>
       </View>
-      <View></View>
+      <View>
+        <FlatList
+          data={listArray}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
     </View>
   );
 };
@@ -43,5 +69,20 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     fontFamily: 'Inter-Medium',
+  },
+  ResultRenderItem: {
+    paddingVertical: 13,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    columnGap: 15,
+  },
+  RenderItemTitle: {
+    fontSize: 14.5,
+    color: 'black',
+    fontFamily: 'Inter-SemiBold',
+  },
+  RenderItemSubtitle: {
+    color: 'rgba(0,0,0,0.5)',
+    fontFamily: 'Inter-Regular',
   },
 });

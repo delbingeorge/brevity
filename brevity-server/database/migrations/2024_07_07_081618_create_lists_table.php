@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('lists', function (Blueprint $table) {
             $table->id();
-            $table->string('list_logo');
             $table->string('list_name');
             $table->text('description')->nullable();
             $table->timestamps();

@@ -44,8 +44,6 @@ const ListHomePage = () => {
     getListArray();
   }, [listJoin]);
 
-  console.log(listArray);
-
   const ListJoinLogic = async () => {
     try {
       setLoading(true);
@@ -108,7 +106,16 @@ const ListHomePage = () => {
       </Pressable> */}
       <View>
         <View style={styles.ListHeader}>
+          {/* <View
+            style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
+            <Image
+              style={{width: 20, height: 20}}
+              // source={{uri: item.list_logo}}
+              source={require('../../assets/images/icons/user-default-image1.png')}
+            /> */}
           <Text style={styles.ListTitle}>{item.list_name}</Text>
+          {/* </View> */}
+
           <Pressable>
             <Image
               style={styles.ListSettings}

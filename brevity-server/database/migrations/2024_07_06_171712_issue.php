@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lists', function (Blueprint $table) {
+        Schema::create('issue', function (Blueprint $table) {
             $table->id();
-            $table->string('list_logo');
-            $table->string('list_name');
-            $table->text('description')->nullable();
+            $table->string('username');
+            $table->string('email');
+            $table->string('title');
+            $table->string('content');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lists');
+        //
     }
 };

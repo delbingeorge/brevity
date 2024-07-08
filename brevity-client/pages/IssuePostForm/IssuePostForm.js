@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   Dimensions,
@@ -38,6 +38,25 @@ const IssuePostForm = () => {
       value: 'Python',
     },
   ]);
+
+  useEffect(() => {
+    const getListArray = async () => {
+      try {
+        const response = await axios.post(
+          'http://192.168.1.105:8000/api/get-joined-list-names',
+          {user_id: profileInfo.id},
+        );
+        if (response.status == 200) {
+          setItems(response.data);
+        } else {
+          console.log(response.statusText);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getListArray();
+  }, []);
 
   const [issueContent, setIssueContent] = useState({
     issuerUsername: profileInfo.username,
@@ -194,7 +213,7 @@ const IssuePostForm = () => {
                   setValue(key.value);
                   setListModalView(false);
                 }}
-                key={key.key}>
+                key={key}>
                 <Text
                   style={{
                     paddingVertical: 10,
@@ -202,7 +221,7 @@ const IssuePostForm = () => {
                     color: 'black',
                     fontFamily: 'Inter-Medium',
                   }}>
-                  {key.value}
+                  {key}
                 </Text>
               </Pressable>
             );

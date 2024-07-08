@@ -60,9 +60,9 @@ class ListController extends Controller
 
         $lists = $user->lists()->get();
 
-        $listNames = $lists->pluck('list_name')->toArray();
+        // $listDetails = $lists->pluck('id', 'list_name')->toArray();
 
-        return response()->json(['success' => true, 'list_names' => $listNames]);
+        return response()->json(['listDetails' => $lists]);
     }
     public function getJoinedLists(Request $request)
     {
@@ -75,8 +75,8 @@ class ListController extends Controller
 
         $lists = $user->lists()->get();
 
-        $listNames = $lists->pluck('id')->toArray();
+        $listIds = $lists->pluck('id')->toArray();
 
-        return  $listNames;
+        return  $listIds;
     }
 }

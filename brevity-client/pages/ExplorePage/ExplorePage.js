@@ -27,17 +27,15 @@ const ExplorePage = () => {
         'http://192.168.1.105:8000/api/explore-search',
         {query: searchText},
       );
-
       if (response.status == 200) {
         setSearchRes(response.data['searchResponse']);
         setReqText(response.data['searchRequest']);
-        // console.log(response.data['searchRequest']);
       } else {
         console.log(response.statusText);
       }
     } catch (error) {
       console.log('Catch block!');
-    }
+    } 
   };
 
   const searchItem = ({item}) => (
