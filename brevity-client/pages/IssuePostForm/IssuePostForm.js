@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Button,
   Dimensions,
   Image,
   Pressable,
@@ -17,12 +16,12 @@ import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
+import {API_URL} from '@env';
 
 const IssuePostForm = () => {
   const navigation = useNavigation();
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [listModalView, setListModalView] = useState(false);
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState();
   const [items, setItems] = useState([
     {
@@ -42,13 +41,12 @@ const IssuePostForm = () => {
   useEffect(() => {
     const getListArray = async () => {
       try {
-        const response = await axios.post(
-          // 'http://192.168.1.105:8000/api/get-joined-list-names',
-          'http://206.189.143.236/api/get-joined-list-names',
-          {user_id: profileInfo.id},
-        );
+        const response = await axios.post(`${API_URL}/api/get-all-lists`, {
+          user_id: profileInfo.id,
+        });
         if (response.status == 200) {
           setItems(response.data);
+          console.log(response.data);
         } else {
           console.log(response.statusText);
         }

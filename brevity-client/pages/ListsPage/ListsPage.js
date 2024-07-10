@@ -4,6 +4,7 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
+import {API_URL} from '@env';
 
 const ListsPage = () => {
   const navigation = useNavigation();
@@ -13,11 +14,9 @@ const ListsPage = () => {
 
   const getJoinedLists = async () => {
     try {
-      const response = await axios.post(
-        // 'http://192.168.1.105:8000/api/get-all-lists',
-        'http://206.189.143.236/api/get-all-lists',
-        {user_id: profileInfo.id},
-      );
+      const response = await axios.post(`${API_URL}/api/get-all-lists`, {
+        user_id: profileInfo.id,
+      });
       if (response.status == 200) {
         setListArray(response.data);
       }
@@ -71,16 +70,17 @@ const ListsPage = () => {
           }}>
           <Image
             style={{
-              height: 180,
-              width: 180,
+              height: 160,
+              width: 160,
               objectFit: 'contain',
+              opacity: 0.6,
             }}
             source={require('../../assets/images/logo/not-in-any-list.png')}
           />
-          <Text style={styles.NoListText}>Oops, You are not in any lists!</Text>
+          {/* <Text style={styles.NoListText}>Oops, You are not in any lists!</Text>
           <Pressable onPress={() => navigation.navigate('ExplorePage')}>
             <Text style={styles.NoListJoinButton}>Join now!</Text>
-          </Pressable>
+          </Pressable> */}
         </View>
       )}
     </View>

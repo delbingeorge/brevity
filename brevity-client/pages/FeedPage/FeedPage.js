@@ -10,14 +10,9 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import IssueComponent from '../../components/IssueComponent';
-import {
-  authState,
-  modalView,
-  newUser,
-} from '../../provider/RecoilStore';
+import {authState, modalView, newUser} from '../../provider/RecoilStore';
 import {useRecoilState} from 'recoil';
 import ReactModal from '../../components/ReactModal';
-// import * as Burnt from 'burnt';
 
 const FeedPage = () => {
   const navigation = useNavigation();
@@ -87,6 +82,7 @@ const FeedPage = () => {
           source={require('../../assets/images/icons/issue-post-plus-icon.png')}
         />
       </TouchableOpacity>
+
       {showModalView === true ? <ReactModal /> : ''}
 
       {/* {newUserState == true ? (
@@ -96,7 +92,7 @@ const FeedPage = () => {
       ) : (
         console.log('old user')
       )} */}
-
+      
     </SafeAreaView>
   );
 };

@@ -14,6 +14,7 @@ import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
+import {API_URL} from '@env';
 
 const ListHomePage = () => {
   const [renderComponent, setRenderComponent] = useState('ListFeedPage');
@@ -32,11 +33,9 @@ const ListHomePage = () => {
   useEffect(() => {
     const getListArray = async () => {
       try {
-        const response = await axios.post(
-          // 'http://192.168.1.105:8000/api/get-all-lists',
-          'http://206.189.143.236/api/get-all-lists',
-          {user_id: profileInfo.id},
-        );
+        const response = await axios.post(`${API_URL}/api/get-all-lists`, {
+          user_id: profileInfo.id,
+        });
         if (response.status == 200) {
           setListArray(response.data);
           setListJoinStatus(!listJoinStatus);
@@ -55,11 +54,10 @@ const ListHomePage = () => {
   const ListJoinLogic = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        // 'http://192.168.1.105:8000/api/join-list',
-        'http://206.189.143.236/api/join-list',
-        {list_id: item.id, user_id: profileInfo.id},
-      );
+      const response = await axios.post(`${API_URL}/api/join-list`, {
+        list_id: item.id,
+        user_id: profileInfo.id,
+      });
       if (response.status == 200) {
         setListJoin(!listJoin);
         setListJoinStatus(!listJoinStatus);
@@ -74,10 +72,10 @@ const ListHomePage = () => {
   const ListLeaveLogic = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        'http://206.189.143.236/api/leave-list',
-        {list_id: item.id, user_id: profileInfo.id},
-      );
+      const response = await axios.post(`${API_URL}/api/leave-list`, {
+        list_id: item.id,
+        user_id: profileInfo.id,
+      });
       if (response.status == 200) {
         setListJoin(!listJoin);
       }

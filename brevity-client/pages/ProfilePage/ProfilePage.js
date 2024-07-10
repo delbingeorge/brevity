@@ -9,14 +9,22 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useState} from 'react';
 import {ReactNativeModal} from 'react-native-modal';
-import {useRecoilValue} from 'recoil';
-import {userInfo} from '../../provider/RecoilStore';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {authState, userInfo} from '../../provider/RecoilStore';
+import {API_URL} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
+  const [authValue, setAuthValue] = useRecoilState(authState);
+  const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+  const [loading, setLoading] = useState(false);
+  // const [signOutModal, setSignOutModal] = useState(false);
+
   const profileInfo = useRecoilValue(userInfo);
 
   const date = new Date(profileInfo['created_at']);
@@ -24,6 +32,20 @@ const ProfilePage = () => {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  const signOut = async () => {
+    try {
+      setLoading(true);
+      await GoogleSignin.signOut();
+      await AsyncStorage.removeItem('userInfo');
+      setAuthValue(false);
+      setUserInfoState({});
+      navigation.navigate('FeedPage');
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -36,8 +58,7 @@ const ProfilePage = () => {
             profileInfo['photo'].startsWith('https://lh3.googleusercontent.com')
               ? {uri: profileInfo['photo']}
               : {
-                  // uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
-                  uri: `http://206.189.143.236/storage/${profileInfo['photo']}`,
+                  uri: `${API_URL}/storage/${profileInfo['photo']}`,
                 }
           }
         />
@@ -101,13 +122,15 @@ const ProfilePage = () => {
               />
               <Text style={styles.SettingsText}>Posted Issues</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.Settings}>
+
+            {/* <TouchableOpacity style={styles.Settings}>
               <Image
                 style={styles.SettingsImage}
                 source={require('../../assets/images/icons/settings/notify-icon-color.png')}
               />
               <Text style={styles.SettingsText}>Notifications</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
@@ -118,6 +141,13 @@ const ProfilePage = () => {
                 source={require('../../assets/images/icons/settings/gear-icon-color.png')}
               />
               <Text style={styles.SettingsText}>Settings</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.Settings} onPress={signOut}>
+              <Image
+                style={styles.SettingsImage}
+                source={require('../../assets/images/icons/settings/signout-icon.png')}
+              />
+              <Text style={styles.SettingsText}>Log out</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -145,8 +175,7 @@ const ProfilePage = () => {
               )
                 ? {uri: profileInfo['photo']}
                 : {
-                    // uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
-                    uri: `http://206.189.143.236/storage/${profileInfo['photo']}`,
+                    uri: `${API_URL}/storage/${profileInfo['photo']}`,
                   }
             }
           />
@@ -219,6 +248,38 @@ const ProfilePage = () => {
           </View>
         </View>
       </ReactNativeModal>
+
+      {/* <ReactNativeModal
+        style={styles.ReactModal}
+        isVisible={signOutModal}
+        onBackdropPress={() => {
+          setSignOutModal(false);
+        }}
+        backdropColor="black">
+        <View style={styles.ProfileModal}>
+          <Text style={styles.SettingsText}>Do you want to sign out?</Text>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}>
+            <Pressable
+              style={styles.ActionBtn}
+              onPress={() => {
+                signOut();
+              }}>
+              <Text style={styles.SignOutText}>Sign Out</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                setSignOutModal(false);
+              }}>
+              <Text style={styles.SignOutCancel}>Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ReactNativeModal> */}
     </View>
   );
 };
@@ -270,6 +331,13 @@ const styles = StyleSheet.create({
     height: 38,
   },
   SettingsText: {color: 'black', fontSize: 16.8, fontFamily: 'Inter-Medium'},
+  SignOutText: {color: 'white', fontSize: 14.5, fontFamily: 'Inter-Medium'},
+  SignOutCancel: {
+    color: 'black',
+    textDecorationLine: 'underline',
+    fontSize: 13.5,
+    fontFamily: 'Inter-Medium',
+  },
   ProfileModal: {
     borderRadius: 25,
     paddingHorizontal: 20,
@@ -326,5 +394,13 @@ const styles = StyleSheet.create({
   SocialIcon: {
     width: 30,
     height: 30,
+  },
+  ActionBtn: {
+    width: '100%',
+    marginVertical: 5,
+    paddingHorizontal: 70,
+    paddingVertical: 12,
+    backgroundColor: 'black',
+    borderRadius: 6,
   },
 });

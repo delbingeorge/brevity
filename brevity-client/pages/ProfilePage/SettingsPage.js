@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Image,
   Pressable,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -32,7 +31,7 @@ const SettingsPage = () => {
   };
   return (
     <View style={styles.SettingsView}>
-       <Pressable
+      <Pressable
         onPress={() => {
           navigation.goBack();
         }}
@@ -43,17 +42,6 @@ const SettingsPage = () => {
         />
         <Text style={styles.GoBackText}>Settings</Text>
       </Pressable>
-      <View>
-        <View style={styles.AccountSettings}>
-          <TouchableOpacity onPress={signOut} style={styles.Settings}>
-            <Image
-              style={styles.SettingsImage}
-              source={require('../../assets/images/icons/signout-icon.png')}
-            />
-            <Text style={styles.SettingsText}>Sign Out</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </View>
   );
 };

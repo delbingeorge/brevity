@@ -17,6 +17,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import * as Burnt from 'burnt';
+import {API_URL} from '@env';
 
 const EditProfile = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
@@ -77,16 +78,11 @@ const EditProfile = () => {
       data.append('linkThird', formData.linkThird);
       data.append('linkForth', formData.linkForth);
 
-      const response = await axios.post(
-        // 'http://192.168.1.105:8000/api/profile/update',
-        'http://206.189.143.236/api/profile/update',
-        data,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+      const response = await axios.post(`${API_URL}/api/profile/update`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
-      );
+      });
 
       if (response.status === 200) {
         setProfileInfo(response.data.user);
@@ -137,7 +133,7 @@ const EditProfile = () => {
                 ? {uri: profileImage}
                 : formData.profilePhoto.uri
                 ? {uri: formData.profilePhoto.uri}
-                : {uri: `http://206.189.143.236/storage/${profileImage}`}
+                : {uri: `${API_URL}/storage/${profileImage}`}
             }
           />
           <TouchableOpacity style={styles.UploadBtn} onPress={imagePicker}>

@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {API_URL} from '@env';
 
 const ExplorePage = () => {
   const [searchText, setSearchText] = useState('');
@@ -20,11 +21,9 @@ const ExplorePage = () => {
 
   const searchHandler = async () => {
     try {
-      const response = await axios.post(
-        // 'http://192.168.1.105:8000/api/explore-search',
-        'http://206.189.143.236/api/explore-search',
-        {query: searchText},
-      );
+      const response = await axios.post(`${API_URL}/api/explore-search`, {
+        query: searchText,
+      });
       if (response.status == 200) {
         setSearchRes(response.data['searchResponse']);
         setReqText(response.data['searchRequest']);

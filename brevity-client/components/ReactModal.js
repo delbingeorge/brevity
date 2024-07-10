@@ -20,6 +20,7 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
+import {API_URL} from '@env';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
@@ -34,24 +35,19 @@ const ReactModal = () => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
-      // const username = userInfo.user.name.toLowerCase().replaceAll(' ', '');
       const username = userInfo.user.email.split('@');
 
-      const response = await axios.post(
-        // 'http://192.168.1.105:8000/api/google-signin',
-        'http://206.189.143.236/api/google-signin',
-        {
-          name: userInfo.user.name,
-          username: username[0],
-          email: userInfo.user.email,
-          bio: 'i love to code.',
-          photo: userInfo.user.photo,
-          linkFirst: 'https://github.com/',
-          linkSecond: 'https://www.linkedin.com/',
-          linkThird: 'https://www.youtube.com/',
-          linkForth: 'https://www.example.com/',
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/google-signin`, {
+        name: userInfo.user.name,
+        username: username[0],
+        email: userInfo.user.email,
+        bio: 'i love to code.',
+        photo: userInfo.user.photo,
+        linkFirst: 'https://github.com/',
+        linkSecond: 'https://www.linkedin.com/',
+        linkThird: 'https://www.youtube.com/',
+        linkForth: 'https://www.example.com/',
+      });
 
       if (response.status == 200) {
         setUserInfoState(response.data.user);
@@ -180,15 +176,18 @@ const ReactModal = () => {
             <View style={{marginVertical: 20}}>
               <Text
                 style={{
+                  fontSize: 16.2,
                   color: 'black',
                   textAlign: 'center',
-                  fontFamily: 'Inter-Medium',
+                  fontFamily: 'Inter-SemiBold',
+                  marginBottom: 5,
                 }}>
                 Hang tight!
               </Text>
               <Text
                 style={{
-                  color: 'black',
+                  fontSize: 15,
+                  color: 'rgba(0,0,0,0.7)',
                   textAlign: 'center',
                   fontFamily: 'Inter-Medium',
                 }}>
@@ -196,7 +195,8 @@ const ReactModal = () => {
               </Text>
               <Text
                 style={{
-                  color: 'black',
+                  fontSize: 15,
+                  color: 'rgba(0,0,0,0.7)',
                   textAlign: 'center',
                   fontFamily: 'Inter-Medium',
                 }}>

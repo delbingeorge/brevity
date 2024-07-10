@@ -4,13 +4,12 @@ import {StatusBar} from 'react-native';
 import BrevityNavigation from './components/BrevityNavigation';
 import {RecoilRoot} from 'recoil';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {GOOGLE_API} from '@env';
 
 const App = () => {
-  
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:
-        '531508705755-pnoc43u22q280straf9u822d028pd9n9.apps.googleusercontent.com',
+      webClientId: `${GOOGLE_API}`,
       offlineAccess: true,
     });
   }, []);

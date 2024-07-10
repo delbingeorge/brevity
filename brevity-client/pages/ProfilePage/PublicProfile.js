@@ -1,13 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {
-  Image,
-  Pressable,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 const PublicProfile = () => {
   const navigation = useNavigation();
