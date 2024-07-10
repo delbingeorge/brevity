@@ -11,8 +11,14 @@ class ListController extends Controller
     public function joinList(Request $request)
     {
 
-        $listId = $request->input('list_id');
-        $userId = $request->input('user_id');
+        $validatedData = $request->validate([
+            'list_id' => 'required|integer|exists:lists,id',
+            'user_id' => 'required|integer|exists:users,id',
+        ]);
+
+        $listId = $validatedData['list_id'];
+        $userId = $validatedData['user_id'];
+
 
         $user = User::find($userId);
         if (!$user) {
@@ -31,8 +37,13 @@ class ListController extends Controller
 
     public function leaveList(Request $request)
     {
-        $listId = $request->input('list_id');
-        $userId = $request->input('user_id');
+        $validatedData = $request->validate([
+            'list_id' => 'required|integer|exists:lists,id',
+            'user_id' => 'required|integer|exists:users,id',
+        ]);
+
+        $listId = $validatedData['list_id'];
+        $userId = $validatedData['user_id'];
 
         $user = User::find($userId);
         if (!$user) {
@@ -49,10 +60,13 @@ class ListController extends Controller
         return response()->json(['success' => true, 'list_id' => $listId, 'user_id' => $userId]);
     }
 
-    // get-all-lists
     public function getMyLists(Request $request)
     {
-        $userId = $request->input('user_id');
+        $validatedData = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+        ]);
+
+        $userId = $validatedData['user_id'];
 
         $user = User::find($userId);
         if (!$user) {
@@ -63,21 +77,4 @@ class ListController extends Controller
 
         return response()->json($lists);
     }
-
-    //get-joined-list-names 
-    // public function getJoinedLists(Request $request)
-    // {
-    //     $userId = $request->input('user_id');
-
-    //     $user = User::find($userId);
-    //     if (!$user) {
-    //         return response()->json(['error' => 'User not found'], 404);
-    //     }
-
-    //     $lists = $user->lists()->get();
-
-    //     $listIds = $lists->pluck('id')->toArray();
-
-    //     return  $listIds;
-    // }
 }

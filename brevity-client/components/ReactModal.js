@@ -38,8 +38,8 @@ const ReactModal = () => {
       const username = userInfo.user.email.split('@');
 
       const response = await axios.post(
-        'http://192.168.1.105:8000/api/google-signin',
-        // 'http://10.0.2.2:8000/api/google-signin',
+        // 'http://192.168.1.105:8000/api/google-signin',
+        'http://206.189.143.236/api/google-signin',
         {
           name: userInfo.user.name,
           username: username[0],

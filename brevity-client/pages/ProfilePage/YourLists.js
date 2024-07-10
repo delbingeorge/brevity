@@ -1,10 +1,8 @@
 import React from 'react';
-import {Text} from 'react-native';
+import ListsPage from '../ListsPage/ListsPage';
 
 const YourLists = () => {
-  return <Text style={{color: 'black'}}>Your lists</Text>;
+  return <ListsPage />;
 };
 
 export default YourLists;
-
-//Status bar color

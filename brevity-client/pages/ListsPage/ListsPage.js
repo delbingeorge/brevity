@@ -14,7 +14,8 @@ const ListsPage = () => {
   const getJoinedLists = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.1.105:8000/api/get-all-lists',
+        // 'http://192.168.1.105:8000/api/get-all-lists',
+        'http://206.189.143.236/api/get-all-lists',
         {user_id: profileInfo.id},
       );
       if (response.status == 200) {
@@ -50,17 +51,38 @@ const ListsPage = () => {
 
   return (
     <View style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 15}}>
-      <View>
-        <Text style={styles.TabTitle}>Lists you are on.</Text>
-      </View>
-      <View>
-        <FlatList
-          data={listArray}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-          extraData={listArray}
-        />
-      </View>
+      {listArray.length ? (
+        <View>
+          <Text style={styles.TabTitle}>Lists you are on.</Text>
+          <FlatList
+            data={listArray}
+            renderItem={renderItem}
+            keyExtractor={item => item.id.toString()}
+            extraData={listArray}
+          />
+        </View>
+      ) : (
+        <View
+          style={{
+            display: 'flex',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            style={{
+              height: 180,
+              width: 180,
+              objectFit: 'contain',
+            }}
+            source={require('../../assets/images/logo/not-in-any-list.png')}
+          />
+          <Text style={styles.NoListText}>Oops, You are not in any lists!</Text>
+          <Pressable onPress={() => navigation.navigate('ExplorePage')}>
+            <Text style={styles.NoListJoinButton}>Join now!</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 };
@@ -87,5 +109,17 @@ const styles = StyleSheet.create({
   RenderItemSubtitle: {
     color: 'rgba(0,0,0,0.5)',
     fontFamily: 'Inter-Regular',
+  },
+  NoListText: {
+    color: 'rgba(0,0,0,0.9)',
+    fontSize: 14,
+    fontFamily: 'Inter-Medium',
+  },
+  NoListJoinButton: {
+    color: 'blue',
+    marginTop: 4,
+    fontSize: 14,
+    textDecorationLine: 'underline',
+    fontFamily: 'Inter-SemiBold',
   },
 });

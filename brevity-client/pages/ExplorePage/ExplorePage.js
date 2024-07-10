@@ -2,12 +2,9 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {useState} from 'react';
 import {
-  Button,
   FlatList,
   Image,
-  KeyboardAvoidingView,
   Pressable,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -24,7 +21,8 @@ const ExplorePage = () => {
   const searchHandler = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.1.105:8000/api/explore-search',
+        // 'http://192.168.1.105:8000/api/explore-search',
+        'http://206.189.143.236/api/explore-search',
         {query: searchText},
       );
       if (response.status == 200) {
@@ -89,7 +87,7 @@ const ExplorePage = () => {
           backgroundColor: 'rgba(0,0,0,0.1)',
         }}></View>
 
-      {searchRes.length != 0 ? (
+      {searchRes && searchRes.length != 0 ? (
         <View>
           <View style={styles.ResultView}>
             <View style={styles.ResultTextView}>
@@ -107,13 +105,7 @@ const ExplorePage = () => {
           <FlatList data={searchRes} renderItem={searchItem} />
         </View>
       ) : (
-        <View>
-          <View style={styles.ResultView}>
-            <View style={styles.ResultTextView}>
-              <Text style={styles.ResponseSearchText}>Popular Lists</Text>
-            </View>
-          </View>
-        </View>
+        ''
       )}
     </View>
   );

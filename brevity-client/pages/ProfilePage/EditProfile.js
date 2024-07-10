@@ -78,7 +78,8 @@ const EditProfile = () => {
       data.append('linkForth', formData.linkForth);
 
       const response = await axios.post(
-        'http://192.168.1.105:8000/api/profile/update',
+        // 'http://192.168.1.105:8000/api/profile/update',
+        'http://206.189.143.236/api/profile/update',
         data,
         {
           headers: {
@@ -136,7 +137,7 @@ const EditProfile = () => {
                 ? {uri: profileImage}
                 : formData.profilePhoto.uri
                 ? {uri: formData.profilePhoto.uri}
-                : {uri: `http://192.168.1.105:8000/storage/${profileImage}`}
+                : {uri: `http://206.189.143.236/storage/${profileImage}`}
             }
           />
           <TouchableOpacity style={styles.UploadBtn} onPress={imagePicker}>

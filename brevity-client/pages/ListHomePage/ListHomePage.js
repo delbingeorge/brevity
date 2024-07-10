@@ -33,7 +33,8 @@ const ListHomePage = () => {
     const getListArray = async () => {
       try {
         const response = await axios.post(
-          'http://192.168.1.105:8000/api/get-all-lists',
+          // 'http://192.168.1.105:8000/api/get-all-lists',
+          'http://206.189.143.236/api/get-all-lists',
           {user_id: profileInfo.id},
         );
         if (response.status == 200) {
@@ -55,7 +56,8 @@ const ListHomePage = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'http://192.168.1.105:8000/api/join-list',
+        // 'http://192.168.1.105:8000/api/join-list',
+        'http://206.189.143.236/api/join-list',
         {list_id: item.id, user_id: profileInfo.id},
       );
       if (response.status == 200) {
@@ -73,7 +75,7 @@ const ListHomePage = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'http://192.168.1.105:8000/api/leave-list',
+        'http://206.189.143.236/api/leave-list',
         {list_id: item.id, user_id: profileInfo.id},
       );
       if (response.status == 200) {
@@ -134,6 +136,7 @@ const ListHomePage = () => {
         <View>
           <Text style={styles.ListDescription}>{item.description}</Text>
         </View>
+
         <View style={styles.HeaderIconView}>
           <View style={styles.ListHeaderIcons}>
             <Image

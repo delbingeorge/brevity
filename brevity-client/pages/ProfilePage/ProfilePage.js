@@ -11,16 +11,15 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
 import {ReactNativeModal} from 'react-native-modal';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
+  const profileInfo = useRecoilValue(userInfo);
 
-  const profileInfo = useRecoilState(userInfo);
-
-  const date = new Date(profileInfo[0]['created_at']);
+  const date = new Date(profileInfo['created_at']);
   const accountCreationDate = date.getFullYear();
 
   const toggleModal = () => {
@@ -33,16 +32,17 @@ const ProfilePage = () => {
         <Image
           style={styles.ProfileImage}
           source={
-            profileInfo[0].photo &&
-            profileInfo[0].photo.startsWith('https://lh3.googleusercontent.com')
-              ? {uri: profileInfo[0].photo}
+            profileInfo['photo'] &&
+            profileInfo['photo'].startsWith('https://lh3.googleusercontent.com')
+              ? {uri: profileInfo['photo']}
               : {
-                  uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
+                  // uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
+                  uri: `http://206.189.143.236/storage/${profileInfo['photo']}`,
                 }
           }
         />
-        <Text style={styles.ProfileName}>{profileInfo[0].name}</Text>
-        <Text style={styles.UserName}>{profileInfo[0].email}</Text>
+        <Text style={styles.ProfileName}>{profileInfo['name']}</Text>
+        <Text style={styles.UserName}>{profileInfo['email']}</Text>
       </View>
       <View style={styles.ProfileTab}>
         <View>
@@ -139,17 +139,18 @@ const ProfilePage = () => {
           <Image
             style={styles.ProfileImage}
             source={
-              profileInfo[0].photo &&
-              profileInfo[0].photo.startsWith(
+              profileInfo['photo'] &&
+              profileInfo['photo'].startsWith(
                 'https://lh3.googleusercontent.com',
               )
-                ? {uri: profileInfo[0].photo}
+                ? {uri: profileInfo['photo']}
                 : {
-                    uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
+                    // uri: `http://192.168.1.105:8000/storage/${profileInfo[0].photo}`,
+                    uri: `http://206.189.143.236/storage/${profileInfo['photo']}`,
                   }
             }
           />
-          <Text style={styles.ProfileName}>{profileInfo[0].name}</Text>
+          <Text style={styles.ProfileName}>{profileInfo['name']}</Text>
           <Text style={styles.UserName}>Epic Compiler</Text>
 
           <View style={styles.ModalView}>
@@ -159,11 +160,11 @@ const ProfilePage = () => {
             </Text>
           </View>
           <View style={styles.SocialView}>
-            {profileInfo[0].linkFirst != 'null' ? (
+            {profileInfo['linkFirst'] != 'null' ? (
               <Pressable
                 style={styles.SocialButton}
                 onPress={() => {
-                  Linking.openURL(profileInfo[0].linkFirst);
+                  Linking.openURL(profileInfo['linkFirst']);
                 }}>
                 <Image
                   style={styles.SocialIcon}
@@ -173,11 +174,11 @@ const ProfilePage = () => {
             ) : (
               ''
             )}
-            {profileInfo[0].linkSecond != 'null' ? (
+            {profileInfo['linkSecond'] != 'null' ? (
               <Pressable
                 style={styles.SocialButton}
                 onPress={() => {
-                  Linking.openURL(profileInfo[0].linkSecond);
+                  Linking.openURL(profileInfo['linkSecond']);
                 }}>
                 <Image
                   style={styles.SocialIcon}
@@ -187,11 +188,11 @@ const ProfilePage = () => {
             ) : (
               ''
             )}
-            {profileInfo[0].linkThird != 'null' ? (
+            {profileInfo['linkThird'] != 'null' ? (
               <Pressable
                 style={styles.SocialButton}
                 onPress={() => {
-                  Linking.openURL(profileInfo[0].linkThird);
+                  Linking.openURL(profileInfo['linkThird']);
                 }}>
                 <Image
                   style={styles.SocialIcon}
@@ -201,11 +202,11 @@ const ProfilePage = () => {
             ) : (
               ''
             )}
-            {profileInfo[0].linkForth != 'null' ? (
+            {profileInfo['linkForth'] != 'null' ? (
               <Pressable
                 style={styles.SocialButton}
                 onPress={() => {
-                  Linking.openURL(profileInfo[0].linkForth);
+                  Linking.openURL(profileInfo['linkForth']);
                 }}>
                 <Image
                   style={styles.SocialIcon}

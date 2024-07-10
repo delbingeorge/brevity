@@ -43,7 +43,8 @@ const IssuePostForm = () => {
     const getListArray = async () => {
       try {
         const response = await axios.post(
-          'http://192.168.1.105:8000/api/get-joined-list-names',
+          // 'http://192.168.1.105:8000/api/get-joined-list-names',
+          'http://206.189.143.236/api/get-joined-list-names',
           {user_id: profileInfo.id},
         );
         if (response.status == 200) {
