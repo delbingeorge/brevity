@@ -14,7 +14,7 @@ import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
-import {API_URL} from '@env';
+import Config from 'react-native-config';
 
 const ListHomePage = () => {
   const [renderComponent, setRenderComponent] = useState('ListFeedPage');
@@ -29,6 +29,7 @@ const ListHomePage = () => {
     useRecoilState(listMembershipStatus);
   const [loading, setLoading] = useState(false);
   const [listArray, setListArray] = useState([]);
+  const API_URL = Config.API_URL;
 
   useEffect(() => {
     const getListArray = async () => {

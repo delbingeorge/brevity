@@ -11,13 +11,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {API_URL} from '@env';
+import Config from 'react-native-config';
 
 const ExplorePage = () => {
   const [searchText, setSearchText] = useState('');
   const [reqText, setReqText] = useState('');
   const [searchRes, setSearchRes] = useState([]);
   const navigation = useNavigation();
+
+  const API_URL = Config.API_URL;
+  console.log(API_URL + '/api/explore-search');
 
   const searchHandler = async () => {
     try {

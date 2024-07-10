@@ -14,15 +14,17 @@ import {useState} from 'react';
 import {ReactNativeModal} from 'react-native-modal';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {authState, userInfo} from '../../provider/RecoilStore';
-import {API_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Config from 'react-native-config';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
-  const [loading, setLoading] = useState(false);
+  const API_URL = Config.API_URL;
+
+  // const [loading, setLoading] = useState(false);
   // const [signOutModal, setSignOutModal] = useState(false);
 
   const profileInfo = useRecoilValue(userInfo);
@@ -36,13 +38,13 @@ const ProfilePage = () => {
 
   const signOut = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       await GoogleSignin.signOut();
       await AsyncStorage.removeItem('userInfo');
       setAuthValue(false);
       setUserInfoState({});
       navigation.navigate('FeedPage');
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error(error);
     }

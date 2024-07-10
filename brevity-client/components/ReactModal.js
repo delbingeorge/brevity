@@ -20,7 +20,7 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
-import {API_URL} from '@env';
+import Config from 'react-native-config';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
@@ -28,6 +28,8 @@ const ReactModal = () => {
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
   const [newUserState, setNewUserState] = useRecoilState(newUser);
   const [loading, setLoading] = useState(false);
+
+  const API_URL = Config.API_URL;
 
   const signInWithGoogle = async () => {
     try {

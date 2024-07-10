@@ -21,6 +21,7 @@
     "burnt": "^0.12.2",
     "react": "18.2.0",
     "react-native": "0.74.2",
+    "react-native-config": "^1.5.2",
     "react-native-dotenv": "^3.4.11",
     "react-native-image-picker": "^7.1.2",
     "react-native-modal": "^13.0.1",

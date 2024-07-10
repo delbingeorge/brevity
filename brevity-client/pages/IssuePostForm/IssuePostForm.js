@@ -16,7 +16,7 @@ import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
-import {API_URL} from '@env';
+import Config from 'react-native-config';
 
 const IssuePostForm = () => {
   const navigation = useNavigation();
@@ -38,6 +38,8 @@ const IssuePostForm = () => {
     },
   ]);
 
+  const API_URL = Config.API_URL;
+
   useEffect(() => {
     const getListArray = async () => {
       try {
@@ -46,7 +48,6 @@ const IssuePostForm = () => {
         });
         if (response.status == 200) {
           setItems(response.data);
-          console.log(response.data);
         } else {
           console.log(response.statusText);
         }

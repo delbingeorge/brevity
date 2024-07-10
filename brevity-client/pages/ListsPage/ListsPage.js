@@ -4,13 +4,14 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
-import {API_URL} from '@env';
+import Config from 'react-native-config';
 
 const ListsPage = () => {
   const navigation = useNavigation();
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [listArray, setListArray] = useState([]);
   const membershipChanged = useRecoilValue(listMembershipStatus);
+  const API_URL = Config.API_URL;
 
   const getJoinedLists = async () => {
     try {
@@ -73,7 +74,7 @@ const ListsPage = () => {
               height: 160,
               width: 160,
               objectFit: 'contain',
-              opacity: 0.6,
+              opacity: 0.7,
             }}
             source={require('../../assets/images/logo/not-in-any-list.png')}
           />
