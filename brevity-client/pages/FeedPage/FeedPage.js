@@ -92,7 +92,6 @@ const FeedPage = () => {
       ) : (
         console.log('old user')
       )} */}
-      
     </SafeAreaView>
   );
 };

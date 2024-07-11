@@ -20,7 +20,7 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
-import Config from 'react-native-config';
+import {API_URL} from '@env';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
@@ -28,8 +28,6 @@ const ReactModal = () => {
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
   const [newUserState, setNewUserState] = useRecoilState(newUser);
   const [loading, setLoading] = useState(false);
-
-  const API_URL = Config.API_URL;
 
   const signInWithGoogle = async () => {
     try {
@@ -39,17 +37,20 @@ const ReactModal = () => {
 
       const username = userInfo.user.email.split('@');
 
-      const response = await axios.post(`${API_URL}/api/google-signin`, {
-        name: userInfo.user.name,
-        username: username[0],
-        email: userInfo.user.email,
-        bio: 'i love to code.',
-        photo: userInfo.user.photo,
-        linkFirst: 'https://github.com/',
-        linkSecond: 'https://www.linkedin.com/',
-        linkThird: 'https://www.youtube.com/',
-        linkForth: 'https://www.example.com/',
-      });
+      const response = await axios.post(
+        'http://192.168.1.105:8000/api/google-signin',
+        {
+          name: userInfo.user.name,
+          username: username[0],
+          email: userInfo.user.email,
+          bio: 'i love to code.',
+          photo: userInfo.user.photo,
+          linkFirst: '',
+          linkSecond: '',
+          linkThird: '',
+          linkForth: '',
+        },
+      );
 
       if (response.status == 200) {
         setUserInfoState(response.data.user);

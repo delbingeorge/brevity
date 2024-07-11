@@ -15,14 +15,13 @@ import {ReactNativeModal} from 'react-native-modal';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {authState, userInfo} from '../../provider/RecoilStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Config from 'react-native-config';
+import {API_URL} from '@env';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
-  const API_URL = Config.API_URL;
 
   // const [loading, setLoading] = useState(false);
   // const [signOutModal, setSignOutModal] = useState(false);

@@ -17,14 +17,13 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import * as Burnt from 'burnt';
-import Config from 'react-native-config';
+import {API_URL} from '@env';
 
 const EditProfile = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [profileImage, setProfileImage] = useState(profileInfo.photo);
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-  const API_URL = Config.API_URL;
 
   const [formData, setFormData] = useState({
     fullName: profileInfo.name,

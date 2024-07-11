@@ -4,14 +4,13 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
-import Config from 'react-native-config';
+import {API_URL} from '@env';
 
 const ListsPage = () => {
   const navigation = useNavigation();
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [listArray, setListArray] = useState([]);
   const membershipChanged = useRecoilValue(listMembershipStatus);
-  const API_URL = Config.API_URL;
 
   const getJoinedLists = async () => {
     try {

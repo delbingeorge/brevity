@@ -16,7 +16,7 @@ import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
-import Config from 'react-native-config';
+import {API_URL} from '@env';
 
 const IssuePostForm = () => {
   const navigation = useNavigation();
@@ -37,8 +37,6 @@ const IssuePostForm = () => {
       value: 'Python',
     },
   ]);
-
-  const API_URL = Config.API_URL;
 
   useEffect(() => {
     const getListArray = async () => {
