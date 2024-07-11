@@ -20,7 +20,6 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
-import {API_URL} from '@env';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);

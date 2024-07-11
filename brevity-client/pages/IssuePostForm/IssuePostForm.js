@@ -16,7 +16,6 @@ import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
-import {API_URL} from '@env';
 
 const IssuePostForm = () => {
   const navigation = useNavigation();
@@ -41,9 +40,12 @@ const IssuePostForm = () => {
   useEffect(() => {
     const getListArray = async () => {
       try {
-        const response = await axios.post(`${API_URL}/api/get-all-lists`, {
-          user_id: profileInfo.id,
-        });
+        const response = await axios.post(
+          `http://206.189.143.236/api/get-all-lists`,
+          {
+            user_id: profileInfo.id,
+          },
+        );
         if (response.status == 200) {
           setItems(response.data);
         } else {

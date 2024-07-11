@@ -25,7 +25,6 @@ const StackRoute = createNativeStackNavigator();
 
 function TabNavigation() {
   const [authValue, setAuthValue] = useRecoilState(authState);
-
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
 
   const initializeApp = async () => {

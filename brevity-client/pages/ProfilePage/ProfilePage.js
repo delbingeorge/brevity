@@ -15,7 +15,6 @@ import {ReactNativeModal} from 'react-native-modal';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {authState, userInfo} from '../../provider/RecoilStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {API_URL} from '@env';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
@@ -59,7 +58,7 @@ const ProfilePage = () => {
             profileInfo['photo'].startsWith('https://lh3.googleusercontent.com')
               ? {uri: profileInfo['photo']}
               : {
-                  uri: `${API_URL}/storage/${profileInfo['photo']}`,
+                  uri: `http://206.189.143.236/storage/${profileInfo['photo']}`,
                 }
           }
         />
@@ -176,7 +175,7 @@ const ProfilePage = () => {
               )
                 ? {uri: profileInfo['photo']}
                 : {
-                    uri: `${API_URL}/storage/${profileInfo['photo']}`,
+                    uri: `http://206.189.143.236/storage/${profileInfo['photo']}`,
                   }
             }
           />
