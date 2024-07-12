@@ -112,22 +112,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   HeaderImage: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
+    // width: 25,
+    // height: 25,
     borderRadius: 100,
-    marginRight: 10,
+    marginRight: 7,
   },
   HeaderUserName: {
     color: 'black',
     fontFamily: 'Inter-Medium',
-    fontSize: 16,
+    // fontSize: 16,
+    fontSize: 14,
   },
   HeaderDivider: {
-    fontSize: 27,
+    fontSize: 20,
     color: '#687684',
   },
   HeaderListName: {
-    fontSize: 15,
+    fontSize: 13.5,
     color: '#687684',
   },
 
@@ -139,8 +142,8 @@ const styles = StyleSheet.create({
 
   // Issue Content Styling
   IssueContent: {rowGap: 5},
-  IssueTitle: {color: 'black', fontSize: 18, fontFamily: 'Inter-Medium'},
-  IssueText: {color: '#687684', fontSize: 17, lineHeight: 24},
+  IssueTitle: {color: 'black', fontSize: 16.3, fontFamily: 'Inter-Medium'},
+  IssueText: {color: '#687684', fontSize: 16, lineHeight: 22},
 
   // Issue Action Styling
 
@@ -154,11 +157,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    columnGap: 8,
+    columnGap: 5,
     marginVertical: 10,
   },
-  IssueActionIcon: {width: 20, height: 20},
-  IssueActionCount: {color: 'black', fontSize: 16, fontFamily: 'Inter-Medium'},
+  IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
+  IssueActionCount: {
+    color: 'black',
+    fontSize: 13.5,
+    fontFamily: 'Inter-Medium',
+  },
   AuthView: {
     borderRadius: 25,
     paddingHorizontal: 20,

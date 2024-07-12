@@ -17,12 +17,14 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import * as Burnt from 'burnt';
+import Config from 'react-native-config';
 
 const EditProfile = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [profileImage, setProfileImage] = useState(profileInfo.photo);
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const URL = Config.BASE_URL;
 
   const [formData, setFormData] = useState({
     fullName: profileInfo.name,
@@ -77,15 +79,11 @@ const EditProfile = () => {
       data.append('linkThird', formData.linkThird);
       data.append('linkForth', formData.linkForth);
 
-      const response = await axios.post(
-        `http://206.189.143.236/api/profile/update`,
-        data,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+      const response = await axios.post(`${URL}/api/profile/update`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
-      );
+      });
 
       if (response.status === 200) {
         setProfileInfo(response.data.user);

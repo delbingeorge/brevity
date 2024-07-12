@@ -1,5 +1,6 @@
 .env
-.env.production
+.env.prod
+.env.staging
 # OSX
 #
 .DS_Store

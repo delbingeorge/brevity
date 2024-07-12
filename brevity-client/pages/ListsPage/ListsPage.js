@@ -4,6 +4,7 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
+import Config from 'react-native-config';
 
 const ListsPage = () => {
   const navigation = useNavigation();
@@ -11,14 +12,13 @@ const ListsPage = () => {
   const [listArray, setListArray] = useState([]);
   const membershipChanged = useRecoilValue(listMembershipStatus);
 
+  const URL = Config.BASE_URL;
+
   const getJoinedLists = async () => {
     try {
-      const response = await axios.post(
-        `http://206.189.143.236/api/get-all-lists`,
-        {
-          user_id: profileInfo.id,
-        },
-      );
+      const response = await axios.post(`${URL}/api/get-all-lists`, {
+        user_id: profileInfo.id,
+      });
       if (response.status == 200) {
         setListArray(response.data);
       }

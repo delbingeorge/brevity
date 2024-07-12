@@ -20,6 +20,7 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
+import Config from 'react-native-config';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
@@ -27,29 +28,26 @@ const ReactModal = () => {
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
   const [newUserState, setNewUserState] = useRecoilState(newUser);
   const [loading, setLoading] = useState(false);
+  const URL = Config.BASE_URL;
 
   const signInWithGoogle = async () => {
     try {
       setLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-
       const username = userInfo.user.email.split('@');
 
-      const response = await axios.post(
-        'http://192.168.1.105:8000/api/google-signin',
-        {
-          name: userInfo.user.name,
-          username: username[0],
-          email: userInfo.user.email,
-          bio: 'i love to code.',
-          photo: userInfo.user.photo,
-          linkFirst: '',
-          linkSecond: '',
-          linkThird: '',
-          linkForth: '',
-        },
-      );
+      const response = await axios.post(`${URL}/api/google-signin`, {
+        name: userInfo.user.name,
+        username: username[0],
+        email: userInfo.user.email,
+        bio: 'i love to code.',
+        photo: userInfo.user.photo,
+        linkFirst: '',
+        linkSecond: '',
+        linkThird: '',
+        linkForth: '',
+      });
 
       if (response.status == 200) {
         setUserInfoState(response.data.user);
@@ -112,7 +110,7 @@ const ReactModal = () => {
         });
       } else {
         Burnt.toast({
-          title: 'An unknown error occurred. Please try again.',
+          title: error.me,
           preset: 'error',
           haptic: 'error',
           duration: 5,

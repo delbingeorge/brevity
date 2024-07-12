@@ -14,6 +14,7 @@ import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
+import Config from 'react-native-config';
 
 const ListHomePage = () => {
   const [renderComponent, setRenderComponent] = useState('ListFeedPage');
@@ -27,16 +28,14 @@ const ListHomePage = () => {
     useRecoilState(listMembershipStatus);
   const [loading, setLoading] = useState(false);
   const [listArray, setListArray] = useState([]);
+  const URL = Config.BASE_URL;
 
   useEffect(() => {
     const getListArray = async () => {
       try {
-        const response = await axios.post(
-          `http://206.189.143.236/api/get-all-lists`,
-          {
-            user_id: profileInfo.id,
-          },
-        );
+        const response = await axios.post(`${URL}/api/get-all-lists`, {
+          user_id: profileInfo.id,
+        });
         if (response.status == 200) {
           setListArray(response.data);
           setListJoinStatus(!listJoinStatus);
@@ -55,7 +54,7 @@ const ListHomePage = () => {
   const ListJoinLogic = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(`${API_URL}/api/join-list`, {
+      const response = await axios.post(`${URL}/api/join-list`, {
         list_id: item.id,
         user_id: profileInfo.id,
       });
@@ -73,7 +72,7 @@ const ListHomePage = () => {
   const ListLeaveLogic = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(`${API_URL}/api/leave-list`, {
+      const response = await axios.post(`${URL}/api/leave-list`, {
         list_id: item.id,
         user_id: profileInfo.id,
       });
