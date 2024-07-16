@@ -110,16 +110,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    paddingBottom: 8,
   },
   NavLogo: {
-    height: 22,
+    height: 20,
     width: 76,
     objectFit: 'contain',
   },
   CrownRank: {
-    height: 24,
-    width: 24,
+    height: 20,
+    width: 20,
   },
   BottomNavBar: {
     display: 'flex',

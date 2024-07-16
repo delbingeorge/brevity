@@ -16,7 +16,7 @@ import Config from 'react-native-config';
 const ExplorePage = () => {
   const [searchText, setSearchText] = useState('');
   const [reqText, setReqText] = useState('');
-  const [searchRes, setSearchRes] = useState([]);
+  const [searchRes, setSearchRes] = useState();
   const navigation = useNavigation();
 
   const URL = Config.BASE_URL;
@@ -36,6 +36,8 @@ const ExplorePage = () => {
       console.log(error);
     }
   };
+
+  console.log(searchRes);
 
   const searchItem = ({item}) => (
     <Pressable

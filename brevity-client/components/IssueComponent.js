@@ -98,7 +98,7 @@ export default IssueComponent;
 
 const styles = StyleSheet.create({
   IssueComponent: {
-    borderBottomColor: '#D9D9D9',
+    borderBottomColor: 'rgba(0,0,0,0.06)',
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
     // paddingVertical: 10,

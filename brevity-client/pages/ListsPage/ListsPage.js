@@ -70,7 +70,7 @@ const ListsPage = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Image
+          {/* <Image
             style={{
               height: 160,
               width: 160,
@@ -78,7 +78,7 @@ const ListsPage = () => {
               opacity: 0.7,
             }}
             source={require('../../assets/images/logo/not-in-any-list.png')}
-          />
+          /> */}
           <Text style={styles.NoListText}>Oops, You are not in any lists!</Text>
           <Pressable onPress={() => navigation.navigate('ExplorePage')}>
             <Text style={styles.NoListJoinButton}>Join now!</Text>

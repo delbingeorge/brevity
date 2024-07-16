@@ -160,11 +160,33 @@ const ListHomePage = () => {
         </View>
         <View>
           {isItemInListArray == true ? (
-            <Pressable onPress={ListLeaveLogic}>
-              <Text style={styles.ListLeaveBtn}>
-                {loading ? <ActivityIndicator /> : 'Leave List'}
-              </Text>
-            </Pressable>
+            <View
+              style={{
+                flexDirection: 'row',
+                // width: '100%',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Pressable onPress={ListLeaveLogic} style={{width: '85%'}}>
+                <Text style={styles.ListLeaveBtn}>
+                  {loading ? <ActivityIndicator /> : 'Leave List'}
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => navigation.navigate('ScreamPage')}
+                style={{
+                  backgroundColor: '#f0f0f0',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 10,
+                  borderRadius: 5,
+                }}>
+                <Image
+                  style={{width: 28, height: 28, objectFit: 'contain'}}
+                  source={require('../../assets/images/icons/scream-icon-bk.png')}
+                />
+              </Pressable>
+            </View>
           ) : (
             <Pressable onPress={ListJoinLogic}>
               <Text style={styles.ListJoinBtn}>
@@ -305,7 +327,7 @@ const styles = StyleSheet.create({
   },
   ListJoinBtn: {
     backgroundColor: 'black',
-    paddingVertical: 10,
+    padding: 12,
     borderRadius: 8,
     textAlign: 'center',
     color: 'white',
@@ -314,7 +336,7 @@ const styles = StyleSheet.create({
   },
   ListLeaveBtn: {
     backgroundColor: 'rgba(0,0,0,0.7)',
-    paddingVertical: 10,
+    padding: 12,
     borderRadius: 8,
     textAlign: 'center',
     color: 'white',

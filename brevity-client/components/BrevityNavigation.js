@@ -19,6 +19,7 @@ import SettingsPage from '../pages/ProfilePage/SettingsPage';
 import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
 import ListHomePage from '../pages/ListHomePage/ListHomePage';
+import ScreamPage from '../pages/ListHomePage/ScreamPage/ScreamPage';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -49,9 +50,16 @@ function TabNavigation() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarLabelStyle: {
+          fontFamily: 'Inter-Medium',
+          fontSize: 12,
+          marginTop: -5,
+        },
         tabBarStyle: {
           display: authValue == true ? 'flex' : 'none',
+          height: 57,
         },
+        tabBarHideOnKeyboard: true,
       }}>
       <TabRoute.Screen
         name="FeedPage"
@@ -181,6 +189,11 @@ function BrevityNavigation() {
         options={{headerShown: false}}
         name="SettingsPage"
         component={SettingsPage}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="ScreamPage"
+        component={ScreamPage}
       />
     </StackRoute.Navigator>
   );
