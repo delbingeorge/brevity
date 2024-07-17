@@ -21,6 +21,9 @@ const ExplorePage = () => {
 
   const URL = Config.BASE_URL;
 
+  const hasResults = searchRes && searchRes.length > 0;
+  const noResults = searchRes && searchRes.length === 0;
+
   const searchHandler = async () => {
     try {
       const response = await axios.post(`${URL}/api/explore-search`, {
@@ -37,7 +40,25 @@ const ExplorePage = () => {
     }
   };
 
-  console.log(searchRes);
+  const NoResponseComponent = () => {
+    return (
+      <View style={{alignItems: 'center'}}>
+        {/* <Image
+          style={{width: 50, height: 50}}
+          source={require('../../assets/images/icons/toast-icons/lying-face.png')}
+        /> */}
+        <Text
+          style={{
+            color: 'black',
+            textAlign: 'center',
+            fontSize: 17,
+            fontFamily: 'Inter-Regular',
+          }}>
+          No results were found for your search.
+        </Text>
+      </View>
+    );
+  };
 
   const searchItem = ({item}) => (
     <Pressable
@@ -90,7 +111,7 @@ const ExplorePage = () => {
           backgroundColor: 'rgba(0,0,0,0.1)',
         }}></View>
 
-      {searchRes && searchRes.length != 0 ? (
+      {hasResults && (
         <View>
           <View style={styles.ResultView}>
             <View style={styles.ResultTextView}>
@@ -108,9 +129,9 @@ const ExplorePage = () => {
           </View>
           <FlatList data={searchRes} renderItem={searchItem} />
         </View>
-      ) : (
-        ''
       )}
+
+      {noResults && <NoResponseComponent />}
     </View>
   );
 };

@@ -114,15 +114,15 @@ const ListHomePage = () => {
       </Pressable> */}
       <View>
         <View style={styles.ListHeader}>
-          {/* <View
+          <View
             style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
             <Image
               style={{width: 20, height: 20}}
-              // source={{uri: item.list_logo}}
-              source={require('../../assets/images/icons/user-default-image1.png')}
-            /> */}
-          <Text style={styles.ListTitle}>{item.list_name}</Text>
-          {/* </View> */}
+              source={{uri: item.list_logo}}
+              // source={require('../../assets/images/icons/user-default-image1.png')}
+            />
+            <Text style={styles.ListTitle}>{item.list_name}</Text>
+          </View>
 
           <Pressable>
             <Image
@@ -167,7 +167,7 @@ const ListHomePage = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Pressable onPress={ListLeaveLogic} style={{width: '85%'}}>
+              <Pressable onPress={ListLeaveLogic} style={{width: '83%'}}>
                 <Text style={styles.ListLeaveBtn}>
                   {loading ? <ActivityIndicator /> : 'Leave List'}
                 </Text>
@@ -182,7 +182,7 @@ const ListHomePage = () => {
                   borderRadius: 5,
                 }}>
                 <Image
-                  style={{width: 28, height: 28, objectFit: 'contain'}}
+                  style={{width: 26, height: 26, objectFit: 'contain'}}
                   source={require('../../assets/images/icons/scream-icon-bk.png')}
                 />
               </Pressable>

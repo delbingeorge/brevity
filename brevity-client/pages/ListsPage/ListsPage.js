@@ -38,8 +38,9 @@ const ListsPage = () => {
       }}
       style={styles.ResultRenderItem}>
       <Image
-        style={{width: 32, height: 32}}
-        source={require('../../assets/images/icons/user-default-image1.png')}
+        style={{width: 28, height: 28}}
+        // source={require('../../assets/images/icons/user-default-image1.png')}
+        source={{uri: item.list_logo}}
       />
       <View>
         <Text style={styles.RenderItemTitle}>{item.list_name}</Text>

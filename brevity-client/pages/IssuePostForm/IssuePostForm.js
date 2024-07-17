@@ -22,20 +22,7 @@ const IssuePostForm = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [listModalView, setListModalView] = useState(false);
   const [value, setValue] = useState();
-  const [items, setItems] = useState([
-    {
-      key: 1,
-      value: 'Javascript',
-    },
-    {
-      key: 2,
-      value: 'Java',
-    },
-    {
-      key: 3,
-      value: 'Python',
-    },
-  ]);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const getListArray = async () => {
@@ -205,15 +192,15 @@ const IssuePostForm = () => {
         }}
         isVisible={listModalView}>
         <View style={styles.AuthView}>
-          {items.map(key => {
+          {items.map(value => {
             return (
               <Pressable
                 onPress={() => {
-                  inputHandler('listName', key.value);
-                  setValue(key.value);
+                  inputHandler('listName', value.list_name);
+                  setValue(value.list_name);
                   setListModalView(false);
                 }}
-                key={key}>
+                key={value.id}>
                 <Text
                   style={{
                     paddingVertical: 10,
@@ -221,7 +208,7 @@ const IssuePostForm = () => {
                     color: 'black',
                     fontFamily: 'Inter-Medium',
                   }}>
-                  {key}
+                  {value.list_name}
                 </Text>
               </Pressable>
             );

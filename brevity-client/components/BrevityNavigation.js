@@ -57,7 +57,7 @@ function TabNavigation() {
         },
         tabBarStyle: {
           display: authValue == true ? 'flex' : 'none',
-          height: 57,
+          height: 54,
         },
         tabBarHideOnKeyboard: true,
       }}>
