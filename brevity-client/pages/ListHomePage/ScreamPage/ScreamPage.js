@@ -1,33 +1,33 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 const ScreamPage = () => {
   const navigation = useNavigation();
+  const [micStatus, setMicStatus] = useState(true);
+  const [speakerStatus, setSpeakerStatus] = useState(true);
+
+  const MicOpen = require('../../../assets/images/icons/room-icons/microphone-open.png');
+  const MicClose = require('../../../assets/images/icons/room-icons/microphone-close.png');
+
+  const SpeakerOpen = require('../../../assets/images/icons/room-icons/audio-open.png');
+  const SpeakerClose = require('../../../assets/images/icons/room-icons/audio-close.png');
 
   return (
     <View style={{backgroundColor: 'white', flex: 1, paddingHorizontal: 15}}>
-      <Text style={styles.GoBackText}>JavaScript</Text>
       {/* <Pressable
         onPress={() => {
           navigation.goBack();
-        }}
-        style={styles.GoBack}>
-        <Image
+          }}
+          style={styles.GoBack}>
+          <Image
           style={styles.GoBackIcon}
           source={require('../../../assets/images/icons/go-back-bk.png')}
-        />
-      </Pressable> */}
-      {/* <ScrollView contentContainerStyle={styles.container}>
+          />
+          <Text style={styles.GoBackText}>JavaScript</Text>
+      </Pressable> 
+      
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.bubbleContainer}>
           <Image
             style={{width: 28, height: 28, borderRadius: 100}}
@@ -66,6 +66,7 @@ const ScreamPage = () => {
           </View>
         </View>
       </ScrollView>
+
       <View style={styles.MessageInput}>
         <TextInput
           placeholder="Ask something..."
@@ -94,83 +95,40 @@ const ScreamPage = () => {
         </TouchableOpacity>
       </View> */}
 
-      <View
-        style={{
-          backgroundColor: 'white',
-          paddingVertical: 15,
-          // height: 70,
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          borderTopWidth: 0.2,
-          borderTopColor: 'rgba(0,0,0,0.1)',
-          paddingHorizontal: 10,
-          position: 'absolute',
-          right: 0,
-          left: 0,
-          bottom: 0,
-        }}>
+      <View style={styles.RoomController}>
         <View>
           <Pressable
             onPress={() => {
               navigation.goBack();
             }}
-            style={{
-              backgroundColor: 'rgba(240, 89, 156,0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              flexDirection: 'row',
-              paddingVertical: 7,
-              borderRadius: 10,
-              columnGap: 5,
-              paddingHorizontal: 20,
-            }}>
-            {/* <Image
-              style={{width: 20, height: 20, tintColor: 'white'}}
-              source={require('../../../assets/images/icons/leave-icon-bk.png')}
-            /> */}
-            <Text
-              style={{
-                fontFamily: 'Inter-Medium',
-                color: 'rgba(240, 89, 156,0.8)',
-                fontSize: 15,
-              }}>
-              Leave
-            </Text>
+            style={styles.LeaveRoomButton}>
+            <Text style={styles.LeaveRoomText}>Leave</Text>
           </Pressable>
         </View>
         <View style={{flexDirection: 'row', columnGap: 8}}>
           <Pressable
-            style={{
-              backgroundColor: '#f4f4f4',
-              padding: 11,
-              borderRadius: 100,
-            }}>
+            onPress={() => {
+              setMicStatus(!micStatus);
+            }}
+            style={styles.RoomControls}>
             <Image
-              style={{width: 20, height: 20}}
-              source={require('../../../assets/images/icons/room-icons/microphone-open.png')}
+              style={styles.RoomControlsImage}
+              source={micStatus ? MicOpen : MicClose}
             />
           </Pressable>
           <Pressable
-            style={{
-              backgroundColor: '#f4f4f4',
-              padding: 11,
-              borderRadius: 100,
-            }}>
+            onPress={() => {
+              setSpeakerStatus(!speakerStatus);
+            }}
+            style={styles.RoomControls}>
             <Image
-              style={{width: 20, height: 20}}
-              source={require('../../../assets/images/icons/room-icons/audio-open.png')}
+              style={styles.RoomControlsImage}
+              source={speakerStatus ? SpeakerOpen : SpeakerClose}
             />
           </Pressable>
-          <Pressable
-            style={{
-              backgroundColor: '#f4f4f4',
-              padding: 11,
-              borderRadius: 100,
-            }}>
+          <Pressable style={styles.RoomControls}>
             <Image
-              style={{width: 20, height: 20}}
+              style={styles.RoomControlsImage}
               source={require('../../../assets/images/icons/room-icons/room-menu.png')}
             />
           </Pressable>
@@ -252,4 +210,43 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 23,
   },
+
+  // Room Controller
+
+  RoomController: {
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderTopWidth: 0.2,
+    borderTopColor: 'rgba(0,0,0,0.1)',
+    paddingHorizontal: 10,
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    bottom: 0,
+  },
+  LeaveRoomButton: {
+    backgroundColor: 'rgba(240, 89, 156,0.2)',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingVertical: 7,
+    borderRadius: 10,
+    columnGap: 8,
+    paddingHorizontal: 20,
+  },
+  LeaveRoomText: {
+    fontFamily: 'Inter-Medium',
+    color: 'rgba(240, 89, 156,0.8)',
+    fontSize: 15,
+  },
+  RoomControls: {
+    backgroundColor: '#f4f4f4',
+    padding: 11,
+    borderRadius: 100,
+  },
+  RoomControlsImage: {width: 20, height: 20},
 });

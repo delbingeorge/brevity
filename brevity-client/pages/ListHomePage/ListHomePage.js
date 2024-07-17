@@ -123,13 +123,12 @@ const ListHomePage = () => {
             />
             <Text style={styles.ListTitle}>{item.list_name}</Text>
           </View>
-
-          <Pressable>
+          {/* <Pressable>
             <Image
               style={styles.ListSettings}
               source={require('../../assets/images/icons/list-settings-icon-bk.png')}
             />
-          </Pressable>
+          </Pressable> */}
         </View>
         <View>
           <Text style={styles.ListDescription}>{item.description}</Text>
@@ -167,7 +166,7 @@ const ListHomePage = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Pressable onPress={ListLeaveLogic} style={{width: '83%'}}>
+              <Pressable onPress={ListLeaveLogic} style={{width: '49%'}}>
                 <Text style={styles.ListLeaveBtn}>
                   {loading ? <ActivityIndicator /> : 'Leave List'}
                 </Text>
@@ -175,11 +174,12 @@ const ListHomePage = () => {
               <Pressable
                 onPress={() => navigation.navigate('ScreamPage')}
                 style={{
-                  backgroundColor: '#f0f0f0',
+                  backgroundColor: '#f5f7f9',
                   alignItems: 'center',
                   justifyContent: 'center',
                   padding: 10,
                   borderRadius: 5,
+                  width: '49%',
                 }}>
                 <Image
                   style={{width: 26, height: 26, objectFit: 'contain'}}
