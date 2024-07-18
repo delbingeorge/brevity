@@ -86,4 +86,16 @@ class ListController extends Controller
 
         return response()->json($res);
     }
+
+    public function getListIssues($listId)
+    {
+        $listIssues = DB::table('issues')
+            ->join('lists', 'lists.id', '=', 'issues.list_id')
+            ->join('users', 'users.id', '=', 'issues.user_id')
+            ->where('issues.list_id', $listId)
+            ->select('issues.id', 'issues.title', 'issues.body', 'issues.created_at', 'users.name', 'users.photo', 'users.id')
+            ->get();
+
+        return response()->json($listIssues, 200);
+    }
 }

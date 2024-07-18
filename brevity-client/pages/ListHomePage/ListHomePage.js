@@ -112,7 +112,7 @@ const ListHomePage = () => {
   const renderViewLogic = () => {
     switch (renderComponent) {
       case 'ListFeedPage':
-        return <ListFeedPage />;
+        return <ListFeedPage itemId={item.id} />;
       case 'ListRankings':
         return <ListRanking />;
       case 'ListInsights':

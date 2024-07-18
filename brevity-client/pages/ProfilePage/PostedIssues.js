@@ -21,6 +21,10 @@ const PostedIssues = () => {
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    getPostedIssues();
+  }, []);
+
   const getPostedIssues = async () => {
     try {
       setLoading(true);
@@ -39,9 +43,11 @@ const PostedIssues = () => {
     }
   };
 
-  useEffect(() => {
-    getPostedIssues();
-  }, []);
+  //   let postDate = new Date('2024-07-18 17:42:03');
+  //   const currentDate = new Date();
+
+  //   const diff = currentDate - postDate;
+  //   const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
 
   const renderIssue = useCallback(
     ({item}) => (
@@ -62,6 +68,7 @@ const PostedIssues = () => {
           style={{color: 'black', fontSize: 14.5, fontFamily: 'Inter-Regular'}}>
           {item.body.substring(0, 50)}
         </Text>
+        {/* <Text style={{color: 'black'}}>{`posted ${daysAgo} days ago`}</Text> */}
       </Pressable>
     ),
     [navigation],
