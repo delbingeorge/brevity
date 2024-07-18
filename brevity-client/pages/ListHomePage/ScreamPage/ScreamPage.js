@@ -1,10 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
+import {PermissionsAndroid} from 'react-native';
 import React, {useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 const ScreamPage = () => {
   const navigation = useNavigation();
-  const [micStatus, setMicStatus] = useState(true);
+  const [micStatus, setMicStatus] = useState(false);
   const [speakerStatus, setSpeakerStatus] = useState(true);
 
   const MicOpen = require('../../../assets/images/icons/room-icons/microphone-open.png');
@@ -13,87 +21,111 @@ const ScreamPage = () => {
   const SpeakerOpen = require('../../../assets/images/icons/room-icons/audio-open.png');
   const SpeakerClose = require('../../../assets/images/icons/room-icons/audio-close.png');
 
+  const roomMembers = [
+    {
+      name: 'Noah Thompson',
+      'profile-picture':
+        'https://i.pinimg.com/736x/07/5b/58/075b5805b148c72977b70053a9d61220.jpg',
+    },
+    {
+      name: 'Ava Smith',
+      'profile-picture':
+        'https://i.pinimg.com/564x/1f/8f/db/1f8fdb7a28650d64e6b37deae9073e92.jpg',
+    },
+    {
+      name: 'Liam Johnson',
+      'profile-picture':
+        'https://i.pinimg.com/736x/d6/ee/68/d6ee684ae3b2d1a529fa50efb33cbe12.jpg',
+    },
+    {
+      name: 'Emma Williams',
+      'profile-picture':
+        'https://i.pinimg.com/564x/90/28/18/902818f7bbc662d2161ab5ad04c0cfae.jpg',
+    },
+    {
+      name: 'James Brown',
+      'profile-picture':
+        'https://i.pinimg.com/564x/ef/21/0e/ef210ebaa100c3a94a6be60a99171f3c.jpg',
+    },
+    {
+      name: 'Olivia Jones',
+      'profile-picture':
+        'https://i.pinimg.com/564x/9a/f1/4f/9af14f00a425ab2c877c5e994c724b2e.jpg',
+    },
+    {
+      name: 'Benjamin Garcia',
+      'profile-picture':
+        'https://i.pinimg.com/736x/24/b4/8d/24b48d54b6aa92ecefa8352dd3d5b4d8.jpg',
+    },
+    {
+      name: 'Isabella Martinez',
+      'profile-picture':
+        'https://i.pinimg.com/564x/61/a3/c6/61a3c6a33a77692abe9f1b53cc324d59.jpg',
+    },
+    {
+      name: 'Sophia Lopez',
+      'profile-picture':
+        'https://i.pinimg.com/564x/e8/ef/2d/e8ef2dfac112abd94f30f4442872bd28.jpg',
+    },
+  ];
+
   return (
     <View style={{backgroundColor: 'white', flex: 1, paddingHorizontal: 15}}>
-      {/* <Pressable
-        onPress={() => {
-          navigation.goBack();
+      <View style={styles.container}>
+        <Image
+          source={{
+            uri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           }}
-          style={styles.GoBack}>
-          <Image
-          style={styles.GoBackIcon}
-          source={require('../../../assets/images/icons/go-back-bk.png')}
-          />
-          <Text style={styles.GoBackText}>JavaScript</Text>
-      </Pressable> 
-      
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.bubbleContainer}>
-          <Image
-            style={{width: 28, height: 28, borderRadius: 100}}
-            source={require('../../../assets/images/icons/user-default-image.png')}
-          />
-          <View style={styles.bubbleLeft}>
-            <Text style={styles.bubbleText}>
-              Can someone guide me to start with javascript?
-            </Text>
-          </View>
-        </View>
-
-        <View style={[styles.bubbleContainer, styles.alignRight]}>
-          <View style={styles.bubbleRight}>
-            <Text style={styles.bubbleText}>Yeah sure!</Text>
-          </View>
-        </View>
-        <View style={[styles.bubbleContainer, styles.alignRight]}>
-          <View style={styles.bubbleRight}>
-            <Text style={styles.bubbleText}>Drop your queries here.</Text>
-          </View>
-        </View>
-
-        <View style={styles.bubbleContainer}>
-          <Image
-            style={{width: 28, height: 28, borderRadius: 100}}
-            source={require('../../../assets/images/icons/user-default-image.png')}
-          />
-          <View style={styles.bubbleLeft}>
-            <Text style={styles.bubbleText}>
-              I'm a Spring developer, but now our client wants us to do it using
-              JavaScript. So I'm considering the best approach. Do you have any
-              recommendations on how to transition from Spring to JavaScript
-              effectively?
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
-
-      <View style={styles.MessageInput}>
-        <TextInput
-          placeholder="Ask something..."
-          placeholderTextColor={'rgba(0,0,0,0.4)'}
-         
-          style={{
-            fontSize: 15,
-            fontFamily: 'Inter-Medium',
-            backgroundColor: '#f8f8f8',
-            color: 'black',
-            width: '85%',
-            paddingHorizontal: 12,
-            paddingVertical: 12,
-            borderRadius: 5,
-          }}
-          // onSubmitEditing={searchHandler}
+          style={[styles.image, {zIndex: 3}]}
         />
-        <TouchableOpacity
-          style={{backgroundColor: 'black', padding: 12, borderRadius: 8}}
-          // onPress={searchHandler}
-        >
-          <Image
-            style={{width: 25, height: 25, tintColor: 'white'}}
-            source={require('../../../assets/images/icons/send-icon-bk.png')}
-          />
-        </TouchableOpacity>
-      </View> */}
+        <Image
+          source={{
+            uri: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          }}
+          style={[styles.image, {marginLeft: -12, zIndex: 2}]}
+        />
+        <Image
+          source={{
+            uri: 'https://images.unsplash.com/photo-1581403341630-a6e0b9d2d257?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          }}
+          style={[styles.image, {marginLeft: -12, zIndex: 1}]}
+        />
+        <Text style={styles.text}>& 15 others</Text>
+      </View>
+
+      <ScrollView
+        contentContainerStyle={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginVertical: 5,
+          rowGap: 15,
+          flexWrap: 'wrap',
+          paddingBottom: 90,
+        }}>
+        {roomMembers.map((value, key) => (
+          <View
+            key={key}
+            style={{alignItems: 'center', rowGap: 5, width: '30%'}}>
+            <Image
+              source={{
+                uri: value['profile-picture'],
+              }}
+              style={{width: 70, height: 70, borderRadius: 30}}
+            />
+            <ScrollView horizontal>
+              <Text
+                style={{
+                  fontFamily: 'Inter-Medium',
+                  color: 'black',
+                  fontSize: 13.4,
+                  textAlign: 'center',
+                }}>
+                {value.name}
+              </Text>
+            </ScrollView>
+          </View>
+        ))}
+      </ScrollView>
 
       <View style={styles.RoomController}>
         <View>
@@ -102,7 +134,7 @@ const ScreamPage = () => {
               navigation.goBack();
             }}
             style={styles.LeaveRoomButton}>
-            <Text style={styles.LeaveRoomText}>Leave</Text>
+            <Text style={styles.LeaveRoomText}>Walk Out</Text>
           </Pressable>
         </View>
         <View style={{flexDirection: 'row', columnGap: 8}}>
@@ -211,6 +243,28 @@ const styles = StyleSheet.create({
     lineHeight: 23,
   },
 
+  // Room Header
+
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingVertical: 6,
+  },
+  image: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  text: {
+    color: 'black',
+    fontFamily: 'Inter-Medium',
+    fontSize: 13,
+    marginLeft: 10,
+  },
+
   // Room Controller
 
   RoomController: {
@@ -227,6 +281,7 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom: 0,
+    zIndex: 1000,
   },
   LeaveRoomButton: {
     backgroundColor: 'rgba(240, 89, 156,0.2)',

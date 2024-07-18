@@ -16,6 +16,8 @@ import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
+import Config from 'react-native-config';
+import * as Brunt from 'burnt';
 
 const IssuePostForm = () => {
   const navigation = useNavigation();
@@ -24,33 +26,33 @@ const IssuePostForm = () => {
   const [value, setValue] = useState();
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    const getListArray = async () => {
-      try {
-        const response = await axios.post(
-          `http://206.189.143.236/api/get-all-lists`,
-          {
-            user_id: profileInfo.id,
-          },
-        );
-        if (response.status == 200) {
-          setItems(response.data);
-        } else {
-          console.log(response.statusText);
-        }
-      } catch (error) {
-        console.log(error);
+  const URL = Config.BASE_URL;
+
+  const getListArray = async () => {
+    try {
+      const response = await axios.post(`${URL}/api/get-all-lists`, {
+        user_id: profileInfo.id,
+      });
+      if (response.status == 200) {
+        setItems(response.data);
+      } else {
+        console.log(response.statusText);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     getListArray();
   }, []);
 
   const [issueContent, setIssueContent] = useState({
-    issuerUsername: profileInfo.username,
+    issuerUserID: profileInfo.id,
     issuerMail: profileInfo.email,
     issueTitle: '',
     issueBody: '',
-    listName: '',
+    listID: '',
   });
 
   const inputHandler = (name, value) => {
@@ -61,14 +63,21 @@ const IssuePostForm = () => {
   };
 
   const issueHandler = async () => {
+    if (
+      !issueContent.listID ||
+      !issueContent.issueTitle ||
+      !issueContent.issueBody
+    ) {
+      Brunt.alert({
+        title: 'All fields are required!',
+      });
+      return;
+    }
     try {
-      const response = await axios.post(
-        'http://192.168.1.105:8000/api/post-issue',
-        issueContent,
-      );
-      if (response.status == 200) {
-        console.log('success');
-        console.log(response.data);
+      const response = await axios.post(`${URL}/api/post-issue`, issueContent);
+      if (response.status == 201) {
+        // navigation.navigate('IssuePostStatus');
+        navigation.goBack();
       }
     } catch (error) {
       console.log(error);
@@ -196,8 +205,10 @@ const IssuePostForm = () => {
             return (
               <Pressable
                 onPress={() => {
-                  inputHandler('listName', value.list_name);
+                  // inputHandler('listName', value.list_name);
+                  inputHandler('listID', value.id);
                   setValue(value.list_name);
+                  // setValue(value.id);
                   setListModalView(false);
                 }}
                 key={value.id}>
@@ -260,8 +271,7 @@ const styles = StyleSheet.create({
   },
   IssueContent: {
     // marginTop: 5,
-    // flex: 1,
-    height: 'auto',
+    flex: 1,
     lineHeight: 25,
     marginTop: -10,
     color: 'black',

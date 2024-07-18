@@ -13,7 +13,11 @@ import ListInsights from './ListNavigation/ListInsights/ListInsights';
 import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
-import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
+import {
+  listMembershipStatus,
+  userInfo,
+  UserLists,
+} from '../../provider/RecoilStore';
 import Config from 'react-native-config';
 
 const ListHomePage = () => {
@@ -28,25 +32,44 @@ const ListHomePage = () => {
     useRecoilState(listMembershipStatus);
   const [loading, setLoading] = useState(false);
   const [listArray, setListArray] = useState([]);
+  const [listDetails, setListDetails] = useState([]);
+  const [userList, setUserList] = useRecoilState(UserLists);
+
   const URL = Config.BASE_URL;
 
-  useEffect(() => {
-    const getListArray = async () => {
-      try {
-        const response = await axios.post(`${URL}/api/get-all-lists`, {
-          user_id: profileInfo.id,
-        });
-        if (response.status == 200) {
-          setListArray(response.data);
-          setListJoinStatus(!listJoinStatus);
-        } else {
-          console.log(response.statusText);
-        }
-      } catch (error) {
-        console.log(error);
+  const getListArray = async () => {
+    try {
+      const response = await axios.post(`${URL}/api/get-all-lists`, {
+        user_id: profileInfo.id,
+      });
+      if (response.status == 200) {
+        setListArray(response.data);
+        setListJoinStatus(!listJoinStatus);
+        // setUserList(response.data);
+      } else {
+        console.log(response.statusText);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getListDetails = async () => {
+    try {
+      const response = await axios.get(`${URL}/api/lists-details/${item.id}`);
+      if (response.status == 200) {
+        setListDetails(response.data);
+      } else {
+        console.log(response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     getListArray();
+    getListDetails();
   }, [listJoin]);
 
   const isItemInListArray = listArray.some(listItem => listItem.id === item.id);
@@ -118,8 +141,8 @@ const ListHomePage = () => {
             style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
             <Image
               style={{width: 20, height: 20}}
-              source={{uri: item.list_logo}}
-              // source={require('../../assets/images/icons/user-default-image1.png')}
+              // source={{uri: item.list_logo}}
+              source={require('../../assets/images/icons/user-default-image1.png')}
             />
             <Text style={styles.ListTitle}>{item.list_name}</Text>
           </View>
@@ -140,7 +163,9 @@ const ListHomePage = () => {
               style={styles.HeaderIcon}
               source={require('../../assets/images/icons/list-icons/list-member-count.png')}
             />
-            <Text style={styles.HeaderIconText}>10k</Text>
+            <Text style={styles.HeaderIconText}>
+              {listDetails.length === 0 ? 0 : listDetails[0].userCount}
+            </Text>
           </View>
           <View style={styles.ListHeaderIcons}>
             <Image
@@ -157,8 +182,9 @@ const ListHomePage = () => {
             <Text style={styles.HeaderIconText}>30k</Text>
           </View>
         </View>
+
         <View>
-          {isItemInListArray == true ? (
+          {isItemInListArray === true ? (
             <View
               style={{
                 flexDirection: 'row',
@@ -177,12 +203,12 @@ const ListHomePage = () => {
                   backgroundColor: '#f5f7f9',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: 10,
+                  paddingVertical: 9,
                   borderRadius: 5,
                   width: '49%',
                 }}>
                 <Image
-                  style={{width: 26, height: 26, objectFit: 'contain'}}
+                  style={{width: 23, height: 23, objectFit: 'contain'}}
                   source={require('../../assets/images/icons/scream-icon-bk.png')}
                 />
               </Pressable>
@@ -327,7 +353,7 @@ const styles = StyleSheet.create({
   },
   ListJoinBtn: {
     backgroundColor: 'black',
-    padding: 12,
+    paddingVertical: 9,
     borderRadius: 8,
     textAlign: 'center',
     color: 'white',
@@ -336,7 +362,8 @@ const styles = StyleSheet.create({
   },
   ListLeaveBtn: {
     backgroundColor: 'rgba(0,0,0,0.7)',
-    padding: 12,
+    paddingVertical: 9,
+    // paddingHorizontal: 5,
     borderRadius: 8,
     textAlign: 'center',
     color: 'white',

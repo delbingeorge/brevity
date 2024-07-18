@@ -20,6 +20,9 @@ import EditProfile from '../pages/ProfilePage/EditProfile';
 import IssueComponent from './IssueComponent';
 import ListHomePage from '../pages/ListHomePage/ListHomePage';
 import ScreamPage from '../pages/ListHomePage/ScreamPage/ScreamPage';
+import IssuePostStatus from './IssuePostStatus';
+import PostedIssues from '../pages/ProfilePage/PostedIssues';
+import ManageIssue from './ManageIssue';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -194,6 +197,21 @@ function BrevityNavigation() {
         options={{headerShown: false, animation: 'slide_from_right'}}
         name="ScreamPage"
         component={ScreamPage}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="IssuePostStatus"
+        component={IssuePostStatus}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="PostedIssues"
+        component={PostedIssues}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false}}
+        name="ManageIssue"
+        component={ManageIssue}
       />
     </StackRoute.Navigator>
   );

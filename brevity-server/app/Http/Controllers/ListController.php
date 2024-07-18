@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lists;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ListController extends Controller
 {
@@ -76,5 +77,13 @@ class ListController extends Controller
         $lists = $user->lists()->get();
 
         return response()->json($lists);
+    }
+
+    public function getListsDetails(Request $request, $list_id)
+    {
+        // $list_id = $request->input('list_id');
+        $res = DB::select('SELECT count(list_id) as userCount from user_lists WHERE list_id = ?', [$list_id]);
+
+        return response()->json($res);
     }
 }

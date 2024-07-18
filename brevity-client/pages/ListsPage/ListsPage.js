@@ -1,6 +1,14 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
@@ -11,17 +19,20 @@ const ListsPage = () => {
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
   const [listArray, setListArray] = useState([]);
   const membershipChanged = useRecoilValue(listMembershipStatus);
+  const [loading, setLoading] = useState(false);
 
   const URL = Config.BASE_URL;
 
   const getJoinedLists = async () => {
     try {
+      setLoading(true);
       const response = await axios.post(`${URL}/api/get-all-lists`, {
         user_id: profileInfo.id,
       });
       if (response.status == 200) {
         setListArray(response.data);
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -39,8 +50,8 @@ const ListsPage = () => {
       style={styles.ResultRenderItem}>
       <Image
         style={{width: 28, height: 28}}
-        // source={require('../../assets/images/icons/user-default-image1.png')}
-        source={{uri: item.list_logo}}
+        source={require('../../assets/images/icons/user-default-image1.png')}
+        // source={{uri: item.list_logo}}
       />
       <View>
         <Text style={styles.RenderItemTitle}>{item.list_name}</Text>
@@ -71,15 +82,6 @@ const ListsPage = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          {/* <Image
-            style={{
-              height: 160,
-              width: 160,
-              objectFit: 'contain',
-              opacity: 0.7,
-            }}
-            source={require('../../assets/images/logo/not-in-any-list.png')}
-          /> */}
           <Text style={styles.NoListText}>Oops, You are not in any lists!</Text>
           <Pressable onPress={() => navigation.navigate('ExplorePage')}>
             <Text style={styles.NoListJoinButton}>Join now!</Text>

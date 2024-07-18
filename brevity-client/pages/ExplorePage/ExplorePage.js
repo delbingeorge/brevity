@@ -51,7 +51,7 @@ const ExplorePage = () => {
           style={{
             color: 'black',
             textAlign: 'center',
-            fontSize: 17,
+            fontSize: 14,
             fontFamily: 'Inter-Regular',
           }}>
           No results were found for your search.

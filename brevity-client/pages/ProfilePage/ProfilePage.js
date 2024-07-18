@@ -103,7 +103,7 @@ const ProfilePage = () => {
               />
               <Text style={styles.SettingsText}>Track Journey</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
                 navigation.navigate('YourLists');
@@ -113,11 +113,11 @@ const ProfilePage = () => {
                 source={require('../../assets/images/icons/settings/list-icon-color.png')}
               />
               <Text style={styles.SettingsText}>Your Lists</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
-                navigation.navigate('YourLists');
+                navigation.navigate('PostedIssues');
               }}>
               <Image
                 style={styles.SettingsImage}

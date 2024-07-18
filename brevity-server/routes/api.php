@@ -23,3 +23,6 @@ Route::post('/leave-list', [ListController::class, 'leaveList']);
 
 Route::post('/get-all-lists', [ListController::class, 'getMyLists']);
 
+Route::get('/lists-details/{list_id}', [ListController::class, 'getListsDetails']);
+
+Route::get('/get-posted-issues/{profileId}', [IssuePostController::class, 'getUserIssues']);

@@ -24,3 +24,8 @@ export const listMembershipStatus = atom({
   key: 'listMembershipStatus',
   default: false,
 });
+
+export const UserLists = atom({
+  key: 'UserLists',
+  default: [],
+});
