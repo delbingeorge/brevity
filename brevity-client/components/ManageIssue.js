@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 const ManageIssue = () => {
@@ -7,6 +7,15 @@ const ManageIssue = () => {
     params: {item},
   } = useRoute();
   const navigation = useNavigation();
+
+  const [isPressed, setIsPressed] = useState(false);
+
+  const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
+  const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
+
+  const handlePress = () => {
+    setIsPressed(!isPressed);
+  };
 
   return (
     <View style={styles.IssueComponent}>
@@ -27,6 +36,24 @@ const ManageIssue = () => {
         <View style={styles.IssueContent}>
           <Text style={styles.IssueTitle}>{item.title}</Text>
           <Text style={styles.IssueText}>{item.body}</Text>
+        </View>
+        <View style={styles.IssueActionView}>
+          <View style={styles.IssueAction}>
+            <Pressable onPress={handlePress}>
+              <Image
+                style={styles.IssueActionIcon}
+                source={isPressed ? pressedImage : defaultImage}
+              />
+            </Pressable>
+            <Text style={styles.IssueActionCount}>12k</Text>
+          </View>
+          <View style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
+            />
+            <Text style={styles.IssueActionCount}>15</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -58,58 +85,25 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(0,0,0,0.06)',
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
-    // paddingVertical: 10,
     marginBottom: 15,
-    // marginVertical: 8,
     flex: 1,
     paddingHorizontal: 15,
   },
-  IssueHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  HeaderImage: {
-    width: 20,
-    height: 20,
-    // width: 25,
-    // height: 25,
-    borderRadius: 100,
-    marginRight: 7,
-  },
-  HeaderUserName: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    // fontSize: 16,
-    fontSize: 14,
-  },
-  HeaderDivider: {
-    fontSize: 20,
-    color: '#687684',
-  },
-  HeaderListName: {
-    fontSize: 13.5,
-    color: '#687684',
-  },
-
-  IssueUserProfileModal: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
 
   // Issue Content Styling
+
   IssueContent: {rowGap: 5},
   IssueTitle: {color: 'black', fontSize: 16.3, fontFamily: 'Inter-Medium'},
   IssueText: {color: '#687684', fontSize: 16, lineHeight: 22},
 
-  // Issue Action Styling
+  // Issue Action Button
 
   IssueActionView: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    columnGap: 30,
   },
   IssueAction: {
     display: 'flex',
