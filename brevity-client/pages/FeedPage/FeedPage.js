@@ -38,7 +38,7 @@ const FeedPage = () => {
 
   useEffect(() => {
     getFeedData();
-  }, [authValue[0]]);
+  }, [authValue[0], navigation]);
 
   const getFeedData = async () => {
     try {
