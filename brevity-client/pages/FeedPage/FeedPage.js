@@ -6,19 +6,119 @@ import {
   TouchableOpacity,
   View,
   Pressable,
-  ScrollView,
+  FlatList,
+  Text,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import IssueComponent from '../../components/IssueComponent';
-import {authState, modalView, newUser} from '../../provider/RecoilStore';
-import {useRecoilState} from 'recoil';
+import {authState, modalView, userInfo} from '../../provider/RecoilStore';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import ReactModal from '../../components/ReactModal';
+import axios from 'axios';
+import Config from 'react-native-config';
+import {useEffect, useState} from 'react';
 
 const FeedPage = () => {
+  const URL = Config.BASE_URL;
   const navigation = useNavigation();
   const authValue = useRecoilState(authState);
   const [showModalView, setShowModalView] = useRecoilState(modalView);
-  const [newUserState, setNewUserState] = useRecoilState(newUser);
+  const [feedData, setFeedData] = useState([]);
+  const [isPressed, setIsPressed] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const profileInfo = useRecoilValue(userInfo);
+
+  const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
+  const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
+
+  const handlePress = () => {
+    setIsPressed(!isPressed);
+  };
+
+  useEffect(() => {
+    getFeedData();
+  }, [authValue[0]]);
+
+  const getFeedData = async () => {
+    try {
+      const response = await axios.get(
+        `${URL}/api/get-feed/${
+          authValue[0] === false ? authValue[0] : profileInfo.id
+        }`,
+      );
+      if (response.status === 200) {
+        setFeedData(response.data['content']);
+      } else {
+        console.log(response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getFeedData();
+    setRefreshing(false);
+  };
+
+  const renderItem = ({item, index}) => {
+    const isLongText = item.body.length > 250;
+    const displayText = isLongText ? item.body.substring(0, 200) : item.body;
+    return (
+      <View style={styles.IssueComponent} key={`${item.id}-${index}`}>
+        <View style={styles.IssueHeader}>
+          <Pressable style={styles.IssueUserProfileModal}>
+            <Image style={styles.HeaderImage} source={{uri: item.photo}} />
+            <Text style={styles.HeaderUserName}>{item.name}</Text>
+          </Pressable>
+          <Text style={styles.HeaderDivider}> · </Text>
+          <Pressable>
+            <Text style={styles.HeaderListName}>{item.list_name}</Text>
+          </Pressable>
+        </View>
+        <View style={styles.IssueContent}>
+          <Text style={styles.IssueTitle}>{item.title}</Text>
+          <Text style={styles.IssueText}>
+            {displayText}
+            {isLongText && (
+              <Text style={styles.ReadMoreText}> ...read more</Text>
+            )}
+          </Text>
+        </View>
+        <View style={styles.IssueActionView}>
+          <View style={styles.IssueAction}>
+            <Pressable onPress={handlePress}>
+              <Image
+                style={styles.IssueActionIcon}
+                source={isPressed ? pressedImage : defaultImage}
+              />
+            </Pressable>
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
+          <View style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../../assets/images/icons/issue-actions/issue-solution-icon.png')}
+            />
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
+          {/* <View style={styles.IssueAction}>
+          <Image
+            style={styles.IssueActionIcon}
+            source={require('../../assets/images/icons/issue-actions/issue-reach-icon.png')}
+          />
+          <Text style={styles.IssueActionCount}>109</Text>
+        </View> */}
+          <View style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../../assets/images/icons/issue-actions/issue-share-icon.png')}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.MainView}>
@@ -52,17 +152,15 @@ const FeedPage = () => {
           />
         </Pressable>
       </View>
-      <ScrollView>
-        <Pressable
-          style={{paddingBottom: 80}}
-          onPress={() => {
-            navigation.navigate('IssueComponent');
-          }}>
-          <IssueComponent />
-          <IssueComponent />
-          <IssueComponent />
-        </Pressable>
-      </ScrollView>
+
+      <FlatList
+        data={feedData}
+        renderItem={renderItem}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
+      />
+
       <TouchableOpacity
         style={{
           backgroundColor: '#548DFE',
@@ -83,15 +181,7 @@ const FeedPage = () => {
         />
       </TouchableOpacity>
 
-      {showModalView === true ? <ReactModal /> : ''}
-
-      {/* {newUserState == true ? (
-        <View style={{backgroundColor: 'red', position: 'absolute', top: 0}}>
-          <Text style={{color: 'green'}}>Howllo</Text>
-        </View>
-      ) : (
-        console.log('old user')
-      )} */}
+      {showModalView && <ReactModal />}
     </SafeAreaView>
   );
 };
@@ -138,5 +228,79 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     fontFamily: 'Inter-medium',
+  },
+  IssueComponent: {
+    borderBottomColor: 'rgba(0,0,0,0.06)',
+    backgroundColor: 'white',
+    borderBottomWidth: 1.3,
+    // paddingVertical: 10,
+    marginBottom: 15,
+    // marginVertical: 8,
+    paddingHorizontal: 15,
+  },
+  IssueHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  HeaderImage: {
+    width: 20,
+    height: 20,
+    // width: 25,
+    // height: 25,
+    borderRadius: 100,
+    marginRight: 7,
+  },
+  HeaderUserName: {
+    color: 'black',
+    fontFamily: 'Inter-Medium',
+    // fontSize: 16,
+    fontSize: 14,
+  },
+  HeaderDivider: {
+    fontSize: 20,
+    color: '#687684',
+  },
+  HeaderListName: {
+    fontSize: 13.5,
+    color: '#687684',
+  },
+
+  IssueUserProfileModal: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  // Issue Content Styling
+  IssueContent: {rowGap: 5},
+  IssueTitle: {color: 'black', fontSize: 16.3, fontFamily: 'Inter-Medium'},
+  IssueText: {color: '#687684', fontSize: 16, lineHeight: 22},
+
+  // Issue Action Styling
+
+  IssueActionView: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  IssueAction: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: 5,
+    marginVertical: 10,
+  },
+  IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
+  IssueActionCount: {
+    color: 'black',
+    fontSize: 13.5,
+    fontFamily: 'Inter-Medium',
+  },
+  ReadMoreText: {
+    color: 'rgba(0,0,0,0.6)',
+    fontSize: 13,
+    fontFamily: 'Inter-SemiBold',
   },
 });

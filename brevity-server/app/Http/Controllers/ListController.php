@@ -94,6 +94,7 @@ class ListController extends Controller
             ->join('users', 'users.id', '=', 'issues.user_id')
             ->where('issues.list_id', $listId)
             ->select('issues.id', 'issues.title', 'issues.body', 'issues.created_at', 'users.name', 'users.photo', 'users.id')
+            ->orderBy('issues.id', 'desc')
             ->get();
 
         return response()->json($listIssues, 200);

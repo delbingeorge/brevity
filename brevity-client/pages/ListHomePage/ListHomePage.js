@@ -2,6 +2,8 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  Animated,
+  FlatList,
   Image,
   Pressable,
   StyleSheet,
@@ -33,9 +35,43 @@ const ListHomePage = () => {
   const [loading, setLoading] = useState(false);
   const [listArray, setListArray] = useState([]);
   const [listDetails, setListDetails] = useState([]);
-  const [userList, setUserList] = useRecoilState(UserLists);
+  const [listIssues, setListIssues] = useState([]);
+  const [isPressed, setIsPressed] = useState(false);
+  const [mainViewVisible, setMainViewVisible] = useState(true);
 
   const URL = Config.BASE_URL;
+
+  useEffect(() => {
+    getListIssues();
+    getListArray();
+    getListDetails();
+  }, [listJoin]);
+
+  const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
+  const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
+
+  const handlePress = () => {
+    setIsPressed(!isPressed);
+  };
+
+  const handleScroll = ({nativeEvent}) => {
+    const {contentOffset} = nativeEvent;
+    const isScrolling = contentOffset.y > 100;
+    setMainViewVisible(!isScrolling);
+  };
+
+  const getListIssues = async () => {
+    try {
+      const response = await axios.get(`${URL}/api/get-list-issues/${item.id}`);
+      if (response.status === 200) {
+        setListIssues(response.data);
+      } else {
+        console.log(response.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getListArray = async () => {
     try {
@@ -66,11 +102,6 @@ const ListHomePage = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    getListArray();
-    getListDetails();
-  }, [listJoin]);
 
   const isItemInListArray = listArray.some(listItem => listItem.id === item.id);
 
@@ -109,18 +140,64 @@ const ListHomePage = () => {
     }
   };
 
-  const renderViewLogic = () => {
-    switch (renderComponent) {
-      case 'ListFeedPage':
-        return <ListFeedPage itemId={item.id} />;
-      case 'ListRankings':
-        return <ListRanking />;
-      case 'ListInsights':
-        return <ListInsights />;
-      default:
-        return <ListFeedPage />;
-    }
-  };
+  // const renderViewLogic = () => {
+  //   switch (renderComponent) {
+  //     case 'ListFeedPage':
+  //       return <ListFeedPage itemId={item} />;
+  //     case 'ListRankings':
+  //       return <ListRanking />;
+  //     case 'ListInsights':
+  //       return <ListInsights />;
+  //     default:
+  //       return <ListFeedPage />;
+  //   }
+  // };
+
+  const renderItem = ({item, index}) => (
+    <Pressable style={styles.IssueComponent} key={`${item.id}-${index}`}>
+      <View style={styles.IssueHeader}>
+        <Pressable style={styles.IssueUserProfileModal}>
+          <Image style={styles.HeaderImage} source={{uri: item.photo}} />
+          <Text style={styles.HeaderUserName}>{item.name}</Text>
+        </Pressable>
+      </View>
+      <View style={styles.IssueContent}>
+        <Text style={styles.IssueTitle}>{item.title}</Text>
+        <Text style={styles.IssueText}>{item.body}</Text>
+      </View>
+      <View style={styles.IssueActionView}>
+        <View style={styles.IssueAction}>
+          <Pressable onPress={handlePress}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={isPressed ? pressedImage : defaultImage}
+            />
+          </Pressable>
+          <Text style={styles.IssueActionCount}>0</Text>
+        </View>
+        <View style={styles.IssueAction}>
+          <Image
+            style={styles.IssueActionIcon}
+            source={require('../../assets/images/icons/issue-actions/issue-solution-icon.png')}
+          />
+          <Text style={styles.IssueActionCount}>0</Text>
+        </View>
+        <View style={styles.IssueAction}>
+          <Image
+            style={styles.IssueActionIcon}
+            source={require('../../assets/images/icons/issue-actions/issue-reach-icon.png')}
+          />
+          <Text style={styles.IssueActionCount}>0</Text>
+        </View>
+        <View style={styles.IssueAction}>
+          <Image
+            style={styles.IssueActionIcon}
+            source={require('../../assets/images/icons/issue-actions/issue-share-icon.png')}
+          />
+        </View>
+      </View>
+    </Pressable>
+  );
 
   return (
     <View style={styles.ListHomePageView}>
@@ -135,55 +212,60 @@ const ListHomePage = () => {
         />
         <Text style={styles.GoBackText}>{item.list_name}</Text>
       </Pressable> */}
-      <View>
-        <View style={styles.ListHeader}>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
-            <Image
-              style={{width: 20, height: 20}}
-              // source={{uri: item.list_logo}}
-              source={require('../../assets/images/icons/user-default-image1.png')}
-            />
-            <Text style={styles.ListTitle}>{item.list_name}</Text>
-          </View>
-          {/* <Pressable>
+      
+      {mainViewVisible && (
+        <View style={styles.MainView}>
+          <View style={styles.ListHeader}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: 5,
+              }}>
+              <Image
+                style={{width: 20, height: 20}}
+                // source={{uri: item.list_logo}}
+                source={require('../../assets/images/icons/user-default-image1.png')}
+              />
+              <Text style={styles.ListTitle}>{item.list_name}</Text>
+            </View>
+            {/* <Pressable>
             <Image
               style={styles.ListSettings}
               source={require('../../assets/images/icons/list-settings-icon-bk.png')}
             />
           </Pressable> */}
-        </View>
-        <View>
-          <Text style={styles.ListDescription}>{item.description}</Text>
-        </View>
+          </View>
+          <View>
+            <Text style={styles.ListDescription}>{item.description}</Text>
+          </View>
 
-        <View style={styles.HeaderIconView}>
-          <View style={styles.ListHeaderIcons}>
-            <Image
-              style={styles.HeaderIcon}
-              source={require('../../assets/images/icons/list-icons/list-member-count.png')}
-            />
-            <Text style={styles.HeaderIconText}>
-              {listDetails.length === 0 ? 0 : listDetails[0].userCount}
-            </Text>
+          <View style={styles.HeaderIconView}>
+            <View style={styles.ListHeaderIcons}>
+              <Image
+                style={styles.HeaderIcon}
+                source={require('../../assets/images/icons/list-icons/list-member-count.png')}
+              />
+              <Text style={styles.HeaderIconText}>
+                {listDetails.length === 0 ? 0 : listDetails[0].userCount}
+              </Text>
+            </View>
+            <View style={styles.ListHeaderIcons}>
+              <Image
+                style={styles.HeaderIcon}
+                source={require('../../assets/images/icons/list-icons/solved-issue-default-icon.png')}
+              />
+              <Text style={styles.HeaderIconText}>10k</Text>
+            </View>
+            <View style={styles.ListHeaderIcons}>
+              <Image
+                style={styles.HeaderIcon}
+                source={require('../../assets/images/icons/list-icons/unsolved-issue-default-icon.png')}
+              />
+              <Text style={styles.HeaderIconText}>30k</Text>
+            </View>
           </View>
-          <View style={styles.ListHeaderIcons}>
-            <Image
-              style={styles.HeaderIcon}
-              source={require('../../assets/images/icons/list-icons/solved-issue-default-icon.png')}
-            />
-            <Text style={styles.HeaderIconText}>10k</Text>
-          </View>
-          <View style={styles.ListHeaderIcons}>
-            <Image
-              style={styles.HeaderIcon}
-              source={require('../../assets/images/icons/list-icons/unsolved-issue-default-icon.png')}
-            />
-            <Text style={styles.HeaderIconText}>30k</Text>
-          </View>
-        </View>
 
-        <View>
           {isItemInListArray === true ? (
             <View
               style={{
@@ -221,17 +303,9 @@ const ListHomePage = () => {
             </Pressable>
           )}
         </View>
-      </View>
+      )}
 
-      <View
-        style={{
-          marginVertical: 13,
-          width: '100%',
-          height: 1.1,
-          backgroundColor: 'rgba(0,0,0,0.1)',
-        }}></View>
-
-      <View style={styles.ListNav}>
+      {/* <View style={styles.ListNav}>
         <Pressable
           onPress={() => setRenderComponent('ListFeedPage')}
           style={
@@ -259,8 +333,16 @@ const ListHomePage = () => {
           }>
           <Text style={styles.ListNavText}>Insights</Text>
         </Pressable>
-      </View>
-      <View>{renderViewLogic()}</View>
+      </View> */}
+
+      {/* <ListFeedPage listInfo={item} /> */}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={listIssues}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
+        renderItem={renderItem}
+        onScroll={handleScroll}
+      />
     </View>
   );
 };
@@ -272,6 +354,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: 15,
+  },
+  MainView: {
+    paddingBottom: 10,
   },
   GoBack: {
     backgroundColor: 'white',
@@ -369,5 +454,72 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Inter-Medium',
     fontSize: 15,
+  },
+  IssueComponent: {
+    borderBottomColor: 'rgba(0,0,0,0.06)',
+    backgroundColor: 'white',
+    borderBottomWidth: 1.3,
+    marginBottom: 15,
+  },
+  IssueHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 5,
+    alignItems: 'center',
+  },
+  HeaderImage: {
+    width: 20,
+    height: 20,
+    // width: 25,
+    // height: 25,
+    borderRadius: 100,
+    marginRight: 7,
+  },
+  HeaderUserName: {
+    color: 'black',
+    fontFamily: 'Inter-Medium',
+    // fontSize: 16,
+    fontSize: 14,
+  },
+  HeaderDivider: {
+    fontSize: 20,
+    color: '#687684',
+  },
+  HeaderListName: {
+    fontSize: 13.5,
+    color: '#687684',
+  },
+
+  IssueUserProfileModal: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  // Issue Content Styling
+  IssueContent: {rowGap: 5},
+  IssueTitle: {color: 'black', fontSize: 16.3, fontFamily: 'Inter-Medium'},
+  IssueText: {color: '#687684', fontSize: 16, lineHeight: 22},
+
+  // Issue Action Styling
+
+  IssueActionView: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  IssueAction: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: 5,
+    marginVertical: 10,
+  },
+  IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
+  IssueActionCount: {
+    color: 'black',
+    fontSize: 13.5,
+    fontFamily: 'Inter-Medium',
   },
 });
