@@ -12,11 +12,13 @@ import {
   View,
 } from 'react-native';
 import Config from 'react-native-config';
+import {Skeleton} from 'react-native-skeletons';
 
 const ExplorePage = () => {
   const [searchText, setSearchText] = useState('');
   const [reqText, setReqText] = useState('');
   const [searchRes, setSearchRes] = useState();
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const URL = Config.BASE_URL;
@@ -26,6 +28,7 @@ const ExplorePage = () => {
 
   const searchHandler = async () => {
     try {
+      setLoading(true);
       const response = await axios.post(`${URL}/api/explore-search`, {
         query: searchText,
       });
@@ -37,6 +40,8 @@ const ExplorePage = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,7 +132,33 @@ const ExplorePage = () => {
               <Text style={styles.ResponseClearText}>Clear</Text>
             </Pressable>
           </View>
-          <FlatList data={searchRes} renderItem={searchItem} />
+
+          {loading == true ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                columnGap: 15,
+                alignItems: 'center',
+              }}>
+              <Skeleton
+                circle
+                width={40}
+                height={40}
+                color={'rgba(0,0,0,0.1)'}
+              />
+
+              <Skeleton
+                count={1}
+                width={'85%'}
+                color={'rgba(0,0,0,0.1)'}
+                height={15}
+                borderRadius={15}
+              />
+            </View>
+          ) : (
+            <FlatList data={searchRes} renderItem={searchItem} />
+          )}
         </View>
       )}
 

@@ -14,22 +14,27 @@ import ListFeedPage from './ListNavigation/ListFeedPage/ListFeedPage';
 import ListInsights from './ListNavigation/ListInsights/ListInsights';
 import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
+  authState,
   listMembershipStatus,
+  modalView,
   userInfo,
   UserLists,
 } from '../../provider/RecoilStore';
 import Config from 'react-native-config';
+import ReactModal from '../../components/ReactModal';
 
 const ListHomePage = () => {
   const [renderComponent, setRenderComponent] = useState('ListFeedPage');
   const {
     params: {item},
   } = useRoute();
+
   const navigation = useNavigation();
   const [listJoin, setListJoin] = useState(false);
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
+  const [showModalView, setShowModalView] = useRecoilState(modalView);
   const [listJoinStatus, setListJoinStatus] =
     useRecoilState(listMembershipStatus);
   const [loading, setLoading] = useState(false);
@@ -38,6 +43,7 @@ const ListHomePage = () => {
   const [listIssues, setListIssues] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
   const [mainViewVisible, setMainViewVisible] = useState(true);
+  const authValue = useRecoilValue(authState);
 
   const URL = Config.BASE_URL;
 
@@ -212,7 +218,7 @@ const ListHomePage = () => {
         />
         <Text style={styles.GoBackText}>{item.list_name}</Text>
       </Pressable> */}
-      
+
       {mainViewVisible && (
         <View style={styles.MainView}>
           <View style={styles.ListHeader}>
@@ -296,7 +302,14 @@ const ListHomePage = () => {
               </Pressable>
             </View>
           ) : (
-            <Pressable onPress={ListJoinLogic}>
+            <Pressable
+              onPress={
+                authValue === true
+                  ? ListJoinLogic
+                  : () => {
+                      setShowModalView(true);
+                    }
+              }>
               <Text style={styles.ListJoinBtn}>
                 {loading ? <ActivityIndicator /> : 'Join List'}
               </Text>
@@ -343,6 +356,8 @@ const ListHomePage = () => {
         renderItem={renderItem}
         onScroll={handleScroll}
       />
+
+      {showModalView && <ReactModal />}
     </View>
   );
 };

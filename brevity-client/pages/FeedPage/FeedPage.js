@@ -16,6 +16,7 @@ import ReactModal from '../../components/ReactModal';
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useEffect, useState} from 'react';
+import {Skeleton} from 'react-native-skeletons';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -25,6 +26,7 @@ const FeedPage = () => {
   const [feedData, setFeedData] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const profileInfo = useRecoilValue(userInfo);
 
   const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
@@ -40,6 +42,7 @@ const FeedPage = () => {
 
   const getFeedData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${URL}/api/get-feed/${
           authValue[0] === false ? authValue[0] : profileInfo.id
@@ -52,6 +55,8 @@ const FeedPage = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,7 +77,10 @@ const FeedPage = () => {
             <Text style={styles.HeaderUserName}>{item.name}</Text>
           </Pressable>
           <Text style={styles.HeaderDivider}> · </Text>
-          <Pressable>
+          <Pressable
+            onPress={() => {
+              navigation.navigate('ListHomePage', {item});
+            }}>
             <Text style={styles.HeaderListName}>{item.list_name}</Text>
           </Pressable>
         </View>
@@ -153,13 +161,41 @@ const FeedPage = () => {
         </Pressable>
       </View>
 
-      <FlatList
-        data={feedData}
-        renderItem={renderItem}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-        keyExtractor={(item, index) => `${item.id}-${index}`}
-      />
+      {loading == true ? (
+        <View style={{paddingHorizontal: 15, marginTop: 5}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 10,
+              marginBottom: 10,
+            }}>
+            <Skeleton circle width={25} color={'rgba(0,0,0,0.1)'} height={25} />
+            <Skeleton
+              count={1}
+              width={'50%'}
+              color={'rgba(0,0,0,0.1)'}
+              height={13}
+            />
+          </View>
+          <Skeleton
+            count={7}
+            width={'100%'}
+            height={14}
+            color={'rgba(0,0,0,0.1)'}
+            borderRadius={4}
+            style={styles.myCustomStyle}
+          />
+        </View>
+      ) : (
+        <FlatList
+          data={feedData}
+          renderItem={renderItem}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
+        />
+      )}
 
       <TouchableOpacity
         style={{
