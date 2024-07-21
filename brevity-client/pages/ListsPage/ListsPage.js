@@ -13,6 +13,7 @@ import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 import Config from 'react-native-config';
+import {Skeleton} from 'react-native-skeletons';
 
 const ListsPage = () => {
   const navigation = useNavigation();
@@ -72,6 +73,34 @@ const ListsPage = () => {
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
             extraData={listArray}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            contentContainerStyle={{paddingBottom: 30}}
+          />
+        </View>
+      ) : loading == true ? (
+        <View style={{marginTop: 5}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 10,
+              marginBottom: 10,
+            }}>
+            <Skeleton
+              count={1}
+              width={'80%'}
+              color={'rgba(0,0,0,0.1)'}
+              height={13}
+            />
+          </View>
+          <Skeleton
+            count={2}
+            width={'100%'}
+            height={14}
+            color={'rgba(0,0,0,0.1)'}
+            borderRadius={4}
+            style={styles.myCustomStyle}
           />
         </View>
       ) : (

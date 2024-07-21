@@ -102,7 +102,7 @@ const ExplorePage = () => {
         />
         <TouchableOpacity onPress={searchHandler}>
           <Image
-            style={{width: 25, height: 25}}
+            style={{width: 23, height: 23}}
             source={require('../../assets/images/icons/search-icon-bk.png')}
           />
         </TouchableOpacity>
@@ -157,7 +157,11 @@ const ExplorePage = () => {
               />
             </View>
           ) : (
-            <FlatList data={searchRes} renderItem={searchItem} />
+            <FlatList
+              data={searchRes}
+              renderItem={searchItem}
+              contentContainerStyle={{paddingBottom: 115}}
+            />
           )}
         </View>
       )}
@@ -180,7 +184,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     fontFamily: 'Inter-Medium',
     paddingHorizontal: 12,
-    borderRadius: 5,
+    paddingVertical: 0,
+    borderRadius: 8,
   },
   ResultView: {
     // marginTop: 15,

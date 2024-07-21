@@ -17,6 +17,7 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import {useEffect, useState} from 'react';
 import {Skeleton} from 'react-native-skeletons';
+import ListEmptyComponent from '../../components/ListEmptyComponent';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -69,8 +70,12 @@ const FeedPage = () => {
   const renderItem = ({item, index}) => {
     const isLongText = item.body.length > 250;
     const displayText = isLongText ? item.body.substring(0, 200) : item.body;
+
     return (
-      <View style={styles.IssueComponent} key={`${item.id}-${index}`}>
+      <Pressable
+        onPress={() => navigation.navigate('IssueComponent', {item})}
+        style={styles.IssueComponent}
+        key={`${item.id}-${index}`}>
         <View style={styles.IssueHeader}>
           <Pressable style={styles.IssueUserProfileModal}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
@@ -78,9 +83,10 @@ const FeedPage = () => {
           </Pressable>
           <Text style={styles.HeaderDivider}> · </Text>
           <Pressable
-            onPress={() => {
-              navigation.navigate('ListHomePage', {item});
-            }}>
+          // onPress={() => {
+          //   navigation.navigate('ListHomePage', {item});
+          // }}
+          >
             <Text style={styles.HeaderListName}>{item.list_name}</Text>
           </Pressable>
         </View>
@@ -124,7 +130,7 @@ const FeedPage = () => {
             />
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
 
@@ -193,7 +199,35 @@ const FeedPage = () => {
           renderItem={renderItem}
           refreshing={refreshing}
           onRefresh={onRefresh}
+          // ListEmptyComponent={<ListEmptyComponent />}
           keyExtractor={(item, index) => `${item.id}-${index}`}
+          ListFooterComponent={
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingVertical: 8,
+              }}>
+              <Text
+                style={{
+                  color: '#39404A',
+                  fontSize: 12,
+                  fontFamily: 'Inter-SemiBold',
+                }}>
+                End of issues? No way.
+              </Text>
+              <Pressable onPress={onRefresh}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 12,
+                    fontFamily: 'Inter-SemiBold',
+                  }}>
+                  Load more issues.
+                </Text>
+              </Pressable>
+            </View>
+          }
         />
       )}
 
@@ -229,14 +263,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     // paddingHorizontal: 15,
     height: Dimensions.get('screen').height,
+    paddingBottom: 35,
   },
   NavView: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    paddingBottom: 8,
+    paddingHorizontal: 11,
+    paddingVertical: 5,
   },
   NavLogo: {
     height: 20,
@@ -270,7 +305,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
     // paddingVertical: 10,
-    marginBottom: 15,
+    marginBottom: 5,
     // marginVertical: 8,
     paddingHorizontal: 15,
   },

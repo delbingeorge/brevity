@@ -1,3 +1,4 @@
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
   Dimensions,
@@ -9,7 +10,11 @@ import {
 } from 'react-native';
 
 const IssueComponent = () => {
+  const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
+  const {
+    params: {item},
+  } = useRoute();
 
   const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -18,76 +23,75 @@ const IssueComponent = () => {
     setIsPressed(!isPressed);
   };
 
+  const date = new Date(item.created_at);
+  console.log(date);
   return (
-    <View style={styles.IssueComponent}>
-      <View style={styles.IssueHeader}>
-        <Pressable
-          onPress={() => {
-            console.log('Pressed View Profile in Issue component');
-          }}
-          style={styles.IssueUserProfileModal}>
-          <Image
-            style={styles.HeaderImage}
-            source={require('../assets/images/icons/user-default-image.png')}
-          />
-          <Text style={styles.HeaderUserName}>Verona Josephs</Text>
-        </Pressable>
-        <Text style={styles.HeaderDivider}> · </Text>
-        <Pressable
-          onPress={() => {
-            console.log('Pressed List Button in Issue Component');
-          }}>
-          <Text style={styles.HeaderListName}>Javascript</Text>
-        </Pressable>
-      </View>
-      <View style={styles.IssueContent}>
-        <Text style={styles.IssueTitle}>
-          Simple API Calls with Node.js and Express.
-        </Text>
-        {/* <View style={{rowGap:8}}> */}
-        <Text style={styles.IssueText}>
-          I'm just getting started with Node, APIs, and web applications. I
-          understand the basic workings of Node.js and Express, but now I want
-          to start making calls to other service's APIs and to do stuff with
-          their data.
-        </Text>
-        <Text style={styles.IssueText}>
-          Can you outline basic HTTP requests and how to grab/parse the
-          responses in Node? I'm also interested in adding specific headers to
-          my request (initially I'm using the http://www.getharvest.com API to
-          crunch my timesheet data).
-        </Text>
-        {/* </View> */}
-      </View>
-      <View style={styles.IssueActionView}>
-        <View style={styles.IssueAction}>
-          <Pressable onPress={handlePress}>
+    <View style={{backgroundColor: 'white', flex: 1}}>
+      <Pressable
+        onPress={() => {
+          navigation.goBack();
+        }}
+        style={styles.GoBack}>
+        <Image
+          style={styles.GoBackIcon}
+          source={require('../assets/images/icons/go-back-bk.png')}
+        />
+      </Pressable>
+      <View style={styles.IssueComponent}>
+        <View style={styles.IssueHeader}>
+          <Pressable
+            onPress={() => {
+              console.log('Pressed View Profile in Issue component');
+            }}
+            style={styles.IssueUserProfileModal}>
+            <Image
+              style={styles.HeaderImage}
+              source={require('../assets/images/icons/user-default-image.png')}
+            />
+            <Text style={styles.HeaderUserName}>{item.name}</Text>
+          </Pressable>
+          <Text style={styles.HeaderDivider}> · </Text>
+          <Pressable
+            onPress={() => {
+              console.log('Pressed List Button in Issue Component');
+            }}>
+            <Text style={styles.HeaderListName}>{item.list_name}</Text>
+          </Pressable>
+        </View>
+        <View style={styles.IssueContent}>
+          <Text style={styles.IssueTitle}>{item.title}</Text>
+          <Text style={styles.IssueText}>{item.body}</Text>
+        </View>
+        <View style={styles.IssueActionView}>
+          <View style={styles.IssueAction}>
+            <Pressable onPress={handlePress}>
+              <Image
+                style={styles.IssueActionIcon}
+                source={isPressed ? pressedImage : defaultImage}
+              />
+            </Pressable>
+            <Text style={styles.IssueActionCount}>12k</Text>
+          </View>
+          <View style={styles.IssueAction}>
             <Image
               style={styles.IssueActionIcon}
-              source={isPressed ? pressedImage : defaultImage}
+              source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
             />
-          </Pressable>
-          <Text style={styles.IssueActionCount}>12k</Text>
-        </View>
-        <View style={styles.IssueAction}>
-          <Image
-            style={styles.IssueActionIcon}
-            source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
-          />
-          <Text style={styles.IssueActionCount}>15</Text>
-        </View>
-        <View style={styles.IssueAction}>
-          <Image
-            style={styles.IssueActionIcon}
-            source={require('../assets/images/icons/issue-actions/issue-reach-icon.png')}
-          />
-          <Text style={styles.IssueActionCount}>109</Text>
-        </View>
-        <View style={styles.IssueAction}>
-          <Image
-            style={styles.IssueActionIcon}
-            source={require('../assets/images/icons/issue-actions/issue-share-icon.png')}
-          />
+            <Text style={styles.IssueActionCount}>15</Text>
+          </View>
+          <View style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../assets/images/icons/issue-actions/issue-reach-icon.png')}
+            />
+            <Text style={styles.IssueActionCount}>109</Text>
+          </View>
+          <View style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../assets/images/icons/issue-actions/issue-share-icon.png')}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -217,5 +221,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  GoBack: {
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 13,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderBottomWidth: 2.5,
+    borderColor: 'rgba(255,255,255,0.8)',
+  },
+  GoBackIcon: {
+    width: 25,
+    height: 25,
   },
 });
