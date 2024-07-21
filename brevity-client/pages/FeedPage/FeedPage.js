@@ -18,6 +18,7 @@ import Config from 'react-native-config';
 import {useEffect, useState} from 'react';
 import {Skeleton} from 'react-native-skeletons';
 import ListEmptyComponent from '../../components/ListEmptyComponent';
+import ReactNativeModal from 'react-native-modal';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -29,6 +30,7 @@ const FeedPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const profileInfo = useRecoilValue(userInfo);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -77,7 +79,9 @@ const FeedPage = () => {
         style={styles.IssueComponent}
         key={`${item.id}-${index}`}>
         <View style={styles.IssueHeader}>
-          <Pressable style={styles.IssueUserProfileModal}>
+          <Pressable
+            style={styles.IssueUserProfileModal}
+            onPress={setModalVisible(true)}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
             <Text style={styles.HeaderUserName}>{item.name}</Text>
           </Pressable>
@@ -211,8 +215,8 @@ const FeedPage = () => {
               <Text
                 style={{
                   color: '#39404A',
-                  fontSize: 12,
-                  fontFamily: 'Inter-SemiBold',
+                  fontSize: 13,
+                  fontFamily: 'Inter-Medium',
                 }}>
                 End of issues? No way.
               </Text>
@@ -221,7 +225,7 @@ const FeedPage = () => {
                   style={{
                     color: 'black',
                     fontSize: 12,
-                    fontFamily: 'Inter-SemiBold',
+                    fontFamily: 'Inter-Medium',
                   }}>
                   Load more issues.
                 </Text>

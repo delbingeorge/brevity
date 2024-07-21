@@ -6,12 +6,15 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const {
     params: {item},
   } = useRoute();
@@ -21,6 +24,10 @@ const IssueComponent = () => {
 
   const handlePress = () => {
     setIsPressed(!isPressed);
+  };
+
+  const searchHandler = () => {
+    console.log('Issue reply clicked!');
   };
 
   const date = new Date(item.created_at);
@@ -94,6 +101,18 @@ const IssueComponent = () => {
           </View>
         </View>
       </View>
+      <View style={styles.SearchInput}>
+        <TextInput
+          placeholder="Post your solution"
+          placeholderTextColor={'black'}
+          style={{
+            fontSize: 15,
+            fontFamily: 'Inter-Medium',
+            color: 'black',
+            width: '85%',
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -105,9 +124,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(0,0,0,0.06)',
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
-    // paddingVertical: 10,
-    marginBottom: 15,
-    // marginVertical: 8,
+    marginBottom: 0,
     paddingHorizontal: 15,
   },
   IssueHeader: {
@@ -235,5 +252,17 @@ const styles = StyleSheet.create({
   GoBackIcon: {
     width: 25,
     height: 25,
+  },
+  SearchInput: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#f6f6f6',
+    borderRadius: 4,
+    marginVertical: 3,
+    fontFamily: 'Inter-Medium',
+    paddingHorizontal: 5,
+    marginHorizontal: 15,
   },
 });
