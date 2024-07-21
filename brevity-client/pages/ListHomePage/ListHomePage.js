@@ -30,7 +30,6 @@ const ListHomePage = () => {
   const {
     params: {item},
   } = useRoute();
-
   const navigation = useNavigation();
   const [listJoin, setListJoin] = useState(false);
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
@@ -71,6 +70,8 @@ const ListHomePage = () => {
       const response = await axios.get(`${URL}/api/get-list-issues/${item.id}`);
       if (response.status === 200) {
         setListIssues(response.data);
+        console.log('hello world');
+        console.log(item);
       } else {
         console.log(response.status);
       }
