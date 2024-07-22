@@ -2,7 +2,6 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Animated,
   FlatList,
   Image,
   Pressable,
@@ -11,9 +10,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import ListFeedPage from './ListNavigation/ListFeedPage/ListFeedPage';
-import ListInsights from './ListNavigation/ListInsights/ListInsights';
-import ListRanking from './ListNavigation/ListRanking/ListRanking';
+// import ListFeedPage from './ListNavigation/ListFeedPage/ListFeedPage';
+// import ListInsights from './ListNavigation/ListInsights/ListInsights';
+// import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
@@ -26,6 +25,7 @@ import Config from 'react-native-config';
 import ReactModal from '../../components/ReactModal';
 
 const ListHomePage = () => {
+  const URL = Config.BASE_URL;
   const [renderComponent, setRenderComponent] = useState('ListFeedPage');
   const {
     params: {item},
@@ -43,19 +43,6 @@ const ListHomePage = () => {
   const [listIssues, setListIssues] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
   const authValue = useRecoilValue(authState);
-  const [scrollY, setScrollY] = useState(new Animated.Value(0));
-  const scrollYValue = scrollY.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 0],
-    extrapolate: 'clamp',
-  });
-
-  const handleScroll = Animated.event(
-    [{nativeEvent: {contentOffset: {y: scrollY}}}],
-    {useNativeDriver: false},
-  );
-
-  const URL = Config.BASE_URL;
 
   useEffect(() => {
     getListIssues();
@@ -215,10 +202,7 @@ const ListHomePage = () => {
   );
 
   return (
-    <ScrollView
-      style={styles.ListHomePageView}
-      onScroll={handleScroll}
-      scrollEventThrottle={16}>
+    <ScrollView style={styles.ListHomePageView}>
       <View style={styles.MainView}>
         <View style={styles.ListHeader}>
           <View

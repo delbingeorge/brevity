@@ -31,7 +31,7 @@ const IssueComponent = () => {
   };
 
   const date = new Date(item.created_at);
-  console.log(date);
+
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <Pressable
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#fafafa',
     borderRadius: 4,
     marginVertical: 3,
     fontFamily: 'Inter-Medium',
