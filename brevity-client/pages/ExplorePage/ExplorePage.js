@@ -86,39 +86,49 @@ const ExplorePage = () => {
 
   return (
     <View style={styles.ExplorePageView}>
-      <View style={styles.SearchInput}>
-        <TouchableOpacity>
-          <Image
-            style={{width: 23, height: 23, tintColor: 'rgba(0,0,0,0.4)'}}
-            source={require('../../assets/images/icons/search-icon-bk.png')}
-          />
-        </TouchableOpacity>
-        <TextInput
-          placeholder="Search"
-          placeholderTextColor={'rgba(0,0,0,0.3)'}
-          value={searchText}
-          onChangeText={setSearchText}
-          style={{
-            fontSize: 15,
-            fontFamily: 'Inter-Medium',
-            color: 'black',
-            width: '85%',
-          }}
-          onSubmitEditing={searchHandler}
-        />
-        <TouchableOpacity onPress={() => setSearchText()}>
-          <Image
+      <View
+        style={{
+          backgroundColor: 'white',
+          paddingHorizontal: 15,
+          position: 'absolute',
+          zIndex: 13,
+          right: 0,
+          left: 0,
+          bottom: 0,
+        }}>
+        <View style={styles.SearchInput}>
+          <TouchableOpacity>
+            <Image
+              style={{width: 23, height: 23, tintColor: 'rgba(0,0,0,0.4)'}}
+              source={require('../../assets/images/icons/search-icon-bk.png')}
+            />
+          </TouchableOpacity>
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={'rgba(0,0,0,0.3)'}
+            value={searchText}
+            onChangeText={setSearchText}
             style={{
-              display: searchText ? 'flex' : 'none',
-              width: 18,
-              height: 18,
-              tintColor: 'rgba(0,0,0,0.3)',
+              fontSize: 15,
+              fontFamily: 'Inter-Regular',
+              color: 'black',
+              width: '85%',
             }}
-            source={require('../../assets/images/icons/text-clear-bk-icon.png')}
+            onSubmitEditing={searchHandler}
           />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => setSearchText()}>
+            <Image
+              style={{
+                display: searchText ? 'flex' : 'none',
+                width: 18,
+                height: 18,
+                tintColor: 'rgba(0,0,0,0.3)',
+              }}
+              source={require('../../assets/images/icons/text-clear-bk-icon.png')}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-
       {hasResults && (
         <View>
           <View style={styles.ResultView}>
@@ -150,7 +160,6 @@ const ExplorePage = () => {
                 height={40}
                 color={'rgba(0,0,0,0.1)'}
               />
-
               <Skeleton
                 count={1}
                 width={'85%'}
@@ -163,6 +172,15 @@ const ExplorePage = () => {
             <FlatList
               data={searchRes}
               renderItem={searchItem}
+              ItemSeparatorComponent={
+                <View
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.05)',
+                    marginVertical: 10,
+                    height: 0.7,
+                    width: '100%',
+                  }}></View>
+              }
               contentContainerStyle={{paddingBottom: 115}}
             />
           )}
@@ -179,11 +197,7 @@ export default ExplorePage;
 const styles = StyleSheet.create({
   ExplorePageView: {flex: 1, backgroundColor: 'white', paddingHorizontal: 15},
   SearchInput: {
-    marginBottom: 10,
-    right: 15,
-    left: 15,
-    position: 'absolute',
-    bottom: 0,
+    marginVertical: 5,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -215,7 +229,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 13,
   },
   ResultRenderItem: {
-    paddingVertical: 13,
     flexDirection: 'row',
     alignItems: 'flex-start',
     columnGap: 15,
