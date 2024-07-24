@@ -22,6 +22,7 @@ class IssuePostController extends Controller
         $issue = new Issue();
         $issue->title = $issueTitle;
         $issue->body = $issueBody;
+        $issue->status = false;
         $issue->user_id = $user->id;
         $issue->list_id = $listID;
 

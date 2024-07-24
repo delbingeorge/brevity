@@ -1,4 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
+import axios from 'axios';
 import React, {useState} from 'react';
 import {
   Dimensions,
@@ -10,27 +11,41 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Config from 'react-native-config';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  const [solution, setSolution] = useState('');
   const {
     params: {item},
   } = useRoute();
+  const URL = Config.BASE_URL;
 
   const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
+  const solutionImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
+  const solutionPressedImage = require('../assets/images/icons/issue-actions/solved-issue-default-icon.png');
 
   const handlePress = () => {
     setIsPressed(!isPressed);
   };
 
-  const searchHandler = () => {
-    console.log('Issue reply clicked!');
+  const PostSolution = async () => {
+    try {
+      const response = await axios.post(`${URL}/api/post-solution`, {
+        issueId: item.id,
+        content: solution.trim(),
+      });
+      if (response.status == 200) {
+        console.log(response.data);
+      } else {
+        console.log(response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  const date = new Date(item.created_at);
 
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
@@ -77,21 +92,21 @@ const IssueComponent = () => {
                 source={isPressed ? pressedImage : defaultImage}
               />
             </Pressable>
-            <Text style={styles.IssueActionCount}>12k</Text>
+            <Text style={styles.IssueActionCount}>0</Text>
           </View>
           <View style={styles.IssueAction}>
             <Image
               style={styles.IssueActionIcon}
               source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
             />
-            <Text style={styles.IssueActionCount}>15</Text>
+            <Text style={styles.IssueActionCount}>0</Text>
           </View>
           <View style={styles.IssueAction}>
             <Image
               style={styles.IssueActionIcon}
               source={require('../assets/images/icons/issue-actions/issue-reach-icon.png')}
             />
-            <Text style={styles.IssueActionCount}>109</Text>
+            <Text style={styles.IssueActionCount}>0</Text>
           </View>
           <View style={styles.IssueAction}>
             <Image
@@ -101,17 +116,74 @@ const IssueComponent = () => {
           </View>
         </View>
       </View>
-      <View style={styles.SearchInput}>
-        <TextInput
-          placeholder="Post your solution"
-          placeholderTextColor={'black'}
-          style={{
-            fontSize: 15,
-            fontFamily: 'Inter-Medium',
-            color: 'black',
-            width: '85%',
-          }}
-        />
+      <View style={styles.IssueComponent}>
+        <View style={styles.IssueHeader}>
+          <Pressable
+            onPress={() => {
+              console.log('Pressed View Profile in Issue component');
+            }}
+            style={styles.IssueUserProfileModal}>
+            <Image
+              style={styles.HeaderImage}
+              source={require('../assets/images/icons/user-default-image.png')}
+            />
+            <Text style={styles.HeaderUserName}>{item.name}</Text>
+          </Pressable>
+          <Text style={styles.HeaderDivider}> · </Text>
+          <Pressable
+            onPress={() => {
+              console.log('Pressed List Button in Issue Component');
+            }}>
+            <Text style={styles.HeaderListName}>{'🎉'}</Text>
+          </Pressable>
+        </View>
+        <View style={styles.IssueContent}>
+          <Text style={styles.IssueTitle}>{item.title}</Text>
+          <Text style={styles.IssueText}>{'Lorem ipsum dolor set amit'}</Text>
+        </View>
+        <View style={styles.IssueActionView}>
+          <View style={styles.IssueAction}>
+            <Pressable onPress={handlePress}>
+              <Image
+                style={styles.IssueActionIcon}
+                source={isPressed ? pressedImage : defaultImage}
+              />
+            </Pressable>
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
+        </View>
+      </View>
+      <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
+        {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
+        <View style={styles.SearchInput}>
+          <TextInput
+            placeholder="Post your solution"
+            placeholderTextColor={'rgba(0,0,0,0.3)'}
+            maxLength={2500}
+            multiline={true}
+            style={{
+              fontSize: 15,
+              fontFamily: 'Inter-Medium',
+              color: 'black',
+              width: '85%',
+            }}
+            onChangeText={value => {
+              setSolution(value);
+            }}
+          />
+          <Pressable
+            onPress={PostSolution}
+            style={{
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              padding: 8,
+              borderRadius: 8,
+            }}>
+            <Image
+              style={[styles.IssueActionIcon, {width: 25, height: 25}]}
+              source={require('../assets/images/icons/issue-post-bk-icon.png')}
+            />
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -151,7 +223,7 @@ const styles = StyleSheet.create({
     color: '#687684',
   },
   HeaderListName: {
-    fontSize: 13.5,
+    fontSize: 15,
     color: '#687684',
   },
 
@@ -256,11 +328,11 @@ const styles = StyleSheet.create({
   SearchInput: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
     backgroundColor: '#fafafa',
     borderRadius: 4,
-    marginVertical: 3,
+    marginVertical: 8,
     fontFamily: 'Inter-Medium',
     paddingHorizontal: 5,
     marginHorizontal: 15,

@@ -165,14 +165,14 @@ const ReactModal = () => {
           </View>
         ) : (
           <View style={styles.AuthViewLoader}>
-            <Image
+            {/* <Image
               style={{
                 width: 120,
                 height: 120,
                 objectFit: 'contain',
               }}
               source={require('../assets/images/logo/brevity-app-logo.png')}
-            />
+            /> */}
             <View style={{marginVertical: 20}}>
               <Text
                 style={{

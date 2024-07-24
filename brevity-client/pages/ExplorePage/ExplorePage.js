@@ -87,9 +87,15 @@ const ExplorePage = () => {
   return (
     <View style={styles.ExplorePageView}>
       <View style={styles.SearchInput}>
+        <TouchableOpacity>
+          <Image
+            style={{width: 23, height: 23, tintColor: 'rgba(0,0,0,0.4)'}}
+            source={require('../../assets/images/icons/search-icon-bk.png')}
+          />
+        </TouchableOpacity>
         <TextInput
           placeholder="Search"
-          placeholderTextColor={'black'}
+          placeholderTextColor={'rgba(0,0,0,0.3)'}
           value={searchText}
           onChangeText={setSearchText}
           style={{
@@ -100,21 +106,18 @@ const ExplorePage = () => {
           }}
           onSubmitEditing={searchHandler}
         />
-        <TouchableOpacity onPress={searchHandler}>
+        <TouchableOpacity onPress={() => setSearchText()}>
           <Image
-            style={{width: 23, height: 23}}
-            source={require('../../assets/images/icons/search-icon-bk.png')}
+            style={{
+              display: searchText ? 'flex' : 'none',
+              width: 18,
+              height: 18,
+              tintColor: 'rgba(0,0,0,0.3)',
+            }}
+            source={require('../../assets/images/icons/text-clear-bk-icon.png')}
           />
         </TouchableOpacity>
       </View>
-
-      <View
-        style={{
-          marginVertical: 13,
-          width: '100%',
-          height: 1.1,
-          backgroundColor: 'rgba(0,0,0,0.1)',
-        }}></View>
 
       {hasResults && (
         <View>
@@ -176,11 +179,15 @@ export default ExplorePage;
 const styles = StyleSheet.create({
   ExplorePageView: {flex: 1, backgroundColor: 'white', paddingHorizontal: 15},
   SearchInput: {
-    marginTop: 10,
+    marginBottom: 10,
+    right: 15,
+    left: 15,
+    position: 'absolute',
+    bottom: 0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     backgroundColor: '#f8f8f8',
     fontFamily: 'Inter-Medium',
     paddingHorizontal: 12,
