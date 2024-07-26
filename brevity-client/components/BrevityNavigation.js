@@ -228,6 +228,6 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
     color: 'blue',
-    tintColor: 'blue',
+    tintColor: '#0047FE',
   },
 });

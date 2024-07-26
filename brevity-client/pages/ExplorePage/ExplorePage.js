@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -24,6 +24,14 @@ const ExplorePage = () => {
 
   const hasResults = searchRes && searchRes.length > 0;
   const noResults = searchRes && searchRes.length === 0;
+
+  const inputFieldFocus = useRef(null);
+
+  useEffect(() => {
+    if (inputFieldFocus.current) {
+      inputFieldFocus.current.focus();
+    }
+  }, []);
 
   const searchHandler = async () => {
     try {
@@ -108,6 +116,7 @@ const ExplorePage = () => {
             placeholderTextColor={'rgba(0,0,0,0.3)'}
             value={searchText}
             onChangeText={setSearchText}
+            ref={inputFieldFocus}
             style={{
               fontSize: 15,
               fontFamily: 'Inter-Regular',

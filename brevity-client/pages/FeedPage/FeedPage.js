@@ -10,7 +10,12 @@ import {
   Text,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {authState, modalView, userInfo} from '../../provider/RecoilStore';
+import {
+  authState,
+  listMembershipStatus,
+  modalView,
+  userInfo,
+} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import ReactModal from '../../components/ReactModal';
 import axios from 'axios';
@@ -32,6 +37,7 @@ const FeedPage = () => {
   const [loading, setLoading] = useState(false);
   const profileInfo = useRecoilValue(userInfo);
   const [isModalVisible, setModalVisible] = useState(false);
+  const listMembershipStatusCheck = useRecoilValue(listMembershipStatus);
 
   const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -42,7 +48,7 @@ const FeedPage = () => {
 
   useEffect(() => {
     getFeedData();
-  }, [authValue[0], navigation]);
+  }, [authValue[0], navigation, listMembershipStatusCheck]);
 
   const getFeedData = async () => {
     try {

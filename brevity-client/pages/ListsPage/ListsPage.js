@@ -76,6 +76,15 @@ const ListsPage = () => {
             initialNumToRender={10}
             maxToRenderPerBatch={10}
             contentContainerStyle={{paddingBottom: 30}}
+            ItemSeparatorComponent={
+              <View
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.05)',
+                  marginVertical: 10,
+                  height: 0.7,
+                  width: '100%',
+                }}></View>
+            }
           />
         </View>
       ) : loading == true ? (
@@ -131,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   ResultRenderItem: {
-    paddingBottom: 8,
+    // paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'flex-start',
     columnGap: 15,

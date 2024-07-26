@@ -149,57 +149,68 @@ const ListHomePage = () => {
   //   }
   // };
 
-  const renderItem = ({item, index}) => (
-    <Pressable
-      onPress={() => {
-        console.log('Pressed!');
-        navigation.navigate('IssueComponent', {item});
-      }}
-      style={styles.IssueComponent}
-      key={`${item.id}-${index}`}>
-      <View style={styles.IssueHeader}>
-        <Pressable style={styles.IssueUserProfileModal}>
-          <Image style={styles.HeaderImage} source={{uri: item.photo}} />
-          <Text style={styles.HeaderUserName}>{item.name}</Text>
-        </Pressable>
-      </View>
-      <View style={styles.IssueContent}>
-        <Text style={styles.IssueTitle}>{item.title}</Text>
-        <Text style={styles.IssueText}>{item.body}</Text>
-      </View>
-      <View style={styles.IssueActionView}>
-        <View style={styles.IssueAction}>
-          <Pressable onPress={handlePress}>
+  const renderItem = ({item, index}) => {
+    let postDate = new Date(item.created_at);
+    const currentDate = new Date();
+
+    const diff = currentDate - postDate;
+    const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
+    return (
+      <Pressable
+        onPress={() => {
+          console.log('Pressed!');
+          navigation.navigate('IssueComponent', {item});
+        }}
+        style={styles.IssueComponent}
+        key={`${item.id}-${index}`}>
+        <View style={styles.IssueHeader}>
+          <Pressable style={styles.IssueUserProfileModal}>
+            <Image style={styles.HeaderImage} source={{uri: item.photo}} />
+            <Text style={styles.HeaderUserName}>{item.name}</Text>
+            <Text style={styles.HeaderDivider}> · </Text>
+            <Text style={styles.HeaderListName}>{`${
+              daysAgo === 0 ? 'Today' : daysAgo + ' day(s) ago'
+            }`}</Text>
+          </Pressable>
+        </View>
+        <View style={styles.IssueContent}>
+          <Text style={styles.IssueTitle}>{item.title}</Text>
+          <Text style={styles.IssueText}>{item.body}</Text>
+        </View>
+        <View style={styles.IssueActionView}>
+          <View style={styles.IssueAction}>
+            <Pressable onPress={handlePress}>
+              <Image
+                style={styles.IssueActionIcon}
+                source={isPressed ? pressedImage : defaultImage}
+              />
+            </Pressable>
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
+          <View style={styles.IssueAction}>
             <Image
               style={styles.IssueActionIcon}
-              source={isPressed ? pressedImage : defaultImage}
+              source={require('../../assets/images/icons/issue-actions/issue-solution-icon.png')}
             />
-          </Pressable>
-          <Text style={styles.IssueActionCount}>0</Text>
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
+          <View style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../../assets/images/icons/issue-actions/issue-reach-icon.png')}
+            />
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
+          <View style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../../assets/images/icons/issue-actions/issue-share-icon.png')}
+            />
+          </View>
         </View>
-        <View style={styles.IssueAction}>
-          <Image
-            style={styles.IssueActionIcon}
-            source={require('../../assets/images/icons/issue-actions/issue-solution-icon.png')}
-          />
-          <Text style={styles.IssueActionCount}>0</Text>
-        </View>
-        <View style={styles.IssueAction}>
-          <Image
-            style={styles.IssueActionIcon}
-            source={require('../../assets/images/icons/issue-actions/issue-reach-icon.png')}
-          />
-          <Text style={styles.IssueActionCount}>0</Text>
-        </View>
-        <View style={styles.IssueAction}>
-          <Image
-            style={styles.IssueActionIcon}
-            source={require('../../assets/images/icons/issue-actions/issue-share-icon.png')}
-          />
-        </View>
-      </View>
-    </Pressable>
-  );
+      </Pressable>
+    );
+  };
 
   return (
     <ScrollView style={styles.ListHomePageView}>
@@ -444,7 +455,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(0,0,0,0.06)',
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   IssueHeader: {
     display: 'flex',
