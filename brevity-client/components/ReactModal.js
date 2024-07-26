@@ -51,6 +51,7 @@ const ReactModal = () => {
 
       if (response.status == 200) {
         setUserInfoState(response.data.user);
+        console.log(response.data);
         await AsyncStorage.setItem(
           'authToken',
           JSON.stringify(response.data.token),

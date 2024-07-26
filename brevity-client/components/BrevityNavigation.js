@@ -1,9 +1,9 @@
 // Module imports
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {Image, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useEffect} from 'react';
-import {authState, userInfo} from '../provider/RecoilStore';
+import {authState, newUser, userInfo} from '../provider/RecoilStore';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -23,6 +23,8 @@ import ScreamPage from '../pages/ListHomePage/ScreamPage/ScreamPage';
 import IssuePostStatus from './IssuePostStatus';
 import PostedIssues from '../pages/ProfilePage/PostedIssues';
 import ManageIssue from './ManageIssue';
+import Onboarding from '../pages/Onboarding/Onboarding';
+import WhoopOnboard from '../pages/Onboarding/WhoopOnboard';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -129,6 +131,7 @@ function TabNavigation() {
 }
 
 function BrevityNavigation() {
+  const newUserStatus = useRecoilValue(newUser);
   return (
     <StackRoute.Navigator
       screenOptions={{
@@ -139,15 +142,23 @@ function BrevityNavigation() {
         headerShadowVisible: false,
         animation: 'ios',
       }}>
-      {/* <StackRoute.Screen
-        options={{headerShown: false, animation: 'slide_from_right'}}
-        name="Onboarding"
-        component={Onboarding}
-      /> */}
+      {newUserStatus ? (
+        <StackRoute.Screen
+          options={{headerShown: false}}
+          name="TabNavigation"
+          component={TabNavigation}
+        />
+      ) : (
+        <StackRoute.Screen
+          options={{headerShown: false, animation: 'slide_from_right'}}
+          name="OnboardingScreen"
+          component={Onboarding}
+        />
+      )}
       <StackRoute.Screen
-        options={{headerShown: false}}
-        name="TabNavigation"
-        component={TabNavigation}
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="WhoopOnboard"
+        component={WhoopOnboard}
       />
       <StackRoute.Screen
         options={{headerShown: false, animation: 'slide_from_right'}}

@@ -17,7 +17,7 @@ export const userInfo = atom({
 
 export const newUser = atom({
   key: 'newUser',
-  default: {},
+  default: false,
 });
 
 export const listMembershipStatus = atom({
