@@ -25,6 +25,8 @@ import PostedIssues from '../pages/ProfilePage/PostedIssues';
 import ManageIssue from './ManageIssue';
 import Onboarding from '../pages/Onboarding/Onboarding';
 import WhoopOnboard from '../pages/Onboarding/WhoopOnboard';
+import IssueOnboard from '../pages/Onboarding/IssueOnboard';
+import OnboardClosure from '../pages/Onboarding/OnboardClosure';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -142,23 +144,31 @@ function BrevityNavigation() {
         headerShadowVisible: false,
         animation: 'ios',
       }}>
-      {newUserStatus ? (
-        <StackRoute.Screen
-          options={{headerShown: false}}
-          name="TabNavigation"
-          component={TabNavigation}
-        />
-      ) : (
-        <StackRoute.Screen
-          options={{headerShown: false, animation: 'slide_from_right'}}
-          name="OnboardingScreen"
-          component={Onboarding}
-        />
-      )}
+      <StackRoute.Screen
+        options={{headerShown: false}}
+        name="TabNavigation"
+        component={TabNavigation}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="OnboardingScreen"
+        component={Onboarding}
+      />
+
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="IssueOnboard"
+        component={IssueOnboard}
+      />
       <StackRoute.Screen
         options={{headerShown: false, animation: 'slide_from_right'}}
         name="WhoopOnboard"
         component={WhoopOnboard}
+      />
+      <StackRoute.Screen
+        options={{headerShown: false, animation: 'slide_from_right'}}
+        name="OnboardClosure"
+        component={OnboardClosure}
       />
       <StackRoute.Screen
         options={{headerShown: false, animation: 'slide_from_right'}}

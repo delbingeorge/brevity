@@ -5,24 +5,9 @@ import {useRecoilState} from 'recoil';
 import {newUser} from '../../provider/RecoilStore';
 
 const Onboarding = () => {
-  const [newUserStatus, setNewUserStatus] = useRecoilState(newUser);
   const navigation = useNavigation();
   return (
     <View style={styles.OnboardingView}>
-      <Image
-        style={{
-          height: '52%',
-          width: '100%',
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          left: 0,
-          margin: 0,
-          padding: 0,
-          zIndex: -100,
-        }}
-        source={require('../../assets/images/onboarding/ellipse-bg.png')}
-      />
       <View
         style={{
           flex: 1,
@@ -45,16 +30,15 @@ const Onboarding = () => {
             source={require('../../assets/images/logo/brevity.png')}
           />
         </View>
-        <View>
+        {/* <View>
           <Image
             style={{width: 300, height: 300}}
             source={require('../../assets/images/onboarding/welcome-illustration.png')}
           />
-        </View>
+        </View> */}
         <Pressable
           onPress={() => {
-            setNewUserStatus(false);
-            navigation.navigate('WhoopOnboard');
+            navigation.navigate('IssueOnboard');
           }}
           style={{
             padding: 10,

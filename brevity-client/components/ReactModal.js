@@ -21,6 +21,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
 import Config from 'react-native-config';
+import {useNavigation} from '@react-navigation/native';
 
 const ReactModal = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
@@ -29,6 +30,7 @@ const ReactModal = () => {
   const [newUserState, setNewUserState] = useRecoilState(newUser);
   const [loading, setLoading] = useState(false);
   const URL = Config.BASE_URL;
+  const navigation = useNavigation();
 
   const signInWithGoogle = async () => {
     try {
@@ -50,6 +52,9 @@ const ReactModal = () => {
       });
 
       if (response.status == 200) {
+        if (response.data['newUser'] == false) {
+          navigation.navigate('OnboardingScreen');
+        }
         setUserInfoState(response.data.user);
         console.log(response.data);
         await AsyncStorage.setItem(

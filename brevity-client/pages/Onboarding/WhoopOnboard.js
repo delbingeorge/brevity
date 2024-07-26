@@ -53,7 +53,7 @@ const WhoopOnboard = () => {
       </View>
       <Pressable
         onPress={() => {
-          navigation.navigate('TabNavigation');
+          navigation.navigate('OnboardClosure');
         }}
         style={{
           padding: 10,
