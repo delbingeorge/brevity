@@ -43,17 +43,17 @@ const PostedIssues = () => {
     }
   };
 
-  //   let postDate = new Date('2024-07-18 17:42:03');
-  //   const currentDate = new Date();
+    let postDate = new Date('2024-07-18 17:42:03');
+    const currentDate = new Date();
 
-  //   const diff = currentDate - postDate;
-  //   const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const diff = currentDate - postDate;
+    const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
 
   const renderIssue = useCallback(
     ({item}) => (
       <Pressable
         style={{
-          paddingVertical: 10,
+          paddingBottom: 14,
           borderBottomColor: 'rgba(0,0,0,0.2)',
           borderBottomWidth: 1,
         }}
@@ -68,7 +68,7 @@ const PostedIssues = () => {
           style={{color: 'black', fontSize: 14.5, fontFamily: 'Inter-Regular'}}>
           {item.body.substring(0, 50)}
         </Text>
-        {/* <Text style={{color: 'black'}}>{`posted ${daysAgo} days ago`}</Text> */}
+        <Text style={{color: 'black'}}>{`posted ${daysAgo} days ago`}</Text>
       </Pressable>
     ),
     [navigation],

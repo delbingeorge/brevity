@@ -1,6 +1,6 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Switch, Text, View} from 'react-native';
 
 const ManageIssue = () => {
   const {
@@ -9,6 +9,8 @@ const ManageIssue = () => {
   const navigation = useNavigation();
 
   const [isPressed, setIsPressed] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -55,6 +57,15 @@ const ManageIssue = () => {
             <Text style={styles.IssueActionCount}>15</Text>
           </View>
         </View>
+      </View>
+      <View>
+        <Text>Mark issue as solved</Text>
+        <Switch
+          trackColor={{false: 'grey', true: 'grey'}}
+          thumbColor={isEnabled ? 'lightgreen' : '#f4f3f4'}
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
       </View>
     </View>
   );

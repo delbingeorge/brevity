@@ -128,9 +128,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     fontFamily: 'Inter-Medium',
+    marginBottom: 10,
   },
   ResultRenderItem: {
-    paddingVertical: 13,
+    paddingBottom: 8,
     flexDirection: 'row',
     alignItems: 'flex-start',
     columnGap: 15,

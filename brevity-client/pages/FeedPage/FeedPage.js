@@ -88,10 +88,9 @@ const FeedPage = () => {
           </Pressable>
           <Text style={styles.HeaderDivider}> · </Text>
           <Pressable
-          // onPress={() => {
-          //   navigation.navigate('ListHomePage', {item});
-          // }}
-          >
+            onPress={() => {
+              navigation.navigate('ListHomePage', {item});
+            }}>
             <Text style={styles.HeaderListName}>{item.list_name}</Text>
           </Pressable>
         </View>

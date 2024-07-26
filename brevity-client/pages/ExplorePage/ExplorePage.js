@@ -15,13 +15,12 @@ import Config from 'react-native-config';
 import {Skeleton} from 'react-native-skeletons';
 
 const ExplorePage = () => {
+  const URL = Config.BASE_URL;
   const [searchText, setSearchText] = useState('');
   const [reqText, setReqText] = useState('');
   const [searchRes, setSearchRes] = useState();
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
-  const URL = Config.BASE_URL;
 
   const hasResults = searchRes && searchRes.length > 0;
   const noResults = searchRes && searchRes.length === 0;
@@ -57,6 +56,7 @@ const ExplorePage = () => {
             color: 'black',
             textAlign: 'center',
             fontSize: 14,
+            marginTop: 15,
             fontFamily: 'Inter-Regular',
           }}>
           No results were found for your search.
@@ -104,7 +104,7 @@ const ExplorePage = () => {
             />
           </TouchableOpacity>
           <TextInput
-            placeholder="Search"
+            placeholder={`Search for "${'Javascript'}"`}
             placeholderTextColor={'rgba(0,0,0,0.3)'}
             value={searchText}
             onChangeText={setSearchText}
@@ -140,7 +140,7 @@ const ExplorePage = () => {
             <Pressable
               onPress={() => {
                 setSearchText('');
-                setSearchRes([]);
+                setSearchRes();
               }}>
               <Text style={styles.ResponseClearText}>Clear</Text>
             </Pressable>
@@ -181,6 +181,20 @@ const ExplorePage = () => {
                     width: '100%',
                   }}></View>
               }
+              ListFooterComponent={
+                <View>
+                  <Text
+                    style={{
+                      color: 'rgba(0,0,0,0.6)',
+                      fontFamily: 'Inter-Regular',
+                      fontSize: 12,
+                      textAlign: 'center',
+                      marginVertical: 10,
+                    }}>
+                    End of results.
+                  </Text>
+                </View>
+              }
               contentContainerStyle={{paddingBottom: 115}}
             />
           )}
@@ -197,7 +211,8 @@ export default ExplorePage;
 const styles = StyleSheet.create({
   ExplorePageView: {flex: 1, backgroundColor: 'white', paddingHorizontal: 15},
   SearchInput: {
-    marginVertical: 5,
+    marginTop: 5,
+    marginBottom: 8,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

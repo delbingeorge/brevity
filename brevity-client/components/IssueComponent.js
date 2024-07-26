@@ -66,16 +66,13 @@ const IssueComponent = () => {
               console.log('Pressed View Profile in Issue component');
             }}
             style={styles.IssueUserProfileModal}>
-            <Image
-              style={styles.HeaderImage}
-              source={require('../assets/images/icons/user-default-image.png')}
-            />
+            <Image style={styles.HeaderImage} source={{uri: item.photo}} />
             <Text style={styles.HeaderUserName}>{item.name}</Text>
           </Pressable>
           <Text style={styles.HeaderDivider}> · </Text>
           <Pressable
             onPress={() => {
-              console.log('Pressed List Button in Issue Component');
+              navigation.navigate('ListHomePage', {item});
             }}>
             <Text style={styles.HeaderListName}>{item.list_name}</Text>
           </Pressable>
@@ -116,6 +113,14 @@ const IssueComponent = () => {
           </View>
         </View>
       </View>
+
+      <View style={{paddingHorizontal: 15, paddingVertical: 5}}>
+        <Text
+          style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
+          Solution thread
+        </Text>
+      </View>
+
       <View style={styles.IssueComponent}>
         <View style={styles.IssueHeader}>
           <Pressable
@@ -123,10 +128,7 @@ const IssueComponent = () => {
               console.log('Pressed View Profile in Issue component');
             }}
             style={styles.IssueUserProfileModal}>
-            <Image
-              style={styles.HeaderImage}
-              source={require('../assets/images/icons/user-default-image.png')}
-            />
+            <Image style={styles.HeaderImage} source={{uri: item.photo}} />
             <Text style={styles.HeaderUserName}>{item.name}</Text>
           </Pressable>
           <Text style={styles.HeaderDivider}> · </Text>
