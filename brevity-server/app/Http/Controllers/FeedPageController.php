@@ -28,7 +28,7 @@ class FeedPageController extends Controller
             ->join('lists', 'lists.id', '=', 'issues.list_id')
             ->join('users', 'users.id', '=', 'issues.user_id')
             ->select('issues.id', 'issues.title', 'issues.body', 'lists.list_name', 'lists.description', 'issues.created_at', 'users.name', 'users.photo', 'users.id')
-            ->orderBy('issues.created_at', 'desc')
+            ->orderBy('issues.id', 'desc')
             ->limit($limit)
             ->get();
         return response()->json(['content' => $getIssues, $getValue], 200);
