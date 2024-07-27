@@ -52,7 +52,7 @@ const ReactModal = () => {
       });
 
       if (response.status == 200) {
-        if (response.data['newUser'] == false) {
+        if (response.data['newUser'] == true) {
           navigation.navigate('OnboardingScreen');
         }
         setUserInfoState(response.data.user);

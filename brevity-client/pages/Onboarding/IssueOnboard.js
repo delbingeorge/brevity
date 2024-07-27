@@ -14,12 +14,32 @@ const IssueOnboard = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.OnboardingView}>
+      <Pressable
+        style={{
+          position: 'absolute',
+          top: 5,
+          right: 15,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          columnGap: 3,
+          paddingHorizontal: 5,
+        }}
+        onPress={() => {
+          navigation.navigate('WhoopOnboard');
+        }}>
+        <Text style={{color: 'black', fontFamily: 'Inter-Medium'}}>Next</Text>
+        {/* <Image
+          style={{width: 18, height: 18}}
+          source={require('../../assets/images/icons/go-front-arrow-bk.png')}
+        /> */}
+      </Pressable>
       <View
         style={{
           alignItems: 'center',
           width: '80%',
           justifyContent: 'center',
-          marginBottom: 85,
+          marginBottom: 65,
         }}>
         <Text
           style={{
@@ -43,14 +63,14 @@ const IssueOnboard = () => {
       <View>
         <Image
           style={{
-            width: 500,
-            height: 590,
-            objectFit: 'scale-down',
+            width: Dimensions.get('screen').width,
+            height: 600,
+            resizeMode: 'cover',
           }}
           source={require('../../assets/images/onboarding/issue-post.png')}
         />
       </View>
-      <Pressable
+      {/* <Pressable
         onPress={() => {
           navigation.navigate('WhoopOnboard');
         }}
@@ -69,7 +89,7 @@ const IssueOnboard = () => {
           }}
           source={require('../../assets/images/icons/go-front-arrow-bk.png')}
         />
-      </Pressable>
+      </Pressable> */}
     </SafeAreaView>
   );
 };

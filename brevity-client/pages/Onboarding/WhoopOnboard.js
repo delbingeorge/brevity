@@ -16,26 +16,44 @@ const WhoopOnboard = () => {
     <SafeAreaView style={styles.OnboardingView}>
       <View
         style={{
-          alignItems: 'center',
-          width: '80%',
-          justifyContent: 'center',
-          marginBottom: 85,
+          paddingHorizontal: 7,
+          width: '100%',
+          alignItems: 'flex-end',
         }}>
+        <Pressable
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            columnGap: 0,
+            paddingHorizontal: 5,
+          }}
+          onPress={() => {
+            navigation.navigate('OnboardClosure');
+          }}>
+          <Text style={{color: 'black', fontFamily: 'Inter-Medium'}}>Next</Text>
+          {/* <Image
+            style={{width: 18, height: 18}}
+            source={require('../../assets/images/icons/go-front-bk.png')}
+          /> */}
+        </Pressable>
+      </View>
+      <View style={{width: '80%', marginTop: 80}}>
         <Text
           style={{
             fontFamily: 'Inter-SemiBold',
             textAlign: 'center',
-            fontSize: 25,
+            fontSize: 20,
             color: 'black',
           }}>
-          Join “whoop” & talk.
+          Whoop & talk.
         </Text>
         <Text
           style={{
-            fontFamily: 'Inter-Medium',
+            fontFamily: 'Inter-Regular',
             textAlign: 'center',
             color: '#323232',
-            fontSize: 17,
+            fontSize: 16,
           }}>
           Share your thoughts and code with a large community to get feedback
           and to refine your skills.
@@ -44,33 +62,13 @@ const WhoopOnboard = () => {
       <View>
         <Image
           style={{
-            width: 500,
-            height: 590,
-            objectFit: 'scale-down',
+            height: '95%',
+            width: Dimensions.get('window').width,
+            objectFit: 'contain',
           }}
           source={require('../../assets/images/onboarding/whoop-talk.png')}
         />
       </View>
-      <Pressable
-        onPress={() => {
-          navigation.navigate('OnboardClosure');
-        }}
-        style={{
-          padding: 10,
-          borderRadius: 100,
-          backgroundColor: 'rgba(0,0,0,0.03)',
-          position: 'absolute',
-          right: 30,
-          bottom: 30,
-        }}>
-        <Image
-          style={{
-            width: 30,
-            height: 30,
-          }}
-          source={require('../../assets/images/icons/go-front-arrow-bk.png')}
-        />
-      </Pressable>
     </SafeAreaView>
   );
 };
@@ -79,9 +77,9 @@ export default WhoopOnboard;
 
 const styles = StyleSheet.create({
   OnboardingView: {
-    flex: 1,
+    height: Dimensions.get('window').height,
     backgroundColor: 'white',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'flex-end',
   },
 });

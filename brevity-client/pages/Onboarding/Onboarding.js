@@ -1,6 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {newUser} from '../../provider/RecoilStore';
 
@@ -8,54 +15,61 @@ const Onboarding = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.OnboardingView}>
+      <Pressable
+        style={{
+          position: 'absolute',
+          top: 5,
+          right: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          columnGap: 2,
+          paddingHorizontal: 5,
+        }}
+        onPress={() => {
+          navigation.navigate('WhoopOnboard');
+        }}>
+        <Text style={{color: 'black', fontFamily: 'Inter-Medium'}}>Next</Text>
+        {/* <Image
+          style={{width: 18, height: 18}}
+          source={require('../../assets/images/icons/go-front-arrow-bk.png')}
+        /> */}
+      </Pressable>
       <View
         style={{
-          flex: 1,
-          display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-around',
+          width: '80%',
+          justifyContent: 'center',
+          marginBottom: 205,
+          paddingHorizontal: 15,
         }}>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Text
-            style={{
-              fontFamily: 'Inter-Medium',
-              fontSize: 17,
-              color: 'rgba(0,0,0,0.5)',
-              marginBottom: -5,
-            }}>
-            Welcome to
-          </Text>
-          <Image
-            style={styles.AppLogo}
-            source={require('../../assets/images/logo/brevity.png')}
-          />
-        </View>
-        {/* <View>
-          <Image
-            style={{width: 300, height: 300}}
-            source={require('../../assets/images/onboarding/welcome-illustration.png')}
-          />
-        </View> */}
-        <Pressable
-          onPress={() => {
-            navigation.navigate('IssueOnboard');
-          }}
+        <Text
           style={{
-            padding: 10,
-            borderRadius: 100,
-            backgroundColor: 'rgba(0,0,0,0.03)',
-            position: 'absolute',
-            right: 30,
-            bottom: 30,
+            fontFamily: 'Inter-SemiBold',
+            fontSize: 20,
+            color: 'black',
           }}>
-          <Image
-            style={{
-              width: 30,
-              height: 30,
-            }}
-            source={require('../../assets/images/icons/go-front-arrow-bk.png')}
-          />
-        </Pressable>
+          Join any team!
+        </Text>
+        <Text
+          style={{
+            fontFamily: 'Inter-Regular',
+            color: '#323232',
+            fontSize: 16,
+            textAlign: 'center',
+          }}>
+          A place where devs around the world help and grow each other.
+        </Text>
+      </View>
+      <View>
+        <Image
+          style={{
+            width: Dimensions.get('screen').width,
+            height: 350,
+            resizeMode: 'cover',
+          }}
+          source={require('../../assets/images/onboarding/explore-brevity.png')}
+        />
       </View>
     </View>
   );
@@ -67,8 +81,8 @@ const styles = StyleSheet.create({
   OnboardingView: {
     backgroundColor: 'white',
     flex: 1,
-    margin: 0,
-    padding: 0,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   AppLogo: {
     height: 60,

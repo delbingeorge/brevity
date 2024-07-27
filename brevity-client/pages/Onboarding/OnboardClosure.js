@@ -17,47 +17,49 @@ const OnboardClosure = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.OnboardingView}>
-      <View
-        style={{
-          flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-        }}>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Image
-            style={styles.AppLogo}
-            source={require('../../assets/images/logo/brevity.png')}
-          />
-          <Text
-            style={{
-              fontFamily: 'Inter-Medium',
-              textAlign: 'center',
-              color: '#323232',
-              fontSize: 17,
-              width: 270,
-            }}>
-            Because sometimes, even Stack Overflow needs a backup.
-          </Text>
-        </View>
-        <View>
-          <Image
-            style={{width: 300, height: 300}}
-            source={require('../../assets/images/onboarding/welcome-illustration.png')}
-          />
-        </View>
+    <View
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <Text
+          style={{
+            fontFamily: 'Inter-Medium',
+            fontSize: 17,
+            color: 'rgba(0,0,0,0.5)',
+            marginBottom: -10,
+          }}>
+          Welcome to
+        </Text>
+        <Image
+          style={styles.AppLogo}
+          source={require('../../assets/images/logo/brevity.png')}
+        />
       </View>
-      <View style={styles.EditActionBtn}>
+      <View>
+        <Image
+          style={{
+            width: Dimensions.get('screen').width,
+            height: 600,
+            resizeMode: 'cover',
+          }}
+          source={require('../../assets/images/onboarding/get-started.png')}
+        />
+      </View>
+    </View>
+    
+    <View style={styles.EditActionBtn}>
         <TouchableOpacity
           style={styles.ActionBtn}
           onPress={() => {
-            setNewUserStatus(false);
-            navigation.navigate('TabNavigation');
+            navigation.navigate('ExplorePage');
           }}>
           <Text style={styles.BtnText}>Explore Brevity</Text>
         </TouchableOpacity>
       </View>
-    </View>
+  </View>
   );
 };
 
@@ -67,14 +69,13 @@ const styles = StyleSheet.create({
   OnboardingView: {
     backgroundColor: 'white',
     flex: 1,
-    margin: 0,
-    padding: 0,
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
   AppLogo: {
     height: 60,
     width: 130,
     objectFit: 'contain',
-    marginBottom: -10,
   },
   EditActionBtn: {
     position: 'absolute',
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     width: '95%',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#5BBDFF',
+    backgroundColor: '#000',
     borderRadius: 10,
   },
   BtnText: {
