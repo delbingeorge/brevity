@@ -25,7 +25,6 @@ import PostedIssues from '../pages/ProfilePage/PostedIssues';
 import ManageIssue from './ManageIssue';
 import Onboarding from '../pages/Onboarding/Onboarding';
 import WhoopOnboard from '../pages/Onboarding/WhoopOnboard';
-import IssueOnboard from '../pages/Onboarding/IssueOnboard';
 import OnboardClosure from '../pages/Onboarding/OnboardClosure';
 
 const TabRoute = createBottomTabNavigator();
@@ -133,7 +132,6 @@ function TabNavigation() {
 }
 
 function BrevityNavigation() {
-  const newUserStatus = useRecoilValue(newUser);
   return (
     <StackRoute.Navigator
       screenOptions={{
@@ -153,12 +151,6 @@ function BrevityNavigation() {
         options={{headerShown: false, animation: 'slide_from_right'}}
         name="OnboardingScreen"
         component={Onboarding}
-      />
-
-      <StackRoute.Screen
-        options={{headerShown: false, animation: 'slide_from_right'}}
-        name="IssueOnboard"
-        component={IssueOnboard}
       />
       <StackRoute.Screen
         options={{headerShown: false, animation: 'slide_from_right'}}
@@ -204,11 +196,6 @@ function BrevityNavigation() {
         component={ListHomePage}
       />
       <StackRoute.Screen name="YourLists" component={YourLists} />
-      {/* <StackRoute.Screen
-        options={{headerShown: false}}
-        name="PublicProfile"
-        component={PublicProfile}
-      /> */}
       <StackRoute.Screen
         options={{headerShown: false}}
         name="SettingsPage"

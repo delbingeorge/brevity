@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -25,6 +25,7 @@ const EditProfile = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const URL = Config.BASE_URL;
+  const [showLabel, setShowLabel] = useState(true);
 
   const [formData, setFormData] = useState({
     fullName: profileInfo.name,
@@ -160,7 +161,8 @@ const EditProfile = () => {
             <Text style={styles.InputLabel}>Bio</Text>
             <TextInput
               style={styles.TextInput}
-              maxLength={30}
+              maxLength={45}
+              multiline={true}
               placeholderTextColor={'rgba(0,0,0,0.3)'}
               placeholder={profileInfo.bio}
               // value={formData.profileBio}
@@ -193,34 +195,78 @@ const EditProfile = () => {
           <View style={styles.TextInputView}>
             <Text style={styles.InputLabel}>Social</Text>
             <View style={styles.SocialInputView}>
-              <TextInput
-                style={styles.SocialTextInput}
-                placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder={profileInfo.linkFirst}
-                // value={formData.linkFirst}
-                onChangeText={value => handleInputChange('linkFirst', value)}
-              />
-              <TextInput
-                style={styles.SocialTextInput}
-                placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder={profileInfo.linkSecond}
-                // value={formData.linkSecond}
-                onChangeText={value => handleInputChange('linkSecond', value)}
-              />
-              <TextInput
-                style={styles.SocialTextInput}
-                placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder={profileInfo.linkThird}
-                // value={formData.linkThird}
-                onChangeText={value => handleInputChange('linkThird', value)}
-              />
-              <TextInput
-                style={styles.SocialTextInput}
-                placeholderTextColor={'rgba(0,0,0,0.3)'}
-                placeholder={profileInfo.linkForth}
-                // value={formData.linkForth}
-                onChangeText={value => handleInputChange('linkForth', value)}
-              />
+              <View
+                style={{
+                  fontSize: 16,
+                  backgroundColor: '#f6f6f6',
+                  borderRadius: 5,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                }}>
+                <Text style={styles.SocialInputLabel}>Github</Text>
+                <TextInput
+                  style={styles.SocialTextInput}
+                  placeholderTextColor={'rgba(0,0,0,0.3)'}
+                  placeholder={profileInfo.linkFirst}
+                  onChangeText={value => handleInputChange('linkFirst', value)}
+                  multiline={true}
+                />
+              </View>
+              <View
+                style={{
+                  fontSize: 16,
+                  backgroundColor: '#f6f6f6',
+                  borderRadius: 5,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                }}>
+                <Text style={styles.SocialInputLabel}>LinkedIn</Text>
+                <TextInput
+                  style={styles.SocialTextInput}
+                  placeholderTextColor={'rgba(0,0,0,0.3)'}
+                  placeholder={profileInfo.linkSecond}
+                  // value={formData.linkSecond}
+                  onChangeText={value => handleInputChange('linkSecond', value)}
+                  multiline={true}
+                  maxLength={100}
+                />
+              </View>
+              <View
+                style={{
+                  fontSize: 16,
+                  backgroundColor: '#f6f6f6',
+                  borderRadius: 5,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                }}>
+                <Text style={styles.SocialInputLabel}>Youtube</Text>
+                <TextInput
+                  style={styles.SocialTextInput}
+                  placeholderTextColor={'rgba(0,0,0,0.3)'}
+                  placeholder={profileInfo.linkThird}
+                  // value={formData.linkThird}
+                  onChangeText={value => handleInputChange('linkThird', value)}
+                  multiline={true}
+                />
+              </View>
+              <View
+                style={{
+                  fontSize: 16,
+                  backgroundColor: '#f6f6f6',
+                  borderRadius: 5,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                }}>
+                <Text style={styles.SocialInputLabel}>Other</Text>
+                <TextInput
+                  style={styles.SocialTextInput}
+                  placeholderTextColor={'rgba(0,0,0,0.3)'}
+                  placeholder={profileInfo.linkForth}
+                  // value={formData.linkForth}
+                  onChangeText={value => handleInputChange('linkForth', value)}
+                  multiline={true}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -280,6 +326,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'Inter-SemiBold',
   },
+  SocialInputLabel: {
+    color: 'rgba(0,0,0,0.7)',
+    fontSize: 11,
+    fontFamily: 'Inter-SemiBold',
+  },
   TextInput: {
     width: '100%',
     color: 'black',
@@ -290,15 +341,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   SocialTextInput: {
-    width: '100%',
-    height: 50,
     color: 'black',
     fontSize: 16,
-    backgroundColor: '#f6f6f6',
-    paddingLeft: 10,
     fontFamily: 'Inter-Medium',
-    borderRadius: 5,
-    flexGrow: 1,
+    padding: 0,
+    paddingBottom: 10,
+    margin: 0,
   },
   EditActionBtn: {
     position: 'absolute',

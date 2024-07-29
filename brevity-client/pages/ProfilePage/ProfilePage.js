@@ -133,7 +133,17 @@ const ProfilePage = () => {
               />
               <Text style={styles.SettingsText}>Notifications</Text>
             </TouchableOpacity> */}
-
+            <TouchableOpacity
+              style={styles.Settings}
+              onPress={() => {
+                navigation.navigate('OnboardingScreen');
+              }}>
+              <Image
+                style={styles.SettingsImage}
+                source={require('../../assets/images/icons/settings/onboard-again-color.png')}
+              />
+              <Text style={styles.SettingsText}>Onboard Again</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {

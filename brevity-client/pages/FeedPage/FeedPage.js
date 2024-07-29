@@ -21,10 +21,9 @@ import ReactModal from '../../components/ReactModal';
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useEffect, useState} from 'react';
-import {Skeleton} from 'react-native-skeletons';
-import ListEmptyComponent from '../../components/ListEmptyComponent';
-import ReactNativeModal from 'react-native-modal';
 import FeedContentLoader from '../../components/Skeleton/FeedContentLoader';
+import ProfileView from '../../components/ProfileView';
+import ReactNativeModal from 'react-native-modal';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -88,7 +87,10 @@ const FeedPage = () => {
         <View style={styles.IssueHeader}>
           <Pressable
             style={styles.IssueUserProfileModal}
-            onPress={() => setModalVisible(true)}>
+            onPress={() => {
+              console.log('Pressed!');
+              setModalVisible(true);
+            }}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
             <Text style={styles.HeaderUserName}>{item.name}</Text>
           </Pressable>
@@ -168,7 +170,7 @@ const FeedPage = () => {
         <Pressable
           style={{display: authValue[0] == true ? 'none' : 'flex'}}
           onPress={() => {
-            setShowModalView(true);
+            setShowModalView(!isModalVisible);
           }}>
           <Image
             style={styles.CrownRank}
@@ -238,6 +240,21 @@ const FeedPage = () => {
           source={require('../../assets/images/icons/issue-post-plus-icon.png')}
         />
       </TouchableOpacity>
+
+      {isModalVisible ? (
+        <ReactNativeModal
+          isVisible={isModalVisible}
+          onBackdropPress={() => {
+            setModalVisible(!isModalVisible);
+          }}
+          backdropColor="black">
+          <View>
+            <Text style={{color: 'red'}}>Text</Text>
+          </View>
+        </ReactNativeModal>
+      ) : (
+        ''
+      )}
 
       {showModalView && <ReactModal />}
     </SafeAreaView>

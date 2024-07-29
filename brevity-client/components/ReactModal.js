@@ -56,7 +56,6 @@ const ReactModal = () => {
           navigation.navigate('OnboardingScreen');
         }
         setUserInfoState(response.data.user);
-        console.log(response.data);
         await AsyncStorage.setItem(
           'authToken',
           JSON.stringify(response.data.token),

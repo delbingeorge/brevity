@@ -17,40 +17,44 @@ const OnboardClosure = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.OnboardingView}>
-    <View
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
-        <Text
+      <View
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View
           style={{
-            fontFamily: 'Inter-Medium',
-            fontSize: 17,
-            color: 'rgba(0,0,0,0.5)',
-            marginBottom: -10,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-          Welcome to
-        </Text>
-        <Image
-          style={styles.AppLogo}
-          source={require('../../assets/images/logo/brevity.png')}
-        />
+          <Text
+            style={{
+              fontFamily: 'Inter-Medium',
+              fontSize: 17,
+              color: 'rgba(0,0,0,0.5)',
+              marginBottom: -10,
+            }}>
+            Welcome to
+          </Text>
+          <Image
+            style={styles.AppLogo}
+            source={require('../../assets/images/logo/brevity.png')}
+          />
+        </View>
+        <View>
+          <Image
+            style={{
+              width: Dimensions.get('screen').width,
+              height: 550,
+              resizeMode: 'cover',
+            }}
+            source={require('../../assets/images/onboarding/get-started.png')}
+          />
+        </View>
       </View>
-      <View>
-        <Image
-          style={{
-            width: Dimensions.get('screen').width,
-            height: 600,
-            resizeMode: 'cover',
-          }}
-          source={require('../../assets/images/onboarding/get-started.png')}
-        />
-      </View>
-    </View>
-    
-    <View style={styles.EditActionBtn}>
+
+      <View style={styles.EditActionBtn}>
         <TouchableOpacity
           style={styles.ActionBtn}
           onPress={() => {
@@ -59,7 +63,7 @@ const OnboardClosure = () => {
           <Text style={styles.BtnText}>Explore Brevity</Text>
         </TouchableOpacity>
       </View>
-  </View>
+    </View>
   );
 };
 
@@ -69,8 +73,7 @@ const styles = StyleSheet.create({
   OnboardingView: {
     backgroundColor: 'white',
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
   },
   AppLogo: {
     height: 60,

@@ -43,19 +43,17 @@ const PostedIssues = () => {
     }
   };
 
-    let postDate = new Date('2024-07-18 17:42:03');
-    const currentDate = new Date();
+  let postDate = new Date('2024-07-18 17:42:03');
+  const currentDate = new Date();
 
-    const diff = currentDate - postDate;
-    const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const diff = currentDate - postDate;
+  const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
 
   const renderIssue = useCallback(
     ({item}) => (
       <Pressable
         style={{
-          paddingBottom: 14,
           borderBottomColor: 'rgba(0,0,0,0.2)',
-          borderBottomWidth: 1,
         }}
         onPress={() => {
           navigation.navigate('ManageIssue', {item});
@@ -66,9 +64,43 @@ const PostedIssues = () => {
         </Text>
         <Text
           style={{color: 'black', fontSize: 14.5, fontFamily: 'Inter-Regular'}}>
-          {item.body.substring(0, 50)}
+          {item.body.substring(0, 120)}
         </Text>
-        <Text style={{color: 'black'}}>{`posted ${daysAgo} days ago`}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            columnGap: 15,
+            marginTop: 5,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 6,
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={require('../../assets/images/icons/date-icon-bk.png')}
+              style={{width: 15, height: 15, objectFit: 'contain'}}
+            />
+            <Text style={{color: 'black'}}>{`${daysAgo} days ago`}</Text>
+          </View>
+          <Text style={{color: 'black'}}>|</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 6,
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={require('../../assets/images/icons/list-icon-bk.png')}
+              style={{width: 15, height: 15, objectFit: 'contain'}}
+            />
+            <Text style={{color: 'black'}}>{item.list_name}</Text>
+          </View>
+        </View>
       </Pressable>
     ),
     [navigation],
@@ -91,7 +123,19 @@ const PostedIssues = () => {
       {loading == true ? (
         <ActivityIndicator />
       ) : (
-        <FlatList data={result} renderItem={renderIssue} />
+        <FlatList
+          data={result}
+          renderItem={renderIssue}
+          ItemSeparatorComponent={
+            <View
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.05)',
+                marginVertical: 10,
+                height: 0.7,
+                width: '100%',
+              }}></View>
+          }
+        />
       )}
     </View>
   );
