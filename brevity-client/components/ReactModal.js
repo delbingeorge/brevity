@@ -208,7 +208,7 @@ const ReactModal = () => {
                 This won't take long!
               </Text>
             </View>
-            <ActivityIndicator size="large" color="#00ff00" />
+            <ActivityIndicator size="large" color="#548DFE" />
           </View>
         )}
       </ReactNativeModal>
@@ -281,7 +281,8 @@ const styles = StyleSheet.create({
   IssueActionIcon: {width: 20, height: 20},
   IssueActionCount: {color: 'black', fontSize: 16, fontFamily: 'Inter-Medium'},
   AuthView: {
-    borderRadius: 25,
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 25,
     backgroundColor: 'white',
@@ -290,7 +291,8 @@ const styles = StyleSheet.create({
   },
   AuthViewLoader: {
     alignItems: 'center',
-    borderRadius: 25,
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 40,
     backgroundColor: 'white',

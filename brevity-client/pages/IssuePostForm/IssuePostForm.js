@@ -240,7 +240,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   AuthView: {
-    borderRadius: 25,
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 20,
     backgroundColor: 'white',

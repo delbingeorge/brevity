@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
   ProfileName: {color: 'black', fontSize: 19, fontFamily: 'Inter-SemiBold'},
   UserName: {color: 'black', fontSize: 13, fontFamily: 'Inter-Medium'},
   ProfileModal: {
-    borderRadius: 25,
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 40,
     backgroundColor: 'white',
