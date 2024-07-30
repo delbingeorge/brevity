@@ -113,7 +113,6 @@ const IssueComponent = () => {
           </View>
         </View>
       </View>
-
       <View style={{paddingHorizontal: 15, paddingVertical: 5}}>
         <Text
           style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
