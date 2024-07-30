@@ -15,7 +15,9 @@ import {
   authState,
   listMembershipStatus,
   modalView,
+  ProfileModal,
   userInfo,
+  UserProfileInfo,
 } from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import ReactModal from '../../components/ReactModal';
@@ -36,8 +38,9 @@ const FeedPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const profileInfo = useRecoilValue(userInfo);
-  const [isModalVisible, setModalVisible] = useState(false);
   const listMembershipStatusCheck = useRecoilValue(listMembershipStatus);
+  const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
+  const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
   const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -89,8 +92,8 @@ const FeedPage = () => {
           <Pressable
             style={styles.IssueUserProfileModal}
             onPress={() => {
-              console.log('Pressed!');
               setModalVisible(true);
+              setModalInfo(item);
             }}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
             <Text style={styles.HeaderUserName}>{item.name}</Text>
@@ -242,18 +245,7 @@ const FeedPage = () => {
         />
       </TouchableOpacity>
 
-      {isModalVisible ? (
-        <ReactNativeModal
-          style={styles.ReactModal}
-          isVisible={isModalVisible}
-          onBackdropPress={() => {
-            setModalVisible(false);
-          }}
-          children={false}
-          backdropColor="black"></ReactNativeModal>
-      ) : (
-        ''
-      )}
+      {isModalVisible && <ProfileView />}
 
       {showModalView && <ReactModal />}
     </SafeAreaView>

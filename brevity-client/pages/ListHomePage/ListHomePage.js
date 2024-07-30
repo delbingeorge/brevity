@@ -8,6 +8,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 // import ListFeedPage from './ListNavigation/ListFeedPage/ListFeedPage';
@@ -19,7 +20,9 @@ import {
   authState,
   listMembershipStatus,
   modalView,
+  ProfileModal,
   userInfo,
+  UserProfileInfo,
 } from '../../provider/RecoilStore';
 import Config from 'react-native-config';
 import ReactModal from '../../components/ReactModal';
@@ -43,6 +46,8 @@ const ListHomePage = () => {
   const [listIssues, setListIssues] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
   const authValue = useRecoilValue(authState);
+  const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
+  const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
   useEffect(() => {
     getListIssues();
@@ -164,7 +169,12 @@ const ListHomePage = () => {
         style={styles.IssueComponent}
         key={`${item.id}-${index}`}>
         <View style={styles.IssueHeader}>
-          <Pressable style={styles.IssueUserProfileModal}>
+          <Pressable
+            style={styles.IssueUserProfileModal}
+            onPress={() => {
+              setModalVisible(true);
+              setModalInfo(item);
+            }}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
             <Text style={styles.HeaderUserName}>{item.name}</Text>
             <Text style={styles.HeaderDivider}> · </Text>
@@ -213,138 +223,159 @@ const ListHomePage = () => {
   };
 
   return (
-    <ScrollView style={styles.ListHomePageView}>
-      <View style={styles.MainView}>
-        <View style={styles.ListHeader}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              columnGap: 5,
-            }}>
-            <Image
-              style={{width: 20, height: 20}}
-              source={require('../../assets/images/icons/user-default-image1.png')}
-            />
-            <Text style={styles.ListTitle}>{item.list_name}</Text>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.ListDescription}>{item.description}</Text>
-        </View>
-
-        <View style={styles.HeaderIconView}>
-          <View style={styles.ListHeaderIcons}>
-            <Image
-              style={styles.HeaderIcon}
-              source={require('../../assets/images/icons/list-icons/list-member-count.png')}
-            />
-            <Text style={styles.HeaderIconText}>
-              {listDetails.length === 0 ? 0 : listDetails[0].userCount}
-            </Text>
-          </View>
-          <View style={styles.ListHeaderIcons}>
-            <Image
-              style={styles.HeaderIcon}
-              source={require('../../assets/images/icons/list-icons/solved-issue-default-icon.png')}
-            />
-            <Text style={styles.HeaderIconText}>10k</Text>
-          </View>
-          <View style={styles.ListHeaderIcons}>
-            <Image
-              style={styles.HeaderIcon}
-              source={require('../../assets/images/icons/list-icons/unsolved-issue-default-icon.png')}
-            />
-            <Text style={styles.HeaderIconText}>30k</Text>
-          </View>
-        </View>
-
-        {isItemInListArray === true ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              // width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <Pressable onPress={ListLeaveLogic} style={{width: '49%'}}>
-              <Text style={styles.ListLeaveBtn}>
-                {loading ? <ActivityIndicator /> : 'Leave List'}
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={() => navigation.navigate('ScreamPage')}
+    <>
+      <TouchableOpacity
+        style={{
+          backgroundColor: '#548DFE',
+          height: 45,
+          width: 45,
+          borderRadius: 50,
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          bottom: 20,
+          right: 20,
+          zIndex: 999,
+        }}
+        onPress={() => navigation.navigate('IssuePostForm')}>
+        <Image
+          style={{height: 19, width: 19}}
+          source={require('../../assets/images/icons/issue-post-plus-icon.png')}
+        />
+      </TouchableOpacity>
+      <ScrollView style={styles.ListHomePageView}>
+        <View style={styles.MainView}>
+          <View style={styles.ListHeader}>
+            <View
               style={{
-                backgroundColor: '#f5f7f9',
+                flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
-                paddingVertical: 9,
-                borderRadius: 5,
-                width: '49%',
+                columnGap: 5,
               }}>
               <Image
-                style={{width: 23, height: 23, objectFit: 'contain'}}
-                source={require('../../assets/images/icons/scream-icon-bk.png')}
+                style={{width: 20, height: 20}}
+                source={require('../../assets/images/icons/user-default-image1.png')}
               />
-            </Pressable>
+              <Text style={styles.ListTitle}>{item.list_name}</Text>
+            </View>
           </View>
-        ) : (
+          <View>
+            <Text style={styles.ListDescription}>{item.description}</Text>
+          </View>
+
+          <View style={styles.HeaderIconView}>
+            <View style={styles.ListHeaderIcons}>
+              <Image
+                style={styles.HeaderIcon}
+                source={require('../../assets/images/icons/list-icons/list-member-count.png')}
+              />
+              <Text style={styles.HeaderIconText}>
+                {listDetails.length === 0 ? 0 : listDetails[0].userCount}
+              </Text>
+            </View>
+            <View style={styles.ListHeaderIcons}>
+              <Image
+                style={styles.HeaderIcon}
+                source={require('../../assets/images/icons/list-icons/solved-issue-default-icon.png')}
+              />
+              <Text style={styles.HeaderIconText}>10k</Text>
+            </View>
+            <View style={styles.ListHeaderIcons}>
+              <Image
+                style={styles.HeaderIcon}
+                source={require('../../assets/images/icons/list-icons/unsolved-issue-default-icon.png')}
+              />
+              <Text style={styles.HeaderIconText}>30k</Text>
+            </View>
+          </View>
+
+          {isItemInListArray === true ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                // width: '100%',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Pressable onPress={ListLeaveLogic} style={{width: '49%'}}>
+                <Text style={styles.ListLeaveBtn}>
+                  {loading ? <ActivityIndicator /> : 'Leave List'}
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => navigation.navigate('ScreamPage')}
+                style={{
+                  backgroundColor: '#f5f7f9',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingVertical: 9,
+                  borderRadius: 5,
+                  width: '49%',
+                }}>
+                <Image
+                  style={{width: 23, height: 23, objectFit: 'contain'}}
+                  source={require('../../assets/images/icons/scream-icon-bk.png')}
+                />
+              </Pressable>
+            </View>
+          ) : (
+            <Pressable
+              onPress={
+                authValue === true
+                  ? ListJoinLogic
+                  : () => {
+                      setShowModalView(true);
+                    }
+              }>
+              <Text style={styles.ListJoinBtn}>
+                {loading ? <ActivityIndicator /> : 'Join List'}
+              </Text>
+            </Pressable>
+          )}
+        </View>
+
+        <View style={styles.ListNav}>
           <Pressable
-            onPress={
-              authValue === true
-                ? ListJoinLogic
-                : () => {
-                    setShowModalView(true);
-                  }
+            onPress={() => setRenderComponent('ListFeedPage')}
+            style={
+              renderComponent == 'ListFeedPage'
+                ? styles.ActiveListNavText
+                : styles.ListNavButton
             }>
-            <Text style={styles.ListJoinBtn}>
-              {loading ? <ActivityIndicator /> : 'Join List'}
-            </Text>
+            <Text style={styles.ListNavText}>Feeds</Text>
           </Pressable>
-        )}
-      </View>
+          <Pressable
+            onPress={() => setRenderComponent('ListRankings')}
+            style={
+              renderComponent == 'ListRankings'
+                ? styles.ActiveListNavText
+                : styles.ListNavButton
+            }>
+            <Text style={styles.ListNavText}>Ranking</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => setRenderComponent('ListInsights')}
+            style={
+              renderComponent == 'ListInsights'
+                ? styles.ActiveListNavText
+                : styles.ListNavButton
+            }>
+            <Text style={styles.ListNavText}>Insights</Text>
+          </Pressable>
+        </View>
 
-      <View style={styles.ListNav}>
-        <Pressable
-          onPress={() => setRenderComponent('ListFeedPage')}
-          style={
-            renderComponent == 'ListFeedPage'
-              ? styles.ActiveListNavText
-              : styles.ListNavButton
-          }>
-          <Text style={styles.ListNavText}>Feeds</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setRenderComponent('ListRankings')}
-          style={
-            renderComponent == 'ListRankings'
-              ? styles.ActiveListNavText
-              : styles.ListNavButton
-          }>
-          <Text style={styles.ListNavText}>Ranking</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setRenderComponent('ListInsights')}
-          style={
-            renderComponent == 'ListInsights'
-              ? styles.ActiveListNavText
-              : styles.ListNavButton
-          }>
-          <Text style={styles.ListNavText}>Insights</Text>
-        </Pressable>
-      </View>
+        <ScrollView horizontal={true} contentContainerStyle={{width: '100%'}}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={listIssues}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+            renderItem={renderItem}
+          />
+        </ScrollView>
 
-      <ScrollView horizontal={true} contentContainerStyle={{width: '100%'}}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={listIssues}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
-          renderItem={renderItem}
-        />
+        {showModalView && <ReactModal />}
       </ScrollView>
-
-      {showModalView && <ReactModal />}
-    </ScrollView>
+    </>
   );
 };
 

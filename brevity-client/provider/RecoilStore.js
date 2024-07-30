@@ -29,3 +29,13 @@ export const UserLists = atom({
   key: 'UserLists',
   default: [],
 });
+
+export const UserProfileInfo = atom({
+  key: 'UserProfileInfo',
+  default: [],
+});
+
+export const ProfileModal = atom({
+  key: 'ProfileModal',
+  default: false,
+});

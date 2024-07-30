@@ -12,6 +12,8 @@ import {
   View,
 } from 'react-native';
 import Config from 'react-native-config';
+import {ProfileModal, UserProfileInfo} from '../provider/RecoilStore';
+import {useRecoilState} from 'recoil';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
@@ -21,6 +23,8 @@ const IssueComponent = () => {
     params: {item},
   } = useRoute();
   const URL = Config.BASE_URL;
+  const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
+  const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
   const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -63,7 +67,8 @@ const IssueComponent = () => {
         <View style={styles.IssueHeader}>
           <Pressable
             onPress={() => {
-              console.log('Pressed View Profile in Issue component');
+              setModalVisible(true);
+              setModalInfo(item);
             }}
             style={styles.IssueUserProfileModal}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
