@@ -8,6 +8,7 @@ import {
   Pressable,
   FlatList,
   Text,
+  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -243,15 +244,13 @@ const FeedPage = () => {
 
       {isModalVisible ? (
         <ReactNativeModal
+          style={styles.ReactModal}
           isVisible={isModalVisible}
           onBackdropPress={() => {
-            setModalVisible(!isModalVisible);
+            setModalVisible(false);
           }}
-          backdropColor="black">
-          <View>
-            <Text style={{color: 'red'}}>Text</Text>
-          </View>
-        </ReactNativeModal>
+          children={false}
+          backdropColor="black"></ReactNativeModal>
       ) : (
         ''
       )}

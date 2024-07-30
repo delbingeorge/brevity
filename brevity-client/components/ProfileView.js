@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+import ReactModal from './ReactModal';
 import ReactNativeModal from 'react-native-modal';
 
 const ProfileView = () => {
