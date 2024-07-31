@@ -7,7 +7,7 @@ const SplashScreen = () => {
       <StatusBar barStyle={'light-content'} />
       <Image
         style={styles.SplashImageLogo}
-        source={require('../assets/images/logo/brevity-app-logo.png')}
+        source={require('../assets/images/logo/brevity.png')}
       />
       <Image
         style={styles.SplashImage}
