@@ -1,6 +1,6 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -14,18 +14,24 @@ import {
 import Config from 'react-native-config';
 import {ProfileModal, userInfo, UserProfileInfo} from '../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import * as Burnt from 'burnt';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
   const [solution, setSolution] = useState('');
   const profileInfo = useRecoilValue(userInfo);
+  const [postedSolutions, setPostedSolutions] = useState([]);
+
+  const URL = Config.BASE_URL;
   const {
     params: {item},
   } = useRoute();
 
+  useEffect(() => {
+    resSolution();
+  }, [item.issueId]);
 
-  const URL = Config.BASE_URL;
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
@@ -46,7 +52,26 @@ const IssueComponent = () => {
         content: solution.trim(),
       });
       if (response.status == 200) {
-        console.log(response.data);
+        setSolution('');
+        Burnt.toast({
+          title: 'Solution posted!',
+        });
+      } else {
+        console.log(response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const resSolution = async () => {
+    try {
+      const response = await axios.get(
+        `${URL}/api/get-issue-solutions/${item.issueId}`,
+      );
+      if (response.status === 200) {
+        setPostedSolutions(response.data['response']);
+        console.log(response.data['response']);
       } else {
         console.log(response.statusText);
       }
@@ -130,45 +155,46 @@ const IssueComponent = () => {
         </Text>
       </View>
 
-      <View style={styles.IssueComponent}>
-        <View style={styles.IssueHeader}>
-          <Pressable
-            onPress={() => {
-              console.log('Pressed View Profile in Issue component');
-            }}
-            style={styles.IssueUserProfileModal}>
-            <Image style={styles.HeaderImage} source={{uri: item.photo}} />
-            <Text style={styles.HeaderUserName}>{item.name}</Text>
-          </Pressable>
-          <Text style={styles.HeaderDivider}> · </Text>
-          <Pressable
-            onPress={() => {
-              console.log('Pressed List Button in Issue Component');
-            }}>
-            <Text style={styles.HeaderListName}>{'🎉'}</Text>
-          </Pressable>
-        </View>
-        <View style={styles.IssueContent}>
-          <Text style={styles.IssueTitle}>{item.title}</Text>
-          <Text style={styles.IssueText}>{'Lorem ipsum dolor set amit'}</Text>
-        </View>
-        <View style={styles.IssueActionView}>
-          <View style={styles.IssueAction}>
-            <Pressable onPress={handlePress}>
-              <Image
-                style={styles.IssueActionIcon}
-                source={isPressed ? pressedImage : defaultImage}
-              />
-            </Pressable>
-            <Text style={styles.IssueActionCount}>0</Text>
+      {postedSolutions.map(values => {
+        return (
+          <View key={values.id} style={styles.IssueComponent}>
+            <View style={styles.IssueHeader}>
+              <Pressable style={styles.IssueUserProfileModal}>
+                <Image
+                  style={styles.HeaderImage}
+                  source={{uri: values.photo}}
+                />
+                <Text style={styles.HeaderUserName}>{values.name}</Text>
+              </Pressable>
+              <Text style={styles.HeaderDivider}> · </Text>
+              <Pressable>
+                <Text style={styles.HeaderListName}>{'🎉'}</Text>
+              </Pressable>
+            </View>
+            <View style={styles.IssueContent}>
+              {/* <Text style={styles.IssueTitle}>{item.title}</Text> */}
+              <Text style={styles.IssueText}>{values.body}</Text>
+            </View>
+            <View style={styles.IssueActionView}>
+              <View style={styles.IssueAction}>
+                <Pressable onPress={handlePress}>
+                  <Image
+                    style={styles.IssueActionIcon}
+                    source={isPressed ? pressedImage : defaultImage}
+                  />
+                </Pressable>
+                <Text style={styles.IssueActionCount}>0</Text>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
+        );
+      })}
       <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
         {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
         <View style={styles.SearchInput}>
           <TextInput
             placeholder="Post your solution"
+            value={solution}
             placeholderTextColor={'rgba(0,0,0,0.3)'}
             maxLength={2500}
             multiline={true}

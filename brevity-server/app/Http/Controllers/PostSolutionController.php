@@ -27,4 +27,14 @@ class PostSolutionController extends Controller
         }
         return response()->json(500);
     }
+
+    public function resSolution($issueId)
+    {
+        $getIssues = DB::table('issue_responses')
+            ->join('users', 'users.id', '=', 'issue_responses.user_id')
+            ->where('issue_responses.issue_id', '=', $issueId)
+            ->select('issue_responses.id as solutionId', 'issue_responses.body', 'users.name', 'users.photo', 'users.id')
+            ->get();
+        return response()->json(['response' => $getIssues], 200);
+    }
 }

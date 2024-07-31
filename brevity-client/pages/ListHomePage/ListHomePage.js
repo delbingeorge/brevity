@@ -49,8 +49,6 @@ const ListHomePage = () => {
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
-  console.log(authValue);
-
   useEffect(() => {
     getListIssues();
     getListArray();
