@@ -25,7 +25,7 @@ import {
   UserProfileInfo,
 } from '../../provider/RecoilStore';
 import Config from 'react-native-config';
-import ReactModal from '../../components/ReactModal';
+import ReactModal from '../../components/Authentication';
 
 const ListHomePage = () => {
   const URL = Config.BASE_URL;

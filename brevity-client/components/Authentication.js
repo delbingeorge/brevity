@@ -23,7 +23,7 @@ import * as Burnt from 'burnt';
 import Config from 'react-native-config';
 import {useNavigation} from '@react-navigation/native';
 
-const ReactModal = () => {
+const Authentication = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
@@ -126,24 +126,24 @@ const ReactModal = () => {
   };
 
   return (
-    <>
-      <ReactNativeModal
-        style={styles.ReactModal}
-        isVisible={showModalView}
-        onBackdropPress={() => {
-          setShowModalView(false);
-        }}
-        animationIn={'slideInUp'}
-        backdropColor="black">
-        <StatusBar barStyle={'light-content'} backgroundColor={'black'} />
-        {loading == false ? (
-          <View style={styles.AuthView}>
-            <Text style={styles.AuthTitle}>Sign In</Text>
-            <Text style={styles.AuthSubTitle}>
-              Authenticate yourself to continue using bervity.
-            </Text>
-            <View style={styles.AuthInnerView}>
-              {/* <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGithub}>
+    <ReactNativeModal
+      style={styles.ReactModal}
+      isVisible={showModalView}
+      onBackdropPress={() => {
+        setShowModalView(false);
+      }}
+      animationIn="slideInUp"
+      animationOut="slideOutDown"
+      backdropColor="black">
+      <StatusBar barStyle={'light-content'} backgroundColor={'black'} />
+      {loading == false ? (
+        <View style={styles.AuthView}>
+          <Text style={styles.AuthTitle}>Sign In</Text>
+          <Text style={styles.AuthSubTitle}>
+            Authenticate yourself to continue using bervity.
+          </Text>
+          <View style={styles.AuthInnerView}>
+            {/* <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGithub}>
           <Image
             style={styles.AuthServiceLogo}
             source={require('../assets/images/icons/github-icon.png')}
@@ -151,26 +151,24 @@ const ReactModal = () => {
           <Text style={styles.AuthBtnText}>Github</Text>
         </TouchableOpacity> */}
 
-              <TouchableOpacity
-                style={styles.AuthBtn}
-                onPress={signInWithGoogle}>
-                <Image
-                  style={styles.AuthServiceLogo}
-                  source={require('../assets/images/icons/google-icon.png')}
-                />
-                <Text style={styles.AuthBtnText}>Google</Text>
-              </TouchableOpacity>
-            </View>
-            <Pressable
-              onPress={() => {
-                setShowModalView(false);
-              }}>
-              <Text style={styles.SubText}>I don’t want to sign in</Text>
-            </Pressable>
+            <TouchableOpacity style={styles.AuthBtn} onPress={signInWithGoogle}>
+              <Image
+                style={styles.AuthServiceLogo}
+                source={require('../assets/images/icons/google-icon.png')}
+              />
+              <Text style={styles.AuthBtnText}>Google</Text>
+            </TouchableOpacity>
           </View>
-        ) : (
-          <View style={styles.AuthViewLoader}>
-            {/* <Image
+          <Pressable
+            onPress={() => {
+              setShowModalView(false);
+            }}>
+            <Text style={styles.SubText}>I don’t want to sign in</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <View style={styles.AuthViewLoader}>
+          {/* <Image
               style={{
                 width: 120,
                 height: 120,
@@ -178,45 +176,44 @@ const ReactModal = () => {
               }}
               source={require('../assets/images/logo/brevity-app-logo.png')}
             /> */}
-            <View style={{marginVertical: 20}}>
-              <Text
-                style={{
-                  fontSize: 16.2,
-                  color: 'black',
-                  textAlign: 'center',
-                  fontFamily: 'Inter-SemiBold',
-                  marginBottom: 5,
-                }}>
-                Hang tight!
-              </Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                  color: 'rgba(0,0,0,0.7)',
-                  textAlign: 'center',
-                  fontFamily: 'Inter-Medium',
-                }}>
-                We're brewing some fresh code coffee.
-              </Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                  color: 'rgba(0,0,0,0.7)',
-                  textAlign: 'center',
-                  fontFamily: 'Inter-Medium',
-                }}>
-                This won't take long!
-              </Text>
-            </View>
-            <ActivityIndicator size="large" color="#548DFE" />
+          <View style={{marginVertical: 20}}>
+            <Text
+              style={{
+                fontSize: 16.2,
+                color: 'black',
+                textAlign: 'center',
+                fontFamily: 'Inter-SemiBold',
+                marginBottom: 5,
+              }}>
+              Hang tight!
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'rgba(0,0,0,0.7)',
+                textAlign: 'center',
+                fontFamily: 'Inter-Medium',
+              }}>
+              We're brewing some fresh code coffee.
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'rgba(0,0,0,0.7)',
+                textAlign: 'center',
+                fontFamily: 'Inter-Medium',
+              }}>
+              This won't take long!
+            </Text>
           </View>
-        )}
-      </ReactNativeModal>
-    </>
+          <ActivityIndicator size="large" color="#548DFE" />
+        </View>
+      )}
+    </ReactNativeModal>
   );
 };
 
-export default ReactModal;
+export default Authentication;
 
 const styles = StyleSheet.create({
   IssueComponent: {

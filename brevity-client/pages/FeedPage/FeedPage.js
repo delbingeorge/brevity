@@ -20,13 +20,14 @@ import {
   UserProfileInfo,
 } from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import ReactModal from '../../components/ReactModal';
+import ReactModal from '../../components/Authentication';
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useEffect, useState} from 'react';
 import FeedContentLoader from '../../components/Skeleton/FeedContentLoader';
 import ProfileView from '../../components/ProfileView';
 import ReactNativeModal from 'react-native-modal';
+import Authentication from '../../components/Authentication';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -174,7 +175,7 @@ const FeedPage = () => {
         <Pressable
           style={{display: authValue[0] == true ? 'none' : 'flex'}}
           onPress={() => {
-            setShowModalView(!isModalVisible);
+            setShowModalView(true);
           }}>
           <Image
             style={styles.CrownRank}
@@ -247,7 +248,7 @@ const FeedPage = () => {
 
       {isModalVisible && <ProfileView />}
 
-      {showModalView && <ReactModal />}
+      {showModalView && <Authentication />}
     </SafeAreaView>
   );
 };

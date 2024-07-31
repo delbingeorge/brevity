@@ -172,6 +172,8 @@ const ProfilePage = () => {
         onBackdropPress={() => {
           toggleModal(false);
         }}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
         backdropColor="black">
         <View style={styles.ProfileModal}>
           {/* <Pressable

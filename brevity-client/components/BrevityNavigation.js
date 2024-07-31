@@ -34,6 +34,10 @@ function TabNavigation() {
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
 
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
   const initializeApp = async () => {
     try {
       const storedUserInfo = await AsyncStorage.getItem('userInfo');
@@ -46,10 +50,6 @@ function TabNavigation() {
       console.error('Error retrieving user info from AsyncStorage:', error);
     }
   };
-
-  useEffect(() => {
-    initializeApp();
-  }, []);
 
   return (
     <TabRoute.Navigator

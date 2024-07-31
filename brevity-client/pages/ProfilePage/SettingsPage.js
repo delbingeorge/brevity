@@ -18,6 +18,35 @@ const SettingsPage = () => {
         />
         <Text style={styles.GoBackText}>Settings</Text>
       </Pressable>
+
+      <View>
+        <Pressable style={styles.SettingsButton}>
+          {/* <Image
+            style={styles.SettingsImage}
+            source={require('../../assets/images/icons/theme-icon-bk.png')}
+          /> */}
+          <Text style={styles.SettingsText}>Theme</Text>
+        </Pressable>
+        <Pressable style={styles.SettingsButton}>
+          {/* <Image
+            style={styles.SettingsImage}
+            source={require('../../assets/images/icons/report-icon-bk.png')}
+          /> */}
+          <Text style={styles.SettingsText}>Report an issue</Text>
+        </Pressable>
+        <Pressable style={styles.SettingsButton}>
+          <Text style={styles.SettingsText}>Account Management</Text>
+        </Pressable>
+        <Pressable style={styles.SettingsButton}>
+          <Text style={styles.SettingsText}>Privacy</Text>
+        </Pressable>
+        <Pressable style={styles.SettingsButton}>
+          <Text style={styles.SettingsText}>Help</Text>
+        </Pressable>
+        <Pressable style={styles.SettingsButton}>
+          <Text style={styles.SettingsText}>About</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -28,12 +57,13 @@ const styles = StyleSheet.create({
   SettingsView: {
     backgroundColor: 'white',
     flex: 1,
+    flexDirection: 'column',
+    paddingHorizontal: 15,
   },
   GoBack: {
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'row',
-    paddingHorizontal: 15,
     gap: 13,
     paddingVertical: 12,
     borderBottomWidth: 2.5,
@@ -59,9 +89,14 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     gap: 15,
   },
-  SettingsImage: {
-    width: 16,
-    height: 16,
+  SettingsButton: {
+    paddingBottom: 14,
+    flexDirection: 'row',
+    columnGap: 12,
   },
-  SettingsText: {color: 'black', fontSize: 16.8, fontFamily: 'Inter-Medium'},
+  SettingsImage: {
+    width: 23,
+    height: 23,
+  },
+  SettingsText: {color: 'black', fontSize: 17, fontFamily: 'Inter-Regular'},
 });

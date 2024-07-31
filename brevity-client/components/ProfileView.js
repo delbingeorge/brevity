@@ -7,7 +7,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import ReactModal from './ReactModal';
 import ReactNativeModal from 'react-native-modal';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {ProfileModal, userInfo, UserProfileInfo} from '../provider/RecoilStore';
@@ -24,6 +23,8 @@ const ProfileView = () => {
       onBackdropPress={() => {
         setProfileModal(false);
       }}
+      animationIn="slideInUp"
+      animationOut="slideOutDown"
       backdropColor="black">
       <View style={styles.ProfileModal}>
         <Image
