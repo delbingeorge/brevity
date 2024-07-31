@@ -12,16 +12,19 @@ import {
   View,
 } from 'react-native';
 import Config from 'react-native-config';
-import {ProfileModal, UserProfileInfo} from '../provider/RecoilStore';
-import {useRecoilState} from 'recoil';
+import {ProfileModal, userInfo, UserProfileInfo} from '../provider/RecoilStore';
+import {useRecoilState, useRecoilValue} from 'recoil';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
   const [solution, setSolution] = useState('');
+  const profileInfo = useRecoilValue(userInfo);
   const {
     params: {item},
   } = useRoute();
+
+
   const URL = Config.BASE_URL;
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
@@ -37,8 +40,9 @@ const IssueComponent = () => {
 
   const PostSolution = async () => {
     try {
-      const response = await axios.post(`${URL}/api/post-solution`, {
-        issueId: item.id,
+      const response = await axios.post(`${URL}/api/post-response`, {
+        issueId: item.issueId,
+        userId: profileInfo.id,
         content: solution.trim(),
       });
       if (response.status == 200) {
