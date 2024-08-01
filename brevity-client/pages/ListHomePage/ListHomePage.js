@@ -26,6 +26,7 @@ import {
 } from '../../provider/RecoilStore';
 import Config from 'react-native-config';
 import ReactModal from '../../components/Authentication';
+import * as Burnt from 'burnt';
 
 const ListHomePage = () => {
   const URL = Config.BASE_URL;
@@ -97,10 +98,22 @@ const ListHomePage = () => {
       if (response.status == 200) {
         setListDetails(response.data);
       } else {
-        console.log(response.statusText);
+        Burnt.toast({
+          title: response.statusText,
+          preset: 'error',
+          haptic: 'warning',
+          duration: 5,
+          from: 'top',
+        });
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: error,
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'top',
+      });
     }
   };
 
@@ -118,7 +131,13 @@ const ListHomePage = () => {
         setListJoinStatus(!listJoinStatus);
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: error,
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'top',
+      });
     } finally {
       setLoading(false);
     }
@@ -135,7 +154,13 @@ const ListHomePage = () => {
         setListJoin(!listJoin);
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: error,
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'top',
+      });
     } finally {
       setLoading(false);
     }
@@ -163,8 +188,8 @@ const ListHomePage = () => {
     return (
       <Pressable
         onPress={() => {
-          console.log('Pressed!');
           navigation.navigate('IssueComponent', {item});
+          console.log(item.id);
         }}
         style={styles.IssueComponent}
         key={`${item.id}-${index}`}>

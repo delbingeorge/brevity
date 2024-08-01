@@ -12,7 +12,12 @@ import {
   View,
 } from 'react-native';
 import Config from 'react-native-config';
-import {ProfileModal, userInfo, UserProfileInfo} from '../provider/RecoilStore';
+import {
+  listMembershipStatus,
+  ProfileModal,
+  userInfo,
+  UserProfileInfo,
+} from '../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import * as Burnt from 'burnt';
 
@@ -22,6 +27,7 @@ const IssueComponent = () => {
   const [solution, setSolution] = useState('');
   const profileInfo = useRecoilValue(userInfo);
   const [postedSolutions, setPostedSolutions] = useState([]);
+  const isListMember = useRecoilValue(listMembershipStatus);
 
   const URL = Config.BASE_URL;
   const {
@@ -71,7 +77,6 @@ const IssueComponent = () => {
       );
       if (response.status === 200) {
         setPostedSolutions(response.data['response']);
-        console.log(response.data['response']);
       } else {
         console.log(response.statusText);
       }
@@ -147,13 +152,39 @@ const IssueComponent = () => {
           </View>
         </View>
       </View>
-
-      <View style={{paddingHorizontal: 15, paddingVertical: 5}}>
-        <Text
-          style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
-          Solution thread
-        </Text>
-      </View>
+      {postedSolutions.length > 0 ? (
+        <View
+          style={{
+            paddingHorizontal: 15,
+            paddingVertical: 7,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <Text
+            style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
+            Solution thread
+          </Text>
+          {/* <View
+            style={{
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              paddingHorizontal: 7,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 100,
+            }}>
+            <Text
+              style={{
+                fontSize: 14,
+                color: 'white',
+                fontFamily: 'Inter-Medium',
+              }}>
+              {postedSolutions.length}
+            </Text>
+          </View> */}
+        </View>
+      ) : (
+        ''
+      )}
 
       {postedSolutions.map(values => {
         return (
@@ -189,39 +220,42 @@ const IssueComponent = () => {
           </View>
         );
       })}
-      <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
-        {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
-        <View style={styles.SearchInput}>
-          <TextInput
-            placeholder="Post your solution"
-            value={solution}
-            placeholderTextColor={'rgba(0,0,0,0.3)'}
-            maxLength={2500}
-            multiline={true}
-            style={{
-              fontSize: 15,
-              fontFamily: 'Inter-Medium',
-              color: 'black',
-              width: '85%',
-            }}
-            onChangeText={value => {
-              setSolution(value);
-            }}
-          />
-          <Pressable
-            onPress={PostSolution}
-            style={{
-              backgroundColor: 'rgba(0,0,0,0.05)',
-              padding: 8,
-              borderRadius: 8,
-            }}>
-            <Image
-              style={[styles.IssueActionIcon, {width: 25, height: 25}]}
-              source={require('../assets/images/icons/issue-post-bk-icon.png')}
+
+      {isListMember && (
+        <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
+          {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
+          <View style={styles.SearchInput}>
+            <TextInput
+              placeholder="Post your solution"
+              value={solution}
+              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              maxLength={2500}
+              multiline={true}
+              style={{
+                fontSize: 15,
+                fontFamily: 'Inter-Medium',
+                color: 'black',
+                width: '85%',
+              }}
+              onChangeText={value => {
+                setSolution(value);
+              }}
             />
-          </Pressable>
+            <Pressable
+              onPress={PostSolution}
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.05)',
+                padding: 8,
+                borderRadius: 8,
+              }}>
+              <Image
+                style={[styles.IssueActionIcon, {width: 25, height: 25}]}
+                source={require('../assets/images/icons/issue-post-bk-icon.png')}
+              />
+            </Pressable>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };
