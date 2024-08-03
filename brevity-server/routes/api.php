@@ -11,7 +11,9 @@ use App\Http\Controllers\PostSolutionController;
 use App\Http\Controllers\ProfileController;
 
 
-Route::post('/google-signin', [AuthController::class, 'googleSignIn']);
+Route::post('/google-signin', [AuthController::class, 'SignIn']);
+
+Route::get('/google-signout', [AuthController::class, 'signOut']);
 
 Route::post('/profile/update', [ProfileController::class, 'editProfile']);
 

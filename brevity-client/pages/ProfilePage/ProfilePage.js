@@ -16,6 +16,8 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {authState, userInfo} from '../../provider/RecoilStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from 'react-native-config';
+import axios from 'axios';
+import * as Burnt from 'burnt';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
@@ -39,15 +41,30 @@ const ProfilePage = () => {
 
   const signOut = async () => {
     try {
-      // setLoading(true);
-      await GoogleSignin.signOut();
-      await AsyncStorage.removeItem('userInfo');
-      setAuthValue(false);
-      setUserInfoState({});
-      navigation.navigate('FeedPage');
-      // setLoading(false);
+      const response = await axios.get(`${URL}/api/google-signout`);
+      if (response.status == 200) {
+        await GoogleSignin.signOut();
+        await AsyncStorage.removeItem('userInfo');
+        setAuthValue(false);
+        setUserInfoState({});
+        navigation.navigate('FeedPage');
+      } else {
+        Burnt.toast({
+          title: 'Something went wrong!',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'top',
+        });
+      }
     } catch (error) {
-      console.error(error);
+      Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'top',
+      });
     }
   };
 
@@ -103,17 +120,6 @@ const ProfilePage = () => {
               />
               <Text style={styles.SettingsText}>Track Journey</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={styles.Settings}
-              onPress={() => {
-                navigation.navigate('YourLists');
-              }}>
-              <Image
-                style={styles.SettingsImage}
-                source={require('../../assets/images/icons/settings/list-icon-color.png')}
-              />
-              <Text style={styles.SettingsText}>Your Lists</Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
@@ -125,14 +131,6 @@ const ProfilePage = () => {
               />
               <Text style={styles.SettingsText}>Posted Issues</Text>
             </TouchableOpacity>
-
-            {/* <TouchableOpacity style={styles.Settings}>
-              <Image
-                style={styles.SettingsImage}
-                source={require('../../assets/images/icons/settings/notify-icon-color.png')}
-              />
-              <Text style={styles.SettingsText}>Notifications</Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.Settings}
               onPress={() => {
@@ -176,11 +174,6 @@ const ProfilePage = () => {
         animationOut="slideOutDown"
         backdropColor="black">
         <View style={styles.ProfileModal}>
-          {/* <Pressable
-            style={styles.ModalCloseTab}
-            onPress={() => {
-              toggleModal(false);
-            }}></Pressable> */}
           <Image
             style={styles.ProfileImage}
             source={
@@ -215,9 +208,7 @@ const ProfilePage = () => {
                   source={require('../../assets/images/icons/socials/github-icon.png')}
                 />
               </Pressable>
-            ) : (
-              ''
-            )}
+            ) : null}
             {profileInfo['linkSecond'] != 'null' ? (
               <Pressable
                 style={styles.SocialButton}
@@ -229,9 +220,7 @@ const ProfilePage = () => {
                   source={require('../../assets/images/icons/socials/linkedin-icon.png')}
                 />
               </Pressable>
-            ) : (
-              ''
-            )}
+            ) : null}
             {profileInfo['linkThird'] != 'null' ? (
               <Pressable
                 style={styles.SocialButton}
@@ -243,9 +232,7 @@ const ProfilePage = () => {
                   source={require('../../assets/images/icons/socials/youtube-icon.png')}
                 />
               </Pressable>
-            ) : (
-              ''
-            )}
+            ) : null}
             {profileInfo['linkForth'] != 'null' ? (
               <Pressable
                 style={styles.SocialButton}
@@ -257,9 +244,7 @@ const ProfilePage = () => {
                   source={require('../../assets/images/icons/socials/external-icon.png')}
                 />
               </Pressable>
-            ) : (
-              ''
-            )}
+            ) : null}
           </View>
         </View>
       </ReactNativeModal>

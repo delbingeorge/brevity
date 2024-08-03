@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-     public function googleSignIn(Request $request)
+     public function SignIn(Request $request)
      {
           $name = $request->input('name');
           $username = $request->input('username');
@@ -45,5 +45,10 @@ class AuthController extends Controller
           Auth::login($user);
 
           return response()->json(['user' => $user, 'newUser' => $newUser, 'authValue' => $authValue, 'token' => $user->createToken('authToken')->plainTextToken]);
+     }
+
+     public function SignOut()
+     {
+          return response()->json(200);
      }
 }
