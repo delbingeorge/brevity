@@ -15,16 +15,19 @@ import {
   authState,
   listMembershipStatus,
   modalView,
+  ProfileModal,
   userInfo,
+  UserProfileInfo,
 } from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import ReactModal from '../../components/ReactModal';
+import ReactModal from '../../components/Authentication';
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useEffect, useState} from 'react';
 import FeedContentLoader from '../../components/Skeleton/FeedContentLoader';
 import ProfileView from '../../components/ProfileView';
 import ReactNativeModal from 'react-native-modal';
+import Authentication from '../../components/Authentication';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -36,8 +39,9 @@ const FeedPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const profileInfo = useRecoilValue(userInfo);
-  const [isModalVisible, setModalVisible] = useState(false);
   const listMembershipStatusCheck = useRecoilValue(listMembershipStatus);
+  const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
+  const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
   const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -89,8 +93,8 @@ const FeedPage = () => {
           <Pressable
             style={styles.IssueUserProfileModal}
             onPress={() => {
-              console.log('Pressed!');
               setModalVisible(true);
+              setModalInfo(item);
             }}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
             <Text style={styles.HeaderUserName}>{item.name}</Text>
@@ -171,7 +175,7 @@ const FeedPage = () => {
         <Pressable
           style={{display: authValue[0] == true ? 'none' : 'flex'}}
           onPress={() => {
-            setShowModalView(!isModalVisible);
+            setShowModalView(true);
           }}>
           <Image
             style={styles.CrownRank}
@@ -242,20 +246,9 @@ const FeedPage = () => {
         />
       </TouchableOpacity>
 
-      {isModalVisible ? (
-        <ReactNativeModal
-          style={styles.ReactModal}
-          isVisible={isModalVisible}
-          onBackdropPress={() => {
-            setModalVisible(false);
-          }}
-          children={false}
-          backdropColor="black"></ReactNativeModal>
-      ) : (
-        ''
-      )}
+      {isModalVisible && <ProfileView />}
 
-      {showModalView && <ReactModal />}
+      {showModalView && <Authentication />}
     </SafeAreaView>
   );
 };

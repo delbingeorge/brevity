@@ -162,11 +162,6 @@ const ProfilePage = () => {
               />
               <Text style={styles.SettingsText}>Log out</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.Settings}
-              onPress={() => navigation.navigate('OnboardingScreen')}>
-              <Text style={styles.SettingsText}></Text>
-            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -177,6 +172,8 @@ const ProfilePage = () => {
         onBackdropPress={() => {
           toggleModal(false);
         }}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
         backdropColor="black">
         <View style={styles.ProfileModal}>
           {/* <Pressable

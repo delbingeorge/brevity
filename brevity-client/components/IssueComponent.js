@@ -1,6 +1,6 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -12,15 +12,34 @@ import {
   View,
 } from 'react-native';
 import Config from 'react-native-config';
+import {
+  listMembershipStatus,
+  ProfileModal,
+  userInfo,
+  UserProfileInfo,
+} from '../provider/RecoilStore';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import * as Burnt from 'burnt';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
   const [solution, setSolution] = useState('');
+  const profileInfo = useRecoilValue(userInfo);
+  const [postedSolutions, setPostedSolutions] = useState([]);
+  const isListMember = useRecoilValue(listMembershipStatus);
+
+  const URL = Config.BASE_URL;
   const {
     params: {item},
   } = useRoute();
-  const URL = Config.BASE_URL;
+
+  useEffect(() => {
+    resSolution();
+  }, [item.issueId]);
+
+  const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
+  const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
   const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -33,12 +52,31 @@ const IssueComponent = () => {
 
   const PostSolution = async () => {
     try {
-      const response = await axios.post(`${URL}/api/post-solution`, {
-        issueId: item.id,
+      const response = await axios.post(`${URL}/api/post-response`, {
+        issueId: item.issueId,
+        userId: profileInfo.id,
         content: solution.trim(),
       });
       if (response.status == 200) {
-        console.log(response.data);
+        setSolution('');
+        Burnt.toast({
+          title: 'Solution posted!',
+        });
+      } else {
+        console.log(response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const resSolution = async () => {
+    try {
+      const response = await axios.get(
+        `${URL}/api/get-issue-solutions/${item.issueId}`,
+      );
+      if (response.status === 200) {
+        setPostedSolutions(response.data['response']);
       } else {
         console.log(response.statusText);
       }
@@ -63,7 +101,8 @@ const IssueComponent = () => {
         <View style={styles.IssueHeader}>
           <Pressable
             onPress={() => {
-              console.log('Pressed View Profile in Issue component');
+              setModalVisible(true);
+              setModalInfo(item);
             }}
             style={styles.IssueUserProfileModal}>
             <Image style={styles.HeaderImage} source={{uri: item.photo}} />
@@ -113,79 +152,110 @@ const IssueComponent = () => {
           </View>
         </View>
       </View>
-      <View style={{paddingHorizontal: 15, paddingVertical: 5}}>
-        <Text
-          style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
-          Solution thread
-        </Text>
-      </View>
-
-      <View style={styles.IssueComponent}>
-        <View style={styles.IssueHeader}>
-          <Pressable
-            onPress={() => {
-              console.log('Pressed View Profile in Issue component');
-            }}
-            style={styles.IssueUserProfileModal}>
-            <Image style={styles.HeaderImage} source={{uri: item.photo}} />
-            <Text style={styles.HeaderUserName}>{item.name}</Text>
-          </Pressable>
-          <Text style={styles.HeaderDivider}> · </Text>
-          <Pressable
-            onPress={() => {
-              console.log('Pressed List Button in Issue Component');
+      {postedSolutions.length > 0 ? (
+        <View
+          style={{
+            paddingHorizontal: 15,
+            paddingVertical: 7,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <Text
+            style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
+            Solution thread
+          </Text>
+          {/* <View
+            style={{
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              paddingHorizontal: 7,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 100,
             }}>
-            <Text style={styles.HeaderListName}>{'🎉'}</Text>
-          </Pressable>
+            <Text
+              style={{
+                fontSize: 14,
+                color: 'white',
+                fontFamily: 'Inter-Medium',
+              }}>
+              {postedSolutions.length}
+            </Text>
+          </View> */}
         </View>
-        <View style={styles.IssueContent}>
-          <Text style={styles.IssueTitle}>{item.title}</Text>
-          <Text style={styles.IssueText}>{'Lorem ipsum dolor set amit'}</Text>
-        </View>
-        <View style={styles.IssueActionView}>
-          <View style={styles.IssueAction}>
-            <Pressable onPress={handlePress}>
+      ) : (
+        ''
+      )}
+
+      {postedSolutions.map(values => {
+        return (
+          <View key={values.id} style={styles.IssueComponent}>
+            <View style={styles.IssueHeader}>
+              <Pressable style={styles.IssueUserProfileModal}>
+                <Image
+                  style={styles.HeaderImage}
+                  source={{uri: values.photo}}
+                />
+                <Text style={styles.HeaderUserName}>{values.name}</Text>
+              </Pressable>
+              <Text style={styles.HeaderDivider}> · </Text>
+              <Pressable>
+                <Text style={styles.HeaderListName}>{'🎉'}</Text>
+              </Pressable>
+            </View>
+            <View style={styles.IssueContent}>
+              {/* <Text style={styles.IssueTitle}>{item.title}</Text> */}
+              <Text style={styles.IssueText}>{values.body}</Text>
+            </View>
+            <View style={styles.IssueActionView}>
+              <View style={styles.IssueAction}>
+                <Pressable onPress={handlePress}>
+                  <Image
+                    style={styles.IssueActionIcon}
+                    source={isPressed ? pressedImage : defaultImage}
+                  />
+                </Pressable>
+                <Text style={styles.IssueActionCount}>0</Text>
+              </View>
+            </View>
+          </View>
+        );
+      })}
+
+      {isListMember && (
+        <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
+          {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
+          <View style={styles.SearchInput}>
+            <TextInput
+              placeholder="Post your solution"
+              value={solution}
+              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              maxLength={2500}
+              multiline={true}
+              style={{
+                fontSize: 15,
+                fontFamily: 'Inter-Medium',
+                color: 'black',
+                width: '85%',
+              }}
+              onChangeText={value => {
+                setSolution(value);
+              }}
+            />
+            <Pressable
+              onPress={PostSolution}
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.05)',
+                padding: 8,
+                borderRadius: 8,
+              }}>
               <Image
-                style={styles.IssueActionIcon}
-                source={isPressed ? pressedImage : defaultImage}
+                style={[styles.IssueActionIcon, {width: 25, height: 25}]}
+                source={require('../assets/images/icons/issue-post-bk-icon.png')}
               />
             </Pressable>
-            <Text style={styles.IssueActionCount}>0</Text>
           </View>
         </View>
-      </View>
-      <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
-        {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
-        <View style={styles.SearchInput}>
-          <TextInput
-            placeholder="Post your solution"
-            placeholderTextColor={'rgba(0,0,0,0.3)'}
-            maxLength={2500}
-            multiline={true}
-            style={{
-              fontSize: 15,
-              fontFamily: 'Inter-Medium',
-              color: 'black',
-              width: '85%',
-            }}
-            onChangeText={value => {
-              setSolution(value);
-            }}
-          />
-          <Pressable
-            onPress={PostSolution}
-            style={{
-              backgroundColor: 'rgba(0,0,0,0.05)',
-              padding: 8,
-              borderRadius: 8,
-            }}>
-            <Image
-              style={[styles.IssueActionIcon, {width: 25, height: 25}]}
-              source={require('../assets/images/icons/issue-post-bk-icon.png')}
-            />
-          </Pressable>
-        </View>
-      </View>
+      )}
     </View>
   );
 };

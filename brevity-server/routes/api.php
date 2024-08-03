@@ -33,4 +33,6 @@ Route::get('/get-list-issues/{listId}', [ListController::class, 'getListIssues']
 
 Route::get('/get-feed/{authValue}', [FeedPageController::class, 'getFeed']);
 
-Route::post('/post-solution', [PostSolutionController::class, 'postSolution']);
+Route::post('/post-response', [PostSolutionController::class, 'postSolution']);
+
+Route::get('/get-issue-solutions/{issueId}', [PostSolutionController::class, 'resSolution']);
