@@ -1,6 +1,15 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Image, Pressable, StyleSheet, Switch, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+} from 'react-native';
+import ReactNativeModal from 'react-native-modal';
 
 const ManageIssue = () => {
   const {
@@ -11,6 +20,7 @@ const ManageIssue = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [showIssueMenu, setShowIssueMenu] = useState(false);
 
   const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
   const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
@@ -26,47 +36,61 @@ const ManageIssue = () => {
           navigation.goBack();
         }}
         style={styles.GoBack}>
-        <Image
-          style={styles.GoBackIcon}
-          source={require('../assets/images/icons/go-back-bk.png')}
-        />
-        <Text style={styles.GoBackText}>
-          {item.title.substring(0, 25) + '...'}
-        </Text>
+        <View style={{flexDirection: 'row', gap: 5}}>
+          <Image
+            style={styles.GoBackIcon}
+            source={require('../assets/images/icons/go-back-bk.png')}
+          />
+          <Text style={styles.GoBackText}>
+            {item.title.substring(0, 15) + '...'}
+          </Text>
+        </View>
+        <Pressable
+          onPress={() => {
+            setShowIssueMenu(true);
+          }}>
+          <Image
+            style={{width: 22, height: 22}}
+            source={require('../assets/images/icons/menu-icon-bk.png')}
+          />
+        </Pressable>
       </Pressable>
       <View>
         <View style={styles.IssueContent}>
           <Text style={styles.IssueTitle}>{item.title}</Text>
           <Text style={styles.IssueText}>{item.body}</Text>
         </View>
-        <View style={styles.IssueActionView}>
-          <View style={styles.IssueAction}>
-            <Pressable onPress={handlePress}>
-              <Image
-                style={styles.IssueActionIcon}
-                source={isPressed ? pressedImage : defaultImage}
-              />
-            </Pressable>
-            <Text style={styles.IssueActionCount}>12k</Text>
-          </View>
-          <View style={styles.IssueAction}>
-            <Image
-              style={styles.IssueActionIcon}
-              source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
-            />
-            <Text style={styles.IssueActionCount}>15</Text>
-          </View>
-        </View>
       </View>
-      <View>
-        <Text>Mark issue as solved</Text>
-        <Switch
-          trackColor={{false: 'grey', true: 'grey'}}
-          thumbColor={isEnabled ? 'lightgreen' : '#f4f3f4'}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-      </View>
+
+      {showIssueMenu && (
+        <ReactNativeModal
+          style={styles.ReactModal}
+          isVisible={showIssueMenu}
+          animationIn={'slideInUp'}
+          animationOut={'slideInDown'}
+          onBackdropPress={() => setShowIssueMenu(false)}>
+          <View style={styles.AuthView}>
+            <View>
+              <View style={styles.ModalItems}>
+                <Text style={styles.ModalText}>Mark as solved</Text>
+                <Switch
+                  trackColor={{false: 'grey', true: 'grey'}}
+                  thumbColor={isEnabled ? 'lightgreen' : '#f4f3f4'}
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
+              <View style={styles.ModalItems}>
+                <Text style={styles.ModalText}>Delete</Text>
+                <Image
+                  style={{width: 22, height: 22, marginHorizontal: 15}}
+                  source={require('../assets/images/icons/remove-icon-bk.png')}
+                />
+              </View>
+            </View>
+          </View>
+        </ReactNativeModal>
+      )}
     </View>
   );
 };
@@ -78,9 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'row',
-    gap: 13,
+    gap: 10,
     paddingVertical: 5,
     borderBottomWidth: 2.5,
+    alignItems: 'center',
+    justifyContent: 'space-between',
     borderColor: 'rgba(255,255,255,0.8)',
   },
   GoBackIcon: {
@@ -128,5 +154,29 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 13.5,
     fontFamily: 'Inter-Medium',
+  },
+  ReactModal: {
+    margin: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  AuthView: {
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 25,
+    backgroundColor: 'white',
+    width: Dimensions.get('screen').width,
+  },
+  ModalText: {
+    color: 'black',
+    fontSize: 16,
+    fontFamily: 'Inter-Regular',
+  },
+  ModalItems: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
   },
 });

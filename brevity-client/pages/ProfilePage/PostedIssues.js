@@ -13,6 +13,7 @@ import Config from 'react-native-config';
 import {useRecoilValue} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import {useNavigation} from '@react-navigation/native';
+import ReactNativeModal from 'react-native-modal';
 
 const PostedIssues = () => {
   const URL = Config.BASE_URL;
@@ -62,10 +63,10 @@ const PostedIssues = () => {
           style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
           {item.title}
         </Text>
-        <Text
+        {/* <Text
           style={{color: 'black', fontSize: 14.5, fontFamily: 'Inter-Regular'}}>
           {item.body.substring(0, 120)}
-        </Text>
+        </Text> */}
         <View
           style={{
             flexDirection: 'row',
