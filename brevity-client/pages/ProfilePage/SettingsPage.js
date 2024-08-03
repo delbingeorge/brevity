@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 
 const SettingsPage = () => {
   const navigation = useNavigation();
@@ -28,22 +28,32 @@ const SettingsPage = () => {
           <Text style={styles.SettingsText}>Theme</Text>
         </Pressable>
         <Pressable style={styles.SettingsButton}>
-          {/* <Image
-            style={styles.SettingsImage}
-            source={require('../../assets/images/icons/report-icon-bk.png')}
-          /> */}
+          <Text style={styles.SettingsText}>Account management</Text>
+        </Pressable>
+        <Pressable style={styles.SettingsButton}>
+          <Text style={styles.SettingsText}>Privacy & policy</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            Linking.openURL('mailto: imdelbingeorge@gmail.com');
+          }}
+          style={styles.SettingsButton}>
+          <Text style={styles.SettingsText}>Seek help</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            Linking.openURL(
+              'https://github.com/delbingeorge/delbingeorge/issues/new',
+            );
+          }}
+          style={styles.SettingsButton}>
           <Text style={styles.SettingsText}>Report an issue</Text>
         </Pressable>
-        <Pressable style={styles.SettingsButton}>
-          <Text style={styles.SettingsText}>Account Management</Text>
-        </Pressable>
-        <Pressable style={styles.SettingsButton}>
-          <Text style={styles.SettingsText}>Privacy</Text>
-        </Pressable>
-        <Pressable style={styles.SettingsButton}>
-          <Text style={styles.SettingsText}>Help</Text>
-        </Pressable>
-        <Pressable style={styles.SettingsButton}>
+        <Pressable
+          onPress={() => {
+            Linking.openURL('https://delb.in');
+          }}
+          style={styles.SettingsButton}>
           <Text style={styles.SettingsText}>About</Text>
         </Pressable>
       </View>
@@ -65,7 +75,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     gap: 13,
-    paddingVertical: 12,
+    paddingVertical: 5,
     borderBottomWidth: 2.5,
     borderColor: 'rgba(255,255,255,0.8)',
   },

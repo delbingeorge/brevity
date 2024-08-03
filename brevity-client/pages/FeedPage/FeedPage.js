@@ -8,7 +8,6 @@ import {
   Pressable,
   FlatList,
   Text,
-  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -20,13 +19,11 @@ import {
   UserProfileInfo,
 } from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import ReactModal from '../../components/Authentication';
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useEffect, useState} from 'react';
 import FeedContentLoader from '../../components/Skeleton/FeedContentLoader';
 import ProfileView from '../../components/ProfileView';
-import ReactNativeModal from 'react-native-modal';
 import Authentication from '../../components/Authentication';
 
 const FeedPage = () => {
@@ -162,7 +159,11 @@ const FeedPage = () => {
         </Pressable>
 
         <Pressable
-          style={{display: authValue[0] == true ? 'flex' : 'none'}}
+          style={{
+            display: authValue[0] == true ? 'flex' : 'none',
+            width: 50,
+            alignItems: 'flex-end',
+          }}
           onPress={() => {
             navigation.navigate('ProfileRank');
           }}>
@@ -173,7 +174,11 @@ const FeedPage = () => {
         </Pressable>
 
         <Pressable
-          style={{display: authValue[0] == true ? 'none' : 'flex'}}
+          style={{
+            display: authValue[0] == true ? 'none' : 'flex',
+            width: 50,
+            alignItems: 'flex-end',
+          }}
           onPress={() => {
             setShowModalView(true);
           }}>
@@ -276,8 +281,8 @@ const styles = StyleSheet.create({
     objectFit: 'contain',
   },
   CrownRank: {
-    height: 20,
-    width: 20,
+    height: 21,
+    width: 21,
   },
   BottomNavBar: {
     display: 'flex',
