@@ -33,6 +33,7 @@ const IssueComponent = () => {
   const {
     params: {item},
   } = useRoute();
+  
 
   useEffect(() => {
     resSolution();

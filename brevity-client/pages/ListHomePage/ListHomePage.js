@@ -35,6 +35,8 @@ const ListHomePage = () => {
     params: {item},
   } = useRoute();
 
+  console.log(item);
+
   const navigation = useNavigation();
   const [listJoin, setListJoin] = useState(false);
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
@@ -88,7 +90,7 @@ const ListHomePage = () => {
         console.log(response.statusText);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error + ' Hi');
     }
   };
 
@@ -189,7 +191,6 @@ const ListHomePage = () => {
       <Pressable
         onPress={() => {
           navigation.navigate('IssueComponent', {item});
-          console.log(item.id);
         }}
         style={styles.IssueComponent}
         key={`${item.id}-${index}`}>
@@ -360,7 +361,7 @@ const ListHomePage = () => {
           )}
         </View>
 
-        <View style={styles.ListNav}>
+        {/* <View style={styles.ListNav}>
           <Pressable
             onPress={() => setRenderComponent('ListFeedPage')}
             style={
@@ -388,7 +389,8 @@ const ListHomePage = () => {
             }>
             <Text style={styles.ListNavText}>Insights</Text>
           </Pressable>
-        </View>
+        </View> */}
+        <View style={styles.ListNav}></View>
 
         <ScrollView horizontal={true} contentContainerStyle={{width: '100%'}}>
           <FlatList
