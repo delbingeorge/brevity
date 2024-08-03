@@ -35,8 +35,6 @@ const ListHomePage = () => {
     params: {item},
   } = useRoute();
 
-  console.log(item);
-
   const navigation = useNavigation();
   const [listJoin, setListJoin] = useState(false);
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
@@ -90,7 +88,7 @@ const ListHomePage = () => {
         console.log(response.statusText);
       }
     } catch (error) {
-      console.log(error + ' Hi');
+      console.log(error);
     }
   };
 
@@ -187,6 +185,8 @@ const ListHomePage = () => {
 
     const diff = currentDate - postDate;
     const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const isLongText = item.body.length > 250;
+    const displayText = isLongText ? item.body.substring(0, 200) : item.body;
     return (
       <Pressable
         onPress={() => {
@@ -211,7 +211,12 @@ const ListHomePage = () => {
         </View>
         <View style={styles.IssueContent}>
           <Text style={styles.IssueTitle}>{item.title}</Text>
-          <Text style={styles.IssueText}>{item.body}</Text>
+          <Text style={styles.IssueText}>
+            {displayText}
+            {isLongText && (
+              <Text style={styles.ReadMoreText}> ...read more</Text>
+            )}
+          </Text>
         </View>
         <View style={styles.IssueActionView}>
           <View style={styles.IssueAction}>
@@ -279,17 +284,23 @@ const ListHomePage = () => {
                 alignItems: 'center',
                 columnGap: 5,
               }}>
-              <Image
+              <Pressable
+                onPress={() => {
+                  navigation.goBack();
+                }}>
+                <Image
+                  style={styles.GoBackIcon}
+                  source={require('../../assets/images/icons/go-back-bk.png')}
+                />
+              </Pressable>
+              {/* <Image
                 style={{width: 20, height: 20}}
                 source={require('../../assets/images/icons/user-default-image1.png')}
-              />
+              /> */}
               <Text style={styles.ListTitle}>{item.list_name}</Text>
             </View>
           </View>
-          <View>
-            <Text style={styles.ListDescription}>{item.description}</Text>
-          </View>
-
+          <Text style={styles.ListDescription}>{item.description}</Text>
           <View style={styles.HeaderIconView}>
             <View style={styles.ListHeaderIcons}>
               <Image
@@ -320,7 +331,6 @@ const ListHomePage = () => {
             <View
               style={{
                 flexDirection: 'row',
-                // width: '100%',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
@@ -361,7 +371,7 @@ const ListHomePage = () => {
           )}
         </View>
 
-        {/* <View style={styles.ListNav}>
+        <View style={styles.ListNav}>
           <Pressable
             onPress={() => setRenderComponent('ListFeedPage')}
             style={
@@ -389,8 +399,7 @@ const ListHomePage = () => {
             }>
             <Text style={styles.ListNavText}>Insights</Text>
           </Pressable>
-        </View> */}
-        <View style={styles.ListNav}></View>
+        </View>
 
         <ScrollView horizontal={true} contentContainerStyle={{width: '100%'}}>
           <FlatList
@@ -443,13 +452,10 @@ const styles = StyleSheet.create({
     color: '#2E3540',
     lineHeight: 22,
     fontSize: 16,
-    marginVertical: 3,
   },
   HeaderIconView: {
-    //     width: '65%',
-    marginVertical: 8,
+    marginVertical: 5,
     flexDirection: 'row',
-
     alignItems: 'center',
     justifyContent: 'space-around',
   },
@@ -576,5 +582,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 13.5,
     fontFamily: 'Inter-Medium',
+  },
+  ReadMoreText: {
+    color: 'rgba(0,0,0,0.6)',
+    fontSize: 13,
+    fontFamily: 'Inter-SemiBold',
   },
 });

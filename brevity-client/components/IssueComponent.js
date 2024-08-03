@@ -33,7 +33,6 @@ const IssueComponent = () => {
   const {
     params: {item},
   } = useRoute();
-  
 
   useEffect(() => {
     resSolution();
@@ -165,7 +164,7 @@ const IssueComponent = () => {
             style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
             Solution thread
           </Text>
-          {/* <View
+          <View
             style={{
               backgroundColor: 'rgba(0,0,0,0.4)',
               paddingHorizontal: 7,
@@ -181,12 +180,9 @@ const IssueComponent = () => {
               }}>
               {postedSolutions.length}
             </Text>
-          </View> */}
+          </View>
         </View>
-      ) : (
-        ''
-      )}
-
+      ) : null}
       {postedSolutions.map(values => {
         return (
           <View key={values.id} style={styles.IssueComponent}>
@@ -222,7 +218,7 @@ const IssueComponent = () => {
         );
       })}
 
-      {isListMember && (
+      {!isListMember && (
         <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
           {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
           <View style={styles.SearchInput}>
@@ -268,7 +264,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(0,0,0,0.06)',
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
-    marginBottom: 0,
     paddingHorizontal: 15,
   },
   IssueHeader: {
@@ -389,7 +384,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 13,
     paddingHorizontal: 15,
-    paddingVertical: 5,
+    paddingBottom: 5,
+    marginBottom: -5,
     borderBottomWidth: 2.5,
     borderColor: 'rgba(255,255,255,0.8)',
   },
