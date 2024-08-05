@@ -12,7 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useState} from 'react';
 import {ReactNativeModal} from 'react-native-modal';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {authState, userInfo} from '../../provider/RecoilStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from 'react-native-config';
@@ -22,8 +22,8 @@ import * as Burnt from 'burnt';
 const ProfilePage = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
-  const [authValue, setAuthValue] = useRecoilState(authState);
-  const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+  const setAuthValue = useResetRecoilState(authState);
+  const setUserInfoState = useResetRecoilState(userInfo);
 
   const URL = Config.BASE_URL;
 

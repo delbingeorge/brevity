@@ -3,8 +3,10 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
+  FlatList,
   Image,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -20,6 +22,7 @@ import {
 } from '../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import * as Burnt from 'burnt';
+import ReactNativeModal from 'react-native-modal';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
@@ -28,6 +31,7 @@ const IssueComponent = () => {
   const profileInfo = useRecoilValue(userInfo);
   const [postedSolutions, setPostedSolutions] = useState([]);
   const isListMember = useRecoilValue(listMembershipStatus);
+  const [showSolutions, setShowSolutions] = useState(false);
 
   const URL = Config.BASE_URL;
   const {
@@ -85,6 +89,76 @@ const IssueComponent = () => {
     }
   };
 
+  const SolutionHeader = () => {
+    return postedSolutions.length > 0 ? (
+      <View
+        style={{
+          paddingHorizontal: 15,
+          paddingVertical: 10,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <Text
+          style={{
+            color: 'black',
+            fontFamily: 'Inter-Medium',
+            fontSize: 16,
+          }}>
+          Solution thread
+        </Text>
+        <View
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.4)',
+            paddingHorizontal: 7,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+          }}>
+          <Text
+            style={{
+              fontSize: 14,
+              color: 'white',
+              fontFamily: 'Inter-Medium',
+            }}>
+            {postedSolutions.length}
+          </Text>
+        </View>
+      </View>
+    ) : null;
+  };
+
+  const renderSolutionItem = ({item}) => {
+    console.log(item.solutionId);
+    return (
+      <View key={item.solutionId} style={styles.IssueComponent}>
+        <View style={styles.IssueHeader}>
+          <Pressable style={styles.IssueUserProfileModal}>
+            <Image style={styles.HeaderImage} source={{uri: item.photo}} />
+            <Text style={styles.HeaderUserName}>{item.name}</Text>
+          </Pressable>
+          <Text style={styles.HeaderDivider}> · </Text>
+          <Pressable>
+            <Text style={styles.HeaderListName}>{'🎉'}</Text>
+          </Pressable>
+        </View>
+        <View style={styles.IssueContent}>
+          <Text style={styles.IssueText}>{item.body}</Text>
+        </View>
+        <View style={styles.IssueActionView}>
+          <View style={styles.IssueAction}>
+            <Pressable onPress={handlePress}>
+              <Image
+                style={styles.IssueActionIcon}
+                source={isPressed ? pressedImage : defaultImage}
+              />
+            </Pressable>
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <Pressable
@@ -97,7 +171,7 @@ const IssueComponent = () => {
           source={require('../assets/images/icons/go-back-bk.png')}
         />
       </Pressable>
-      <View style={styles.IssueComponent}>
+      <ScrollView style={styles.IssueComponent}>
         <View style={styles.IssueHeader}>
           <Pressable
             onPress={() => {
@@ -121,6 +195,17 @@ const IssueComponent = () => {
           <Text style={styles.IssueText}>{item.body}</Text>
         </View>
         <View style={styles.IssueActionView}>
+          <Pressable
+            onPress={() => setShowSolutions(true)}
+            style={styles.IssueAction}>
+            <Image
+              style={styles.IssueActionIcon}
+              source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
+            />
+            <Text style={styles.IssueActionCount}>
+              {postedSolutions.length}
+            </Text>
+          </Pressable>
           <View style={styles.IssueAction}>
             <Pressable onPress={handlePress}>
               <Image
@@ -133,92 +218,36 @@ const IssueComponent = () => {
           <View style={styles.IssueAction}>
             <Image
               style={styles.IssueActionIcon}
-              source={require('../assets/images/icons/issue-actions/issue-solution-icon.png')}
-            />
-            <Text style={styles.IssueActionCount}>0</Text>
-          </View>
-          <View style={styles.IssueAction}>
-            <Image
-              style={styles.IssueActionIcon}
-              source={require('../assets/images/icons/issue-actions/issue-reach-icon.png')}
-            />
-            <Text style={styles.IssueActionCount}>0</Text>
-          </View>
-          <View style={styles.IssueAction}>
-            <Image
-              style={styles.IssueActionIcon}
               source={require('../assets/images/icons/issue-actions/issue-share-icon.png')}
             />
           </View>
         </View>
-      </View>
-      {postedSolutions.length > 0 ? (
-        <View
-          style={{
-            paddingHorizontal: 15,
-            paddingVertical: 7,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Text
-            style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
-            Solution thread
-          </Text>
-          <View
-            style={{
-              backgroundColor: 'rgba(0,0,0,0.4)',
-              paddingHorizontal: 7,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 100,
-            }}>
-            <Text
-              style={{
-                fontSize: 14,
-                color: 'white',
-                fontFamily: 'Inter-Medium',
-              }}>
-              {postedSolutions.length}
-            </Text>
-          </View>
-        </View>
-      ) : null}
-      {postedSolutions.map(values => {
-        return (
-          <View key={values.id} style={styles.IssueComponent}>
-            <View style={styles.IssueHeader}>
-              <Pressable style={styles.IssueUserProfileModal}>
-                <Image
-                  style={styles.HeaderImage}
-                  source={{uri: values.photo}}
-                />
-                <Text style={styles.HeaderUserName}>{values.name}</Text>
-              </Pressable>
-              <Text style={styles.HeaderDivider}> · </Text>
-              <Pressable>
-                <Text style={styles.HeaderListName}>{'🎉'}</Text>
-              </Pressable>
-            </View>
-            <View style={styles.IssueContent}>
-              {/* <Text style={styles.IssueTitle}>{item.title}</Text> */}
-              <Text style={styles.IssueText}>{values.body}</Text>
-            </View>
-            <View style={styles.IssueActionView}>
-              <View style={styles.IssueAction}>
-                <Pressable onPress={handlePress}>
-                  <Image
-                    style={styles.IssueActionIcon}
-                    source={isPressed ? pressedImage : defaultImage}
-                  />
-                </Pressable>
-                <Text style={styles.IssueActionCount}>0</Text>
-              </View>
-            </View>
-          </View>
-        );
-      })}
+      </ScrollView>
 
-      {!isListMember && (
+      <ReactNativeModal
+        style={styles.ReactModal}
+        isVisible={showSolutions}
+        onBackdropPress={() => setShowSolutions(false)}>
+        <View style={styles.AuthView}>
+          <FlatList
+            ItemSeparatorComponent={
+              <View
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.05)',
+                  marginVertical: 7,
+                  height: 0.7,
+                  width: '100%',
+                }}></View>
+            }
+            ListHeaderComponent={<SolutionHeader />}
+            data={postedSolutions}
+            renderItem={renderSolutionItem}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+          />
+        </View>
+      </ReactNativeModal>
+
+      {isListMember === true && (
         <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
           {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
           <View style={styles.SearchInput}>
@@ -261,9 +290,7 @@ export default IssueComponent;
 
 const styles = StyleSheet.create({
   IssueComponent: {
-    borderBottomColor: 'rgba(0,0,0,0.06)',
     backgroundColor: 'white',
-    borderBottomWidth: 1.3,
     paddingHorizontal: 15,
   },
   IssueHeader: {
@@ -318,7 +345,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 5,
-    marginVertical: 10,
+    marginTop: 10,
   },
   IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
   IssueActionCount: {
@@ -327,10 +354,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Medium',
   },
   AuthView: {
-    borderRadius: 25,
-    paddingHorizontal: 20,
-    paddingVertical: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
     backgroundColor: 'white',
+    maxHeight: '90%',
     width: Dimensions.get('window').width,
   },
   AuthInnerView: {
@@ -374,6 +403,9 @@ const styles = StyleSheet.create({
   },
   ReactModal: {
     margin: 0,
+    position: 'absolute',
+    bottom: 0,
+    borderRadius: 0,
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',

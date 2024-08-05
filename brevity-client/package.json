@@ -8,10 +8,10 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "stag": "copy .env.staging .env && npx react-native run-android",
+    "stage": "copy .env.staging .env && npx react-native run-android",
     "prod": "copy .env.prod .env && npx react-native run-android",
     "release": "set ENVFILE=.env.prod && cd android && gradlew assembleRelease",
-    "stage": "set ENVFILE=.env.staging && cd android && gradlew assembleRelease"
+    "restage": "set ENVFILE=.env.staging && cd android && gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.23.1",

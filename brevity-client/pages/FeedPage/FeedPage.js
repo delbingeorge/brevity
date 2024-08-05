@@ -199,6 +199,7 @@ const FeedPage = () => {
           renderItem={renderItem}
           refreshing={refreshing}
           onRefresh={onRefresh}
+          contentContainerStyle={{paddingBottom: 80}}
           // ListEmptyComponent={<ListEmptyComponent />}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           ListFooterComponent={
