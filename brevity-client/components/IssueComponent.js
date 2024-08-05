@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import Config from 'react-native-config';
 import {
+  authState,
   listMembershipStatus,
   ProfileModal,
   userInfo,
@@ -32,6 +33,7 @@ const IssueComponent = () => {
   const [postedSolutions, setPostedSolutions] = useState([]);
   const isListMember = useRecoilValue(listMembershipStatus);
   const [showSolutions, setShowSolutions] = useState(false);
+  const authValue = useRecoilValue(authState);
 
   const URL = Config.BASE_URL;
   const {
@@ -128,7 +130,6 @@ const IssueComponent = () => {
   };
 
   const renderSolutionItem = ({item}) => {
-    console.log(item.solutionId);
     return (
       <View key={item.solutionId} style={styles.IssueComponent}>
         <View style={styles.IssueHeader}>
@@ -196,7 +197,7 @@ const IssueComponent = () => {
         </View>
         <View style={styles.IssueActionView}>
           <Pressable
-            onPress={() => setShowSolutions(true)}
+            onPress={() => postedSolutions.length > 0 && setShowSolutions(true)}
             style={styles.IssueAction}>
             <Image
               style={styles.IssueActionIcon}
@@ -246,9 +247,15 @@ const IssueComponent = () => {
           />
         </View>
       </ReactNativeModal>
-
-      {isListMember === true && (
-        <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
+      {authValue && (
+        <View
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'white',
+          }}>
           {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
           <View style={styles.SearchInput}>
             <TextInput

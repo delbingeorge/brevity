@@ -202,7 +202,34 @@ const FeedPage = () => {
           contentContainerStyle={{paddingBottom: 80}}
           // ListEmptyComponent={<ListEmptyComponent />}
           keyExtractor={(item, index) => `${item.id}-${index}`}
-          ListFooterComponent={
+          // ListFooterComponent={
+          //   <View
+          //     style={{
+          //       alignItems: 'center',
+          //       justifyContent: 'center',
+          //       paddingVertical: 8,
+          //     }}>
+          //     <Text
+          //       style={{
+          //         color: '#39404A',
+          //         fontSize: 13,
+          //         fontFamily: 'Inter-Medium',
+          //       }}>
+          //       End of issues? No way.
+          //     </Text>
+          //     <Pressable onPress={onRefresh}>
+          //       <Text
+          //         style={{
+          //           color: 'black',
+          //           fontSize: 12,
+          //           fontFamily: 'Inter-Medium',
+          //         }}>
+          //         Load more issues.
+          //       </Text>
+          //     </Pressable>
+          //   </View>
+          // }
+          ListEmptyComponent={
             <View
               style={{
                 alignItems: 'center',

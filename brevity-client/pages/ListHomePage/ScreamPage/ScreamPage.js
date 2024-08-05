@@ -110,7 +110,7 @@ const ScreamPage = () => {
               source={{
                 uri: value['profile-picture'],
               }}
-              style={{width: 70, height: 70, borderRadius: 30}}
+              style={{width: 70, height: 70, borderRadius: 100}}
             />
             <ScrollView horizontal>
               <Text
