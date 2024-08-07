@@ -75,7 +75,7 @@ const FeedPage = () => {
       }
     } catch (error) {
       Burnt.toast({
-        title: 'Something went wrong!',
+        title: 'Feed page smww!',
         preset: 'error',
         haptic: 'error',
         duration: 5,

@@ -52,7 +52,9 @@ const ListHomePage = () => {
 
   useEffect(() => {
     getListIssues();
-    getListArray();
+    if (authValue) {
+      getListArray();
+    }
     getListDetails();
   }, [listJoin]);
 
@@ -72,7 +74,7 @@ const ListHomePage = () => {
         console.log(response.status);
       }
     } catch (error) {
-       Burnt.toast({
+      Burnt.toast({
         title: 'Something went wrong!',
         preset: 'error',
         haptic: 'error',
@@ -94,7 +96,7 @@ const ListHomePage = () => {
         console.log(response.statusText);
       }
     } catch (error) {
-       Burnt.toast({
+      Burnt.toast({
         title: 'Something went wrong!',
         preset: 'error',
         haptic: 'error',

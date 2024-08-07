@@ -45,6 +45,7 @@ const ProfilePage = () => {
       if (response.status == 200) {
         await GoogleSignin.signOut();
         await AsyncStorage.removeItem('userInfo');
+        await AsyncStorage.removeItem('authToken');
         setAuthValue(false);
         setUserInfoState({});
         navigation.navigate('FeedPage');

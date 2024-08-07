@@ -123,7 +123,7 @@ const IssuePostForm = () => {
         />
         <TextInput
           multiline={true}
-          maxLength={1200}
+          maxLength={3000}
           placeholderTextColor={'#c0c0c0'}
           placeholder="Describe your issue here."
           onChangeText={value => {

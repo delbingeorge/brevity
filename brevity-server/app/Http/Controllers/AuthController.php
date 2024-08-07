@@ -47,7 +47,7 @@ class AuthController extends Controller
           return response()->json(['user' => $user, 'newUser' => $newUser, 'authValue' => $authValue, 'token' => $user->createToken('authToken')->plainTextToken]);
      }
 
-     public function SignOut()
+     public function SignOut(Request $request)
      {
           return response()->json(200);
      }

@@ -2,9 +2,11 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -12,6 +14,7 @@ import {
 import Config from 'react-native-config';
 import ReactNativeModal from 'react-native-modal';
 import {Switch} from 'react-native-switch';
+import * as Burnt from 'burnt';
 
 const ManageIssue = () => {
   const {
@@ -23,14 +26,35 @@ const ManageIssue = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [showIssueMenu, setShowIssueMenu] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const removeIssueHandler = async () => {
     try {
+      setLoading(true);
       const response = await axios.delete(
         `${URL}/api/delete-issue/${item.issueId}`,
       );
+      if (response.status == 200) {
+        Burnt.toast({
+          title: 'Issue Removed!',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
+        // navigation.navigate('PostedIssues');
+        navigation.goBack();
+      }
     } catch (err) {
-      console.log(err);
+      Burnt.toast({
+        title: 'Manage issues smww!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,7 +62,7 @@ const ManageIssue = () => {
     try {
       const response = await axios.post(`${URL}/api/set-issue-status/`);
     } catch (error) {
-       Burnt.toast({
+      Burnt.toast({
         title: 'Something went wrong!',
         preset: 'error',
         haptic: 'error',
@@ -77,7 +101,11 @@ const ManageIssue = () => {
       <View>
         <View style={styles.IssueContent}>
           <Text style={styles.IssueTitle}>{item.title}</Text>
-          <Text style={styles.IssueText}>{item.body}</Text>
+          <ScrollView>
+            <Text style={[styles.IssueText, {marginBottom: 300}]}>
+              {item.body}
+            </Text>
+          </ScrollView>
         </View>
       </View>
 
@@ -116,25 +144,51 @@ const ManageIssue = () => {
                   switchBorderRadius={30}
                 />
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginVertical: 5,
+                }}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 11,
+                    fontFamily: 'Inter-Medium',
+                  }}>
+                  Danger zone
+                </Text>
+                <View
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.2)',
+                    height: 0.5,
+                    width: '75%',
+                  }}></View>
+              </View>
               <View style={styles.ModalItems}>
                 <View>
                   <Text style={[styles.ModalText, {color: 'red'}]}>
                     Delete issue
                   </Text>
-                  <Text style={{fontSize: 14, color: 'rgba(0,0,0,0.5)'}}>
+                  <Text style={{fontSize: 13, color: 'rgba(0,0,0,0.5)'}}>
                     Remember this action is irreversible!
                   </Text>
                 </View>
                 <Pressable onPress={removeIssueHandler}>
-                  <Image
-                    style={{
-                      width: 22,
-                      height: 22,
-                      marginHorizontal: 15,
-                      tintColor: 'red',
-                    }}
-                    source={require('../assets/images/icons/remove-icon-bk.png')}
-                  />
+                  {loading === true ? (
+                    <ActivityIndicator />
+                  ) : (
+                    <Image
+                      style={{
+                        width: 22,
+                        height: 22,
+                        marginHorizontal: 15,
+                        tintColor: 'red',
+                      }}
+                      source={require('../assets/images/icons/remove-icon-bk.png')}
+                    />
+                  )}
                 </Pressable>
               </View>
             </View>
@@ -173,7 +227,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomWidth: 1.3,
     marginBottom: 15,
-    flex: 1,
     paddingHorizontal: 15,
   },
 
@@ -221,7 +274,7 @@ const styles = StyleSheet.create({
   },
   ModalText: {
     color: 'black',
-    fontSize: 17.5,
+    fontSize: 15.5,
     fontFamily: 'Inter-Medium',
   },
   ModalItems: {

@@ -9,11 +9,16 @@ import {
   Text,
   View,
 } from 'react-native';
-import {listMembershipStatus, userInfo} from '../../provider/RecoilStore';
+import {
+  authState,
+  listMembershipStatus,
+  userInfo,
+} from '../../provider/RecoilStore';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 import Config from 'react-native-config';
 import {Skeleton} from 'react-native-skeletons';
+import * as Burnt from 'burnt';
 
 const ListsPage = () => {
   const navigation = useNavigation();
@@ -21,8 +26,15 @@ const ListsPage = () => {
   const [listArray, setListArray] = useState([]);
   const membershipChanged = useRecoilValue(listMembershipStatus);
   const [loading, setLoading] = useState(false);
+  const authValue = useRecoilValue(authState);
 
   const URL = Config.BASE_URL;
+
+  useEffect(() => {
+    if (authValue) {
+      getJoinedLists();
+    }
+  }, [profileInfo, membershipChanged]);
 
   const getJoinedLists = async () => {
     try {
@@ -35,7 +47,7 @@ const ListsPage = () => {
       }
       setLoading(false);
     } catch (error) {
-       Burnt.toast({
+      Burnt.toast({
         title: 'Something went wrong!',
         preset: 'error',
         haptic: 'error',
@@ -44,10 +56,6 @@ const ListsPage = () => {
       });
     }
   };
-
-  useEffect(() => {
-    getJoinedLists();
-  }, [profileInfo, membershipChanged]);
 
   const renderItem = ({item}) => (
     <Pressable

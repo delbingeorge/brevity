@@ -14,6 +14,9 @@ import {
 import Config from 'react-native-config';
 import {Skeleton} from 'react-native-skeletons';
 import * as Burnt from 'burnt';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRecoilValue} from 'recoil';
+import {authState} from '../../provider/RecoilStore';
 
 const ExplorePage = () => {
   const URL = Config.BASE_URL;
@@ -22,6 +25,7 @@ const ExplorePage = () => {
   const [searchRes, setSearchRes] = useState();
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const authValue = useRecoilValue(authState);
 
   const hasResults = searchRes && searchRes.length > 0;
   const noResults = searchRes && searchRes.length === 0;
@@ -32,14 +36,32 @@ const ExplorePage = () => {
     if (inputFieldFocus.current) {
       inputFieldFocus.current.focus();
     }
-  }, []);
+    if (!authValue) {
+      clearRecentSearch();
+    }
+  }, [authValue]);
+
+  const clearRecentSearch = () => {
+    setReqText('');
+    setSearchRes();
+    setSearchText('');
+  };
 
   const searchHandler = async () => {
+    const token = await AsyncStorage.getItem('authToken');
     try {
       setLoading(true);
-      const response = await axios.post(`${URL}/api/explore-search`, {
-        query: searchText,
-      });
+      const response = await axios.post(
+        `${URL}/api/explore-search`,
+        {
+          query: searchText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       if (response.status == 200) {
         setSearchRes(response.data['searchResponse']);
         setReqText(response.data['searchRequest']);

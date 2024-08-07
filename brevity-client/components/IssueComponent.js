@@ -71,7 +71,7 @@ const IssueComponent = () => {
         });
       } else {
         Burnt.toast({
-          title: 'Something went wrong!',
+          title: 'Failed to post solution.',
           preset: 'error',
           haptic: 'error',
           duration: 5,
@@ -80,7 +80,7 @@ const IssueComponent = () => {
       }
     } catch (error) {
       Burnt.toast({
-        title: 'Something went wrong!',
+        title: 'Oops! Something went wrong white posting solution.',
         preset: 'error',
         haptic: 'error',
         duration: 5,
@@ -98,7 +98,7 @@ const IssueComponent = () => {
         setPostedSolutions(response.data['response']);
       } else {
         Burnt.toast({
-          title: 'Something went wrong!',
+          title: 'Fetching solutions failed!',
           preset: 'error',
           haptic: 'error',
           duration: 5,
@@ -107,7 +107,7 @@ const IssueComponent = () => {
       }
     } catch (error) {
       Burnt.toast({
-        title: 'Something went wrong!',
+        title: 'Error while fetching!',
         preset: 'error',
         haptic: 'error',
         duration: 5,
@@ -220,7 +220,7 @@ const IssueComponent = () => {
           <Text style={styles.IssueTitle}>{item.title}</Text>
           <Text style={styles.IssueText}>{item.body}</Text>
         </View>
-        <View style={styles.IssueActionView}>
+        <View style={[styles.IssueActionView, {paddingBottom: 75}]}>
           <Pressable
             onPress={() => postedSolutions.length > 0 && setShowSolutions(true)}
             style={styles.IssueAction}>
@@ -392,6 +392,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: 'white',
     maxHeight: '90%',
+    width: '100%',
     width: Dimensions.get('window').width,
   },
   AuthInnerView: {

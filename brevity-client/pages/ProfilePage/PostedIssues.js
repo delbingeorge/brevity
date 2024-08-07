@@ -13,6 +13,7 @@ import Config from 'react-native-config';
 import {useRecoilValue} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import {useNavigation} from '@react-navigation/native';
+import * as Burnt from 'burnt';
 
 const PostedIssues = () => {
   const URL = Config.BASE_URL;
@@ -20,10 +21,17 @@ const PostedIssues = () => {
   const navigation = useNavigation();
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getPostedIssues();
   }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getPostedIssues();
+    setRefreshing(false);
+  };
 
   const getPostedIssues = async () => {
     try {
@@ -37,7 +45,7 @@ const PostedIssues = () => {
         console.log(response.statusText);
       }
     } catch (error) {
-       Burnt.toast({
+      Burnt.toast({
         title: 'Something went wrong!',
         preset: 'error',
         haptic: 'error',
@@ -49,14 +57,13 @@ const PostedIssues = () => {
     }
   };
 
-  let postDate = new Date('2024-07-18 17:42:03');
-  const currentDate = new Date();
+  const renderIssue = useCallback(({item}) => {
+    let postDate = new Date(item.created_at);
+    const currentDate = new Date();
 
-  const diff = currentDate - postDate;
-  const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-  const renderIssue = useCallback(
-    ({item}) => (
+    const diff = currentDate - postDate;
+    const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
+    return (
       <Pressable
         style={{
           borderBottomColor: 'rgba(0,0,0,0.2)',
@@ -68,10 +75,6 @@ const PostedIssues = () => {
           style={{color: 'black', fontFamily: 'Inter-Medium', fontSize: 16}}>
           {item.title}
         </Text>
-        {/* <Text
-          style={{color: 'black', fontSize: 14.5, fontFamily: 'Inter-Regular'}}>
-          {item.body.substring(0, 120)}
-        </Text> */}
         <View
           style={{
             flexDirection: 'row',
@@ -108,9 +111,8 @@ const PostedIssues = () => {
           </View>
         </View>
       </Pressable>
-    ),
-    [navigation],
-  );
+    );
+  }, []);
 
   return (
     <View style={styles.PostedIssueView}>
@@ -127,9 +129,11 @@ const PostedIssues = () => {
       </Pressable>
 
       {loading == true ? (
-        <ActivityIndicator />
+        <ActivityIndicator style={{marginTop: 25}} />
       ) : (
         <FlatList
+          refreshing={refreshing}
+          onRefresh={onRefresh}
           data={result}
           renderItem={renderIssue}
           ItemSeparatorComponent={
