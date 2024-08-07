@@ -42,9 +42,17 @@ const EditProfile = () => {
   const imagePicker = async () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        Burnt.toast({
+          title: 'Cancelled!',
+        });
       } else if (response.errorCode) {
-        console.log('Image picker error', response.errorMessage);
+        Burnt.toast({
+          title: 'Something went wrong!',
+        });
+      } else if (response.assets[0].fileSize > 1400000) {
+        Burnt.toast({
+          title: 'Image size should be less than 1.5mb',
+        });
       } else if (response.assets && response.assets.length > 0) {
         const selectedImage = response.assets[0].uri;
         setProfileImage(selectedImage);
