@@ -35,3 +35,4 @@ Route::get('/get-issue-solutions/{issueId}', [PostSolutionController::class, 're
 // Routes free of authentication
 
 Route::get('/get-feed/{authValue}', [FeedPageController::class, 'getFeed']);
+Route::delete('/delete-issue/{delParams}', [IssuePostController::class, 'deleteIssue']);

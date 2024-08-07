@@ -1,4 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
+import axios from 'axios';
 import React, {useState} from 'react';
 import {
   Dimensions,
@@ -9,6 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import Config from 'react-native-config';
 import ReactNativeModal from 'react-native-modal';
 
 const ManageIssue = () => {
@@ -16,17 +18,25 @@ const ManageIssue = () => {
     params: {item},
   } = useRoute();
   const navigation = useNavigation();
-
+  const URL = Config.BASE_URL;
   const [isPressed, setIsPressed] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [showIssueMenu, setShowIssueMenu] = useState(false);
 
-  const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
-  const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
-
-  const handlePress = () => {
-    setIsPressed(!isPressed);
+  const removeIssueHandler = async () => {
+    try {
+      const response = await axios.delete(
+        `${URL}/api/delete-issue/${item.issueId}`,
+      );
+      if (response) {
+        console.log(response.data);
+      } else {
+        console.log('eror');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -82,10 +92,12 @@ const ManageIssue = () => {
               </View>
               <View style={styles.ModalItems}>
                 <Text style={styles.ModalText}>Delete</Text>
-                <Image
-                  style={{width: 22, height: 22, marginHorizontal: 15}}
-                  source={require('../assets/images/icons/remove-icon-bk.png')}
-                />
+                <Pressable onPress={removeIssueHandler}>
+                  <Image
+                    style={{width: 22, height: 22, marginHorizontal: 15}}
+                    source={require('../assets/images/icons/remove-icon-bk.png')}
+                  />
+                </Pressable>
               </View>
             </View>
           </View>

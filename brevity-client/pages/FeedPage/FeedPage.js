@@ -15,6 +15,7 @@ import {
   listMembershipStatus,
   modalView,
   ProfileModal,
+  themeState,
   userInfo,
   UserProfileInfo,
 } from '../../provider/RecoilStore';
@@ -25,6 +26,7 @@ import {useEffect, useState} from 'react';
 import FeedContentLoader from '../../components/Skeleton/FeedContentLoader';
 import ProfileView from '../../components/ProfileView';
 import Authentication from '../../components/Authentication';
+import colorScheme from '../../assets/colors/colorScheme';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -290,8 +292,7 @@ export default FeedPage;
 
 const styles = StyleSheet.create({
   MainView: {
-    backgroundColor: 'white',
-    // paddingHorizontal: 15,
+    backgroundColor: colorScheme['primary-light-mode'],
     height: Dimensions.get('screen').height,
     paddingBottom: 35,
   },
@@ -332,7 +333,6 @@ const styles = StyleSheet.create({
   },
   IssueComponent: {
     borderBottomColor: 'rgba(0,0,0,0.06)',
-    backgroundColor: 'white',
     borderBottomWidth: 1.3,
     // paddingVertical: 10,
     marginBottom: 5,

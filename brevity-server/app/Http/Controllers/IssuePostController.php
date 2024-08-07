@@ -34,14 +34,22 @@ class IssuePostController extends Controller
     }
 
 
-    public function getUserIssues(Request $request, $profileId)
+    public function getUserIssues($profileId)
     {
         $postedIssues = DB::table('issues')
             ->join('users', 'users.id', '=', 'issues.user_id')
             ->join('lists', 'lists.id', '=', 'issues.list_id')
             ->where('users.id', $profileId)
-            ->select('users.name', 'users.photo', 'lists.list_name', 'issues.title', 'issues.body', 'issues.created_at')
+            ->select('users.name', 'users.photo', 'issues.id as issueId', 'users.id as userId', 'lists.list_name', 'issues.title', 'issues.body', 'issues.created_at')
             ->get();
         return response()->json(['content' => $postedIssues], 200);
+    }
+
+    public function deleteIssue($delParams)
+    {
+        $response = DB::table('issues')
+            ->where('id', $delParams)
+            ->delete();
+        return response()->json($response);
     }
 }
