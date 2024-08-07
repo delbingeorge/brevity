@@ -27,6 +27,7 @@ import FeedContentLoader from '../../components/Skeleton/FeedContentLoader';
 import ProfileView from '../../components/ProfileView';
 import Authentication from '../../components/Authentication';
 import colorScheme from '../../assets/colors/colorScheme';
+import * as Burnt from 'burnt';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -64,10 +65,22 @@ const FeedPage = () => {
       if (response.status === 200) {
         setFeedData(response.data['content']);
       } else {
-        console.log(response.statusText);
+        Burnt.toast({
+          title: 'Try reloading!',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     } finally {
       setLoading(false);
     }

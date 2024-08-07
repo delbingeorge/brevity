@@ -70,10 +70,22 @@ const IssueComponent = () => {
           title: 'Solution posted!',
         });
       } else {
-        console.log(response.statusText);
+        Burnt.toast({
+          title: 'Something went wrong!',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     }
   };
 
@@ -85,10 +97,22 @@ const IssueComponent = () => {
       if (response.status === 200) {
         setPostedSolutions(response.data['response']);
       } else {
-        console.log(response.statusText);
+        Burnt.toast({
+          title: 'Something went wrong!',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     }
   };
 

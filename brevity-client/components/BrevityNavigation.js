@@ -6,6 +6,7 @@ import {useEffect} from 'react';
 import {authState, newUser, userInfo} from '../provider/RecoilStore';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Burnt from 'burnt';
 
 // Component imports
 import IssuePostForm from '../pages/IssuePostForm/IssuePostForm';
@@ -47,7 +48,13 @@ function TabNavigation() {
         setAuthValue(true);
       }
     } catch (error) {
-      console.error('Error retrieving user info from AsyncStorage:', error);
+      Burnt.toast({
+        title: 'Error fetching user info!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     }
   };
 

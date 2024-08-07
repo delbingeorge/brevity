@@ -13,7 +13,6 @@ import Config from 'react-native-config';
 import {useRecoilValue} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import {useNavigation} from '@react-navigation/native';
-import ReactNativeModal from 'react-native-modal';
 
 const PostedIssues = () => {
   const URL = Config.BASE_URL;
@@ -38,7 +37,13 @@ const PostedIssues = () => {
         console.log(response.statusText);
       }
     } catch (error) {
-      console.log(error);
+       Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     } finally {
       setLoading(false);
     }

@@ -37,7 +37,13 @@
 //         console.log(response.status);
 //       }
 //     } catch (error) {
-//       console.log(error);
+//        Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
 //     }
 //   };
 

@@ -6,12 +6,12 @@ import {
   Image,
   Pressable,
   StyleSheet,
-  Switch,
   Text,
   View,
 } from 'react-native';
 import Config from 'react-native-config';
 import ReactNativeModal from 'react-native-modal';
+import {Switch} from 'react-native-switch';
 
 const ManageIssue = () => {
   const {
@@ -29,13 +29,22 @@ const ManageIssue = () => {
       const response = await axios.delete(
         `${URL}/api/delete-issue/${item.issueId}`,
       );
-      if (response) {
-        console.log(response.data);
-      } else {
-        console.log('eror');
-      }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const setIssueStatus = async () => {
+    try {
+      const response = await axios.post(`${URL}/api/set-issue-status/`);
+    } catch (error) {
+       Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     }
   };
 
@@ -84,17 +93,46 @@ const ManageIssue = () => {
               <View style={styles.ModalItems}>
                 <Text style={styles.ModalText}>Mark as solved</Text>
                 <Switch
-                  trackColor={{false: 'grey', true: 'grey'}}
-                  thumbColor={isEnabled ? 'lightgreen' : '#f4f3f4'}
                   onValueChange={toggleSwitch}
                   value={isEnabled}
+                  disabled={false}
+                  circleSize={25}
+                  barHeight={25}
+                  circleBorderWidth={2}
+                  circleBorderInactiveColor="#c0c0c0"
+                  circleBorderActiveColor="lightgreen"
+                  backgroundActive={'#F6F6F6'}
+                  backgroundInactive={'#F6F6F6'}
+                  circleActiveColor={'lightgreen'}
+                  circleInActiveColor={'#c0c0c0'}
+                  changeValueImmediately={true}
+                  innerCircleStyle={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  renderActiveText={false}
+                  renderInActiveText={false}
+                  switchWidthMultiplier={2}
+                  switchBorderRadius={30}
                 />
               </View>
               <View style={styles.ModalItems}>
-                <Text style={styles.ModalText}>Delete</Text>
+                <View>
+                  <Text style={[styles.ModalText, {color: 'red'}]}>
+                    Delete issue
+                  </Text>
+                  <Text style={{fontSize: 14, color: 'rgba(0,0,0,0.5)'}}>
+                    Remember this action is irreversible!
+                  </Text>
+                </View>
                 <Pressable onPress={removeIssueHandler}>
                   <Image
-                    style={{width: 22, height: 22, marginHorizontal: 15}}
+                    style={{
+                      width: 22,
+                      height: 22,
+                      marginHorizontal: 15,
+                      tintColor: 'red',
+                    }}
                     source={require('../assets/images/icons/remove-icon-bk.png')}
                   />
                 </Pressable>
@@ -177,18 +215,19 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 20,
     borderTopStartRadius: 20,
     paddingHorizontal: 15,
-    paddingVertical: 25,
+    paddingVertical: 10,
     backgroundColor: 'white',
     width: Dimensions.get('screen').width,
   },
   ModalText: {
     color: 'black',
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
+    fontSize: 17.5,
+    fontFamily: 'Inter-Medium',
   },
   ModalItems: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 10,
   },
 });

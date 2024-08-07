@@ -39,7 +39,13 @@ const IssuePostForm = () => {
         console.log(response.statusText);
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     }
   };
 
@@ -80,7 +86,13 @@ const IssuePostForm = () => {
         navigation.goBack();
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     }
   };
 

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Config from 'react-native-config';
 import {Skeleton} from 'react-native-skeletons';
+import * as Burnt from 'burnt';
 
 const ExplorePage = () => {
   const URL = Config.BASE_URL;
@@ -43,10 +44,22 @@ const ExplorePage = () => {
         setSearchRes(response.data['searchResponse']);
         setReqText(response.data['searchRequest']);
       } else {
-        console.log(response.statusText);
+        Burnt.toast({
+          title: 'Try reloading!',
+          preset: 'error',
+          haptic: 'error',
+          duration: 5,
+          from: 'bottom',
+        });
       }
     } catch (error) {
-      console.log(error);
+      Burnt.toast({
+        title: 'Something went wrong!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
     } finally {
       setLoading(false);
     }
