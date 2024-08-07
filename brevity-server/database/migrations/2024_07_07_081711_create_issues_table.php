@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('body');
             $table->boolean('status');
+            $table->integer('upvote')->default(0)->change();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('list_id')->constrained()->onDelete('cascade');
             $table->timestamps();
@@ -32,5 +33,8 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('issues');
+        Schema::table('issues', function (Blueprint $table) {
+            $table->integer('upvote')->change();
+        });
     }
 };

@@ -221,7 +221,7 @@ const IssueComponent = () => {
           <Text style={styles.IssueTitle}>{item.title}</Text>
           <Text style={styles.IssueText}>{item.body}</Text>
         </View>
-        <View style={[styles.IssueActionView]}>
+        <View style={[styles.IssueActionView, {paddingBottom: 80}]}>
           <View
             style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
             <Pressable onPress={handlePress}>
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 10,
     backgroundColor: 'white',
-    maxHeight: '90%',
+    maxHeight: Dimensions.get('screen').height - 100,
     width: '100%',
     width: Dimensions.get('window').width,
   },

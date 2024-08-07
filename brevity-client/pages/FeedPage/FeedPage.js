@@ -15,7 +15,6 @@ import {
   listMembershipStatus,
   modalView,
   ProfileModal,
-  themeState,
   userInfo,
   UserProfileInfo,
 } from '../../provider/RecoilStore';
@@ -43,13 +42,6 @@ const FeedPage = () => {
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
-  const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
-  const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
-
-  const handlePress = () => {
-    setIsPressed(!isPressed);
-  };
-
   useEffect(() => {
     getFeedData();
   }, [authValue[0], navigation, listMembershipStatusCheck]);
@@ -58,6 +50,19 @@ const FeedPage = () => {
     setRefreshing(true);
     await getFeedData();
     setRefreshing(false);
+  };
+
+  const handlePress = async issueId => {
+    try {
+      const response = await axios.get(`${URL}/api/upvote/${issueId}`);
+      if (response.status === 200) {
+      
+      } else {
+        console.log(response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getFeedData = async () => {
@@ -95,7 +100,6 @@ const FeedPage = () => {
   const renderItem = ({item, index}) => {
     const isLongText = item.body.length > 250;
     const displayText = isLongText ? item.body.substring(0, 200) : item.body;
-
     return (
       <Pressable
         onPress={() => navigation.navigate('IssueComponent', {item})}
@@ -129,34 +133,23 @@ const FeedPage = () => {
           </Text>
         </View>
         <View style={styles.IssueActionView}>
-          <View style={styles.IssueAction}>
-            <Pressable onPress={handlePress}>
+          <Pressable
+            onPress={() => handlePress(item.issueId)}
+            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
+            <View>
               <Image
                 style={styles.IssueActionIcon}
-                source={isPressed ? pressedImage : defaultImage}
+                source={require('../../assets/images/icons/issue-actions/issue-upvote.png')}
               />
-            </Pressable>
-            <Text style={styles.IssueActionCount}>0</Text>
-          </View>
+            </View>
+            <Text style={styles.IssueActionCount}>{item.upvote}</Text>
+          </Pressable>
           <View style={styles.IssueAction}>
             <Image
               style={styles.IssueActionIcon}
               source={require('../../assets/images/icons/issue-actions/issue-solution-icon.png')}
             />
             <Text style={styles.IssueActionCount}>0</Text>
-          </View>
-          {/* <View style={styles.IssueAction}>
-          <Image
-            style={styles.IssueActionIcon}
-            source={require('../../assets/images/icons/issue-actions/issue-reach-icon.png')}
-          />
-          <Text style={styles.IssueActionCount}>109</Text>
-        </View> */}
-          <View style={styles.IssueAction}>
-            <Image
-              style={styles.IssueActionIcon}
-              source={require('../../assets/images/icons/issue-actions/issue-share-icon.png')}
-            />
           </View>
         </View>
       </Pressable>
@@ -397,13 +390,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    columnGap: 25,
+    justifyContent: 'flex-start',
   },
   IssueAction: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 5,
+    borderRadius: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     marginVertical: 10,
   },
   IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},

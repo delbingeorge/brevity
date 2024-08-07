@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\FeedPageController;
+use App\Http\Controllers\IssueController;
 use App\Http\Controllers\IssuePostController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\PostSolutionController;
@@ -27,6 +28,7 @@ Route::get('/lists-details/{list_id}', [ListController::class, 'getListsDetails'
 Route::get('/get-posted-issues/{profileId}', [IssuePostController::class, 'getUserIssues']);
 Route::post('/post-response', [PostSolutionController::class, 'postSolution']);
 Route::get('/get-issue-solutions/{issueId}', [PostSolutionController::class, 'resSolution']);
+Route::get('/upvote/{issueId}', [IssueController::class, 'upvoteIssue']);
 
 // Routes free of authentication
 

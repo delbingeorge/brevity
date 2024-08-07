@@ -17,7 +17,7 @@ import {useRecoilState} from 'recoil';
 import {userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
 import Config from 'react-native-config';
-import * as Brunt from 'burnt';
+import * as Burnt from 'burnt';
 
 const IssuePostForm = () => {
   const navigation = useNavigation();
