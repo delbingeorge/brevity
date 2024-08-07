@@ -34,7 +34,6 @@ const FeedPage = () => {
   const authValue = useRecoilState(authState);
   const [showModalView, setShowModalView] = useRecoilState(modalView);
   const [feedData, setFeedData] = useState([]);
-  const [isPressed, setIsPressed] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const profileInfo = useRecoilValue(userInfo);
@@ -56,7 +55,7 @@ const FeedPage = () => {
     try {
       const response = await axios.get(`${URL}/api/upvote/${issueId}`);
       if (response.status === 200) {
-      
+        console.log(response.data);
       } else {
         console.log(response.statusText);
       }
@@ -149,7 +148,7 @@ const FeedPage = () => {
               style={styles.IssueActionIcon}
               source={require('../../assets/images/icons/issue-actions/issue-solution-icon.png')}
             />
-            <Text style={styles.IssueActionCount}>0</Text>
+            <Text style={styles.IssueActionCount}>{item.responseCount}</Text>
           </View>
         </View>
       </Pressable>

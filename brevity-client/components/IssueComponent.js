@@ -48,13 +48,14 @@ const IssueComponent = () => {
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
 
-  const defaultImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
-  const pressedImage = require('../assets/images/icons/issue-actions/unsolved-issue-icon.png');
-  const solutionImage = require('../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
-  const solutionPressedImage = require('../assets/images/icons/issue-actions/solved-issue-default-icon.png');
-
   const handlePress = () => {
     setIsPressed(!isPressed);
+  };
+
+  const handClick = () => {
+    if (solution.length > 0) {
+      PostSolution();
+    }
   };
 
   const PostSolution = async () => {
@@ -296,7 +297,7 @@ const IssueComponent = () => {
               }}
             />
             <Pressable
-              onPress={PostSolution}
+              onPress={handClick}
               style={{
                 backgroundColor: 'rgba(0,0,0,0.05)',
                 padding: 8,

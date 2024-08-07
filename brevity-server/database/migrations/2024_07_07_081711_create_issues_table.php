@@ -33,8 +33,5 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('issues');
-        Schema::table('issues', function (Blueprint $table) {
-            $table->integer('upvote')->change();
-        });
     }
 };

@@ -16,6 +16,7 @@ class IssueController extends Controller
             return response()->json(['error' => 'Issue not found'], 404);
         }
 
+        // Toggle upvote logic
         $newUpvoteCount = $issue->upvote ? $issue->upvote - 1 : $issue->upvote + 1;
 
         DB::table('issues')
