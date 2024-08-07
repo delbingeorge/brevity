@@ -54,6 +54,12 @@ const FeedPage = () => {
     getFeedData();
   }, [authValue[0], navigation, listMembershipStatusCheck]);
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getFeedData();
+    setRefreshing(false);
+  };
+
   const getFeedData = async () => {
     try {
       setLoading(true);
@@ -84,12 +90,6 @@ const FeedPage = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await getFeedData();
-    setRefreshing(false);
   };
 
   const renderItem = ({item, index}) => {
@@ -244,33 +244,33 @@ const FeedPage = () => {
           //     </Pressable>
           //   </View>
           // }
-          ListEmptyComponent={
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingVertical: 8,
-              }}>
-              <Text
-                style={{
-                  color: '#39404A',
-                  fontSize: 13,
-                  fontFamily: 'Inter-Medium',
-                }}>
-                End of issues? No way.
-              </Text>
-              <Pressable onPress={onRefresh}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 12,
-                    fontFamily: 'Inter-Medium',
-                  }}>
-                  Load more issues.
-                </Text>
-              </Pressable>
-            </View>
-          }
+          //  ListFooterComponent={
+          //   <View
+          //     style={{
+          //       alignItems: 'center',
+          //       justifyContent: 'center',
+          //       paddingVertical: 8,
+          //     }}>
+          //     <Text
+          //       style={{
+          //         color: '#39404A',
+          //         fontSize: 13,
+          //         fontFamily: 'Inter-Medium',
+          //       }}>
+          //       End of issues? No way.
+          //     </Text>
+          //     <Pressable onPress={onRefresh}>
+          //       <Text
+          //         style={{
+          //           color: 'black',
+          //           fontSize: 12,
+          //           fontFamily: 'Inter-Medium',
+          //         }}>
+          //         Load more issues.
+          //       </Text>
+          //     </Pressable>
+          //   </View>
+          // }
         />
       )}
 

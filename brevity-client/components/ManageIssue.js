@@ -119,7 +119,7 @@ const ManageIssue = () => {
           <View style={styles.AuthView}>
             <View>
               <View style={styles.ModalItems}>
-                <Text style={styles.ModalText}>Mark as solved</Text>
+                <Text style={styles.ModalText}>Close this issue</Text>
                 <Switch
                   onValueChange={toggleSwitch}
                   value={isEnabled}
@@ -203,7 +203,6 @@ export default ManageIssue;
 
 const styles = StyleSheet.create({
   GoBack: {
-    backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
@@ -225,6 +224,7 @@ const styles = StyleSheet.create({
   IssueComponent: {
     borderBottomColor: 'rgba(0,0,0,0.06)',
     backgroundColor: 'white',
+    height: '100%',
     borderBottomWidth: 1.3,
     marginBottom: 15,
     paddingHorizontal: 15,

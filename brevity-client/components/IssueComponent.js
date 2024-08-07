@@ -43,7 +43,7 @@ const IssueComponent = () => {
 
   useEffect(() => {
     resSolution();
-  }, [item.issueId]);
+  }, [item.issueId, solution]);
 
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
@@ -171,11 +171,12 @@ const IssueComponent = () => {
           <Text style={styles.IssueText}>{item.body}</Text>
         </View>
         <View style={styles.IssueActionView}>
-          <View style={styles.IssueAction}>
+          <View
+            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
             <Pressable onPress={handlePress}>
               <Image
                 style={styles.IssueActionIcon}
-                source={isPressed ? pressedImage : defaultImage}
+                source={require('../assets/images/icons/issue-actions/issue-upvote.png')}
               />
             </Pressable>
             <Text style={styles.IssueActionCount}>0</Text>
@@ -220,7 +221,17 @@ const IssueComponent = () => {
           <Text style={styles.IssueTitle}>{item.title}</Text>
           <Text style={styles.IssueText}>{item.body}</Text>
         </View>
-        <View style={[styles.IssueActionView, {paddingBottom: 75}]}>
+        <View style={[styles.IssueActionView]}>
+          <View
+            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
+            <Pressable onPress={handlePress}>
+              <Image
+                style={styles.IssueActionIcon}
+                source={require('../assets/images/icons/issue-actions/issue-upvote.png')}
+              />
+            </Pressable>
+            <Text style={styles.IssueActionCount}>0</Text>
+          </View>
           <Pressable
             onPress={() => postedSolutions.length > 0 && setShowSolutions(true)}
             style={styles.IssueAction}>
@@ -232,21 +243,6 @@ const IssueComponent = () => {
               {postedSolutions.length}
             </Text>
           </Pressable>
-          <View style={styles.IssueAction}>
-            <Pressable onPress={handlePress}>
-              <Image
-                style={styles.IssueActionIcon}
-                source={isPressed ? pressedImage : defaultImage}
-              />
-            </Pressable>
-            <Text style={styles.IssueActionCount}>0</Text>
-          </View>
-          <View style={styles.IssueAction}>
-            <Image
-              style={styles.IssueActionIcon}
-              source={require('../assets/images/icons/issue-actions/issue-share-icon.png')}
-            />
-          </View>
         </View>
       </ScrollView>
 
@@ -370,14 +366,18 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    columnGap: 25,
+    justifyContent: 'flex-start',
   },
   IssueAction: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 5,
-    marginTop: 10,
+    borderRadius: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginVertical: 10,
   },
   IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
   IssueActionCount: {

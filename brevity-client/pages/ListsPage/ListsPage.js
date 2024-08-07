@@ -27,6 +27,7 @@ const ListsPage = () => {
   const membershipChanged = useRecoilValue(listMembershipStatus);
   const [loading, setLoading] = useState(false);
   const authValue = useRecoilValue(authState);
+  const [refreshing, setRefreshing] = useState(false);
 
   const URL = Config.BASE_URL;
 
@@ -35,6 +36,12 @@ const ListsPage = () => {
       getJoinedLists();
     }
   }, [profileInfo, membershipChanged]);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getJoinedLists();
+    setRefreshing(false);
+  };
 
   const getJoinedLists = async () => {
     try {
@@ -84,6 +91,8 @@ const ListsPage = () => {
           <Text style={styles.TabTitle}>Lists you are on.</Text>
           <FlatList
             data={listArray}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
             extraData={listArray}

@@ -15,7 +15,7 @@ import {
 // import ListInsights from './ListNavigation/ListInsights/ListInsights';
 // import ListRanking from './ListNavigation/ListRanking/ListRanking';
 import axios from 'axios';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, waitForAll} from 'recoil';
 import {
   authState,
   listMembershipStatus,
@@ -49,6 +49,7 @@ const ListHomePage = () => {
   const authValue = useRecoilValue(authState);
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getListIssues();
@@ -58,8 +59,11 @@ const ListHomePage = () => {
     getListDetails();
   }, [listJoin]);
 
-  const defaultImage = require('../../assets/images/icons/issue-actions/unsolved-issue-default-icon.png');
-  const pressedImage = require('../../assets/images/icons/issue-actions/unsolved-issue-icon.png');
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getListIssues();
+    setRefreshing(false);
+  };
 
   const handlePress = () => {
     setIsPressed(!isPressed);
@@ -233,11 +237,12 @@ const ListHomePage = () => {
           </Text>
         </View>
         <View style={styles.IssueActionView}>
-          <View style={styles.IssueAction}>
+          <View
+            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
             <Pressable onPress={handlePress}>
               <Image
                 style={styles.IssueActionIcon}
-                source={isPressed ? pressedImage : defaultImage}
+                source={require('../../assets/images/icons/issue-actions/issue-upvote.png')}
               />
             </Pressable>
             <Text style={styles.IssueActionCount}>0</Text>
@@ -248,19 +253,6 @@ const ListHomePage = () => {
               source={require('../../assets/images/icons/issue-actions/issue-solution-icon.png')}
             />
             <Text style={styles.IssueActionCount}>0</Text>
-          </View>
-          <View style={styles.IssueAction}>
-            <Image
-              style={styles.IssueActionIcon}
-              source={require('../../assets/images/icons/issue-actions/issue-reach-icon.png')}
-            />
-            <Text style={styles.IssueActionCount}>0</Text>
-          </View>
-          <View style={styles.IssueAction}>
-            <Image
-              style={styles.IssueActionIcon}
-              source={require('../../assets/images/icons/issue-actions/issue-share-icon.png')}
-            />
           </View>
         </View>
       </Pressable>
@@ -395,7 +387,7 @@ const ListHomePage = () => {
             }>
             <Text style={styles.ListNavText}>Feeds</Text>
           </Pressable>
-          <Pressable
+          {/* <Pressable
             onPress={() => setRenderComponent('ListRankings')}
             style={
               renderComponent == 'ListRankings'
@@ -412,11 +404,22 @@ const ListHomePage = () => {
                 : styles.ListNavButton
             }>
             <Text style={styles.ListNavText}>Insights</Text>
-          </Pressable>
+          </Pressable> 
+          <Pressable
+            onPress={() => setRenderComponent('ListInsights')}
+            style={
+              renderComponent == 'ListInsights'
+                ? styles.ActiveListNavText
+                : styles.ListNavButton
+            }>
+            <Text style={styles.ListNavText}>Insights</Text>
+          </Pressable>*/}
         </View>
 
         <ScrollView horizontal={true} contentContainerStyle={{width: '100%'}}>
           <FlatList
+            refreshing={refreshing}
+            onRefresh={onRefresh}
             showsVerticalScrollIndicator={false}
             data={listIssues}
             keyExtractor={(item, index) => `${item.id}-${index}`}
@@ -582,13 +585,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    columnGap: 25,
+    justifyContent: 'flex-start',
   },
   IssueAction: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 5,
+    borderRadius: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     marginVertical: 10,
   },
   IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
