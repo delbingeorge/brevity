@@ -1,4 +1,6 @@
 import {
+  ActivityIndicator,
+  ActivityIndicatorBase,
   Dimensions,
   Image,
   Linking,
@@ -24,6 +26,7 @@ const ProfilePage = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const setAuthValue = useResetRecoilState(authState);
   const setUserInfoState = useResetRecoilState(userInfo);
+  const [loading, setLoading] = useState(false);
 
   const URL = Config.BASE_URL;
 
@@ -41,6 +44,7 @@ const ProfilePage = () => {
 
   const signOut = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`${URL}/api/google-signout`);
       if (response.status == 200) {
         await GoogleSignin.signOut();
@@ -66,6 +70,8 @@ const ProfilePage = () => {
         duration: 5,
         from: 'top',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -159,7 +165,11 @@ const ProfilePage = () => {
                 style={styles.SettingsImage}
                 source={require('../../assets/images/icons/settings/signout-icon.png')}
               />
-              <Text style={styles.SettingsText}>Log out</Text>
+              {loading ? (
+                <ActivityIndicator/>
+              ) : (
+                <Text style={styles.SettingsText}>Log out</Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>

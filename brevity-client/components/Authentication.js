@@ -39,6 +39,8 @@ const Authentication = () => {
       const userInfo = await GoogleSignin.signIn();
       const username = userInfo.user.email.split('@');
 
+      const idToken = userInfo.idToken;
+      
       const response = await axios.post(`${URL}/api/google-signin`, {
         name: userInfo.user.name,
         username: username[0],
@@ -49,6 +51,7 @@ const Authentication = () => {
         linkSecond: '',
         linkThird: '',
         linkForth: '',
+        idToken: idToken,
       });
 
       if (response.status == 200) {
@@ -115,7 +118,7 @@ const Authentication = () => {
         });
       } else {
         Burnt.toast({
-          title: error.me,
+          title: error,
           preset: 'error',
           haptic: 'error',
           duration: 5,
