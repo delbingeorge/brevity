@@ -16,7 +16,8 @@ import {Skeleton} from 'react-native-skeletons';
 import * as Burnt from 'burnt';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRecoilValue} from 'recoil';
-import {authState} from '../../provider/RecoilStore';
+import {authState, getTheme} from '../../provider/RecoilStore';
+import colorScheme from '../../assets/colors/colorScheme';
 
 const ExplorePage = () => {
   const URL = Config.BASE_URL;
@@ -26,6 +27,9 @@ const ExplorePage = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const authValue = useRecoilValue(authState);
+  const theme = useRecoilValue(getTheme);
+
+  const styles = createStyle(theme);
 
   const hasResults = searchRes && searchRes.length > 0;
   const noResults = searchRes && searchRes.length === 0;
@@ -96,7 +100,10 @@ const ExplorePage = () => {
         /> */}
         <Text
           style={{
-            color: 'black',
+            color:
+              theme === 'dark'
+                ? colorScheme.darkTheme.light
+                : colorScheme.lightTheme.dark,
             textAlign: 'center',
             fontSize: 14,
             marginTop: 15,
@@ -129,44 +136,49 @@ const ExplorePage = () => {
 
   return (
     <View style={styles.ExplorePageView}>
-      <View
-        style={{
-          backgroundColor: 'white',
-          paddingHorizontal: 15,
-          position: 'absolute',
-          zIndex: 13,
-          right: 0,
-          left: 0,
-          bottom: 0,
-        }}>
+      <View style={styles.SearchView}>
         <View style={styles.SearchInput}>
-          <TouchableOpacity>
-            <Image
-              style={{width: 23, height: 23, tintColor: 'rgba(0,0,0,0.4)'}}
-              source={require('../../assets/images/icons/search-icon-bk.png')}
-            />
-          </TouchableOpacity>
+          <Image
+            style={{
+              width: 23,
+              height: 23,
+              marginRight: 5,
+              tintColor:
+                theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.4)',
+            }}
+            source={require('../../assets/images/icons/search-icon-bk.png')}
+          />
           <TextInput
             placeholder={`Search for "${'Javascript'}"`}
-            placeholderTextColor={'rgba(0,0,0,0.3)'}
+            placeholderTextColor={
+              theme === 'dark' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.3)'
+            }
             value={searchText}
             onChangeText={setSearchText}
             ref={inputFieldFocus}
             style={{
               fontSize: 15,
               fontFamily: 'Inter-Regular',
-              color: 'black',
+              color: theme === 'dark' ? 'white' : 'rgba(0,0,0,0.4)',
               width: '85%',
             }}
             onSubmitEditing={searchHandler}
           />
-          <TouchableOpacity onPress={() => setSearchText()}>
+          <TouchableOpacity
+            onPress={() => {
+              setSearchText('');
+              setSearchRes();
+              setSearchText();
+            }}>
             <Image
               style={{
                 display: searchText ? 'flex' : 'none',
                 width: 18,
                 height: 18,
-                tintColor: 'rgba(0,0,0,0.3)',
+                tintColor:
+                  theme === 'dark'
+                    ? 'rgba(255,255,255,0.4)'
+                    : 'rgba(0,0,0,0.4)',
               }}
               source={require('../../assets/images/icons/text-clear-bk-icon.png')}
             />
@@ -181,13 +193,13 @@ const ExplorePage = () => {
               <Text style={styles.ResponseText}>Result for</Text>
               <Text style={styles.ResponseSearchText}>"{reqText}"</Text>
             </View>
-            <Pressable
+            {/* <Pressable
               onPress={() => {
                 setSearchText('');
                 setSearchRes();
               }}>
               <Text style={styles.ResponseClearText}>Clear</Text>
-            </Pressable>
+            </Pressable> */}
           </View>
 
           {loading == true ? (
@@ -252,53 +264,90 @@ const ExplorePage = () => {
 
 export default ExplorePage;
 
-const styles = StyleSheet.create({
-  ExplorePageView: {flex: 1, backgroundColor: 'white', paddingHorizontal: 15},
-  SearchInput: {
-    marginTop: 5,
-    marginBottom: 8,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    // justifyContent: 'space-between',
-    backgroundColor: '#f8f8f8',
-    fontFamily: 'Inter-Medium',
-    paddingHorizontal: 12,
-    paddingVertical: 0,
-    borderRadius: 8,
-  },
-  ResultView: {
-    // marginTop: 15,
-    marginBottom: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  ResultTextView: {flexDirection: 'row', columnGap: 4},
-  ResponseText: {color: 'rgba(0,0,0,0.5)', fontFamily: 'Inter-Medium'},
-  ResponseSearchText: {color: 'rgba(0,0,0,0.7)', fontFamily: 'Inter-SemiBold'},
-  ResponseClearText: {
-    color: 'black',
-    fontFamily: 'Inter-SemiBold',
-    backgroundColor: 'white',
-    paddingVertical: 2,
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: '#dfdfdf',
-    fontSize: 12,
-    paddingHorizontal: 13,
-  },
-  ResultRenderItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    columnGap: 15,
-  },
-  RenderItemTitle: {
-    fontSize: 14.5,
-    color: 'black',
-    fontFamily: 'Inter-SemiBold',
-  },
-  RenderItemSubtitle: {
-    color: 'rgba(0,0,0,0.5)',
-    fontFamily: 'Inter-Regular',
-  },
-});
+const createStyle = theme =>
+  StyleSheet.create({
+    ExplorePageView: {
+      flex: 1,
+      backgroundColor:
+        theme === 'dark' ? colorScheme.darkTheme['primary-dark'] : 'white',
+      paddingHorizontal: 15,
+    },
+    SearchView: {
+      backgroundColor:
+        theme === 'dark' ? colorScheme.darkTheme['primary-dark'] : 'white',
+      paddingHorizontal: 15,
+      position: 'absolute',
+      zIndex: 13,
+      right: 0,
+      left: 0,
+      bottom: 0,
+    },
+    SearchInput: {
+      marginTop: 5,
+      marginBottom: 10,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor:
+        theme === 'dark' ? colorScheme.darkTheme['pitch-grey'] : '#f8f8f8',
+      fontFamily: 'Inter-Medium',
+      paddingHorizontal: 12,
+      paddingVertical: 0,
+      borderRadius: 8,
+    },
+    ResultView: {
+      // marginTop: 15,
+      marginBottom: 5,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    ResultTextView: {flexDirection: 'row', columnGap: 4},
+    ResponseText: {
+      color:
+        theme === 'dark'
+          ? 'rgba(255,255,255,0.4)'
+          : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-Medium',
+    },
+    ResponseSearchText: {
+      color:
+        theme === 'dark'
+          ? 'rgba(255,255,255,0.4)'
+          : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-SemiBold',
+    },
+    ResponseClearText: {
+      color:
+        theme === 'dark'
+          ? 'rgba(255,255,255,0.4)'
+          : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-SemiBold',
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['pitch-grey']
+          : 'rgba(0,0,0,0.4)',
+      paddingVertical: 2,
+      borderRadius: 100,
+      borderWidth: 1,
+      borderColor: '#dfdfdf',
+      fontSize: 12,
+      paddingHorizontal: 13,
+    },
+    ResultRenderItem: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      columnGap: 15,
+    },
+    RenderItemTitle: {
+      fontSize: 14.5,
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.white
+          : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-SemiBold',
+    },
+    RenderItemSubtitle: {
+      color: theme === 'dark' ? colorScheme.darkTheme.white : 'rgba(0,0,0,0.4)',
+      fontFamily: 'Inter-Regular',
+    },
+  });

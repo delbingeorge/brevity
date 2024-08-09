@@ -40,4 +40,7 @@ export const ProfileModal = atom({
   default: false,
 });
 
-
+export const getTheme = atom({
+  key: 'getTheme',
+  default: 'dark',
+});

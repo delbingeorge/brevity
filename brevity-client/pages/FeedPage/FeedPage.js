@@ -8,10 +8,12 @@ import {
   Pressable,
   FlatList,
   Text,
+  StatusBar,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   authState,
+  getTheme,
   listMembershipStatus,
   modalView,
   ProfileModal,
@@ -27,6 +29,7 @@ import ProfileView from '../../components/ProfileView';
 import Authentication from '../../components/Authentication';
 import colorScheme from '../../assets/colors/colorScheme';
 import * as Burnt from 'burnt';
+import {useTheme} from '../../provider/ThemeProvider';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -40,6 +43,8 @@ const FeedPage = () => {
   const listMembershipStatusCheck = useRecoilValue(listMembershipStatus);
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
+  const [theme, setTheme] = useRecoilState(getTheme);
+  const styles = createStyle(theme);
 
   useEffect(() => {
     getFeedData();
@@ -52,15 +57,19 @@ const FeedPage = () => {
   };
 
   const handlePress = async issueId => {
-    try {
-      const response = await axios.get(`${URL}/api/upvote/${issueId}`);
-      if (response.status === 200) {
-        console.log(response.data);
-      } else {
-        console.log(response.statusText);
+    if (!authValue[0]) {
+      setShowModalView(true);
+    } else {
+      try {
+        const response = await axios.get(`${URL}/api/upvote/${issueId}`);
+        if (response.status === 200) {
+          console.log(response.data);
+        } else {
+          console.log(response.statusText);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -134,7 +143,17 @@ const FeedPage = () => {
         <View style={styles.IssueActionView}>
           <Pressable
             onPress={() => handlePress(item.issueId)}
-            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
+            style={[
+              styles.IssueAction,
+              {
+                backgroundColor:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme['pitch-grey']
+                    : 'rgba(0,0,0,0.05)',
+                borderWidth: 0.5,
+                borderColor: theme === 'dark' ? '#303030' : 'rgba(0,0,0,0)',
+              },
+            ]}>
             <View>
               <Image
                 style={styles.IssueActionIcon}
@@ -157,6 +176,14 @@ const FeedPage = () => {
 
   return (
     <SafeAreaView style={styles.MainView}>
+      <StatusBar
+        backgroundColor={
+          theme === 'dark'
+            ? colorScheme.darkTheme['primary-dark']
+            : colorScheme.lightTheme['primary-light']
+        }
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+      />
       <View style={styles.NavView}>
         <Pressable>
           <Image
@@ -295,122 +322,148 @@ const FeedPage = () => {
 
 export default FeedPage;
 
-const styles = StyleSheet.create({
-  MainView: {
-    backgroundColor: colorScheme['primary-light-mode'],
-    height: Dimensions.get('screen').height,
-    paddingBottom: 35,
-  },
-  NavView: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 11,
-    paddingVertical: 5,
-  },
-  NavLogo: {
-    height: 20,
-    width: 76,
-    objectFit: 'contain',
-  },
-  CrownRank: {
-    height: 21,
-    width: 21,
-  },
-  BottomNavBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    borderTopWidth: 3,
-    borderColor: 'white',
-  },
-  NavHome: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  NavText: {
-    fontSize: 16,
-    color: 'black',
-    fontFamily: 'Inter-medium',
-  },
-  IssueComponent: {
-    borderBottomColor: 'rgba(0,0,0,0.06)',
-    borderBottomWidth: 1.3,
-    // paddingVertical: 10,
-    marginBottom: 5,
-    // marginVertical: 8,
-    paddingHorizontal: 15,
-  },
-  IssueHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  HeaderImage: {
-    width: 20,
-    height: 20,
-    // width: 25,
-    // height: 25,
-    borderRadius: 100,
-    marginRight: 7,
-  },
-  HeaderUserName: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    // fontSize: 16,
-    fontSize: 14,
-  },
-  HeaderDivider: {
-    fontSize: 20,
-    color: '#687684',
-  },
-  HeaderListName: {
-    fontSize: 13.5,
-    color: '#687684',
-  },
+const createStyle = theme =>
+  StyleSheet.create({
+    MainView: {
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      height: Dimensions.get('screen').height,
+      paddingBottom: 35,
+    },
+    NavView: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 11,
+      paddingVertical: 5,
+    },
+    NavLogo: {
+      height: 20,
+      width: 76,
+      objectFit: 'contain',
+      tintColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+    },
+    CrownRank: {
+      height: 21,
+      width: 21,
+      tintColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+    },
+    BottomNavBar: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      paddingVertical: 10,
+      borderTopWidth: 3,
+      borderColor: 'white',
+    },
+    NavHome: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    NavText: {
+      fontSize: 16,
+      color: 'black',
+      fontFamily: 'Inter-medium',
+    },
+    IssueComponent: {
+      borderBottomColor: 'rgba(0,0,0,0.06)',
+      borderBottomWidth: 1.3,
+      // paddingVertical: 10,
+      marginBottom: 5,
+      // marginVertical: 8,
+      paddingHorizontal: 15,
+    },
+    IssueHeader: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 1,
+    },
+    HeaderImage: {
+      width: 20,
+      height: 20,
+      // width: 25,
+      // height: 25,
+      borderRadius: 100,
+      marginRight: 7,
+    },
+    HeaderUserName: {
+      color: theme === 'dark' ? '#E6E6E6' : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-Medium',
+      // fontSize: 16,
+      fontSize: 14,
+    },
+    HeaderDivider: {
+      fontSize: 20,
+      color: '#687684',
+    },
+    HeaderListName: {
+      fontSize: 13.5,
+      color: theme === 'dark' ? '#757575' : colorScheme.lightTheme.dark,
+    },
 
-  IssueUserProfileModal: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+    IssueUserProfileModal: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
 
-  // Issue Content Styling
-  IssueContent: {rowGap: 5},
-  IssueTitle: {color: 'black', fontSize: 16.3, fontFamily: 'Inter-Medium'},
-  IssueText: {color: '#687684', fontSize: 16, lineHeight: 22},
+    // Issue Content Styling
+    IssueContent: {rowGap: 5},
+    IssueTitle: {
+      color: theme === 'dark' ? '#EBEBEB' : colorScheme.lightTheme.dark,
+      fontSize: 16.3,
+      fontFamily: 'Inter-Medium',
+    },
+    IssueText: {
+      color: theme === 'dark' ? '#CECECE' : colorScheme.lightTheme.dark,
+      fontSize: 16,
+      lineHeight: 22,
+    },
 
-  // Issue Action Styling
+    // Issue Action Styling
 
-  IssueActionView: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 25,
-    justifyContent: 'flex-start',
-  },
-  IssueAction: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 5,
-    borderRadius: 50,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginVertical: 10,
-  },
-  IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
-  IssueActionCount: {
-    color: 'black',
-    fontSize: 13.5,
-    fontFamily: 'Inter-Medium',
-  },
-  ReadMoreText: {
-    color: 'rgba(0,0,0,0.6)',
-    fontSize: 13,
-    fontFamily: 'Inter-SemiBold',
-  },
-});
+    IssueActionView: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      columnGap: 25,
+      justifyContent: 'flex-start',
+    },
+    IssueAction: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      columnGap: 5,
+      borderRadius: 50,
+      paddingVertical: 5,
+      paddingHorizontal: 14,
+      marginVertical: 10,
+    },
+    IssueActionIcon: {
+      width: 17,
+      height: 17,
+      objectFit: 'contain',
+      tintColor: theme === 'dark' ? 'white' : colorScheme.lightTheme.dark,
+    },
+    IssueActionCount: {
+      fontSize: 13.5,
+      fontFamily: 'Inter-Medium',
+      color: theme === 'dark' ? 'white' : colorScheme.lightTheme.dark,
+    },
+    ReadMoreText: {
+      color: theme === 'dark' ? 'white' : colorScheme.lightTheme.dark,
+      fontSize: 13,
+      fontFamily: 'Inter-SemiBold',
+    },
+  });

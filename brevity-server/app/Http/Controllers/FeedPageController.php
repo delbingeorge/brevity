@@ -58,6 +58,7 @@ class FeedPageController extends Controller
             ->select(
                 'issues.id as issueId',
                 'lists.id as listId',
+                'issues.upvote',
                 'issues.title',
                 'issues.body',
                 'lists.list_name',
@@ -71,6 +72,7 @@ class FeedPageController extends Controller
             ->groupBy(
                 'issues.id',
                 'lists.id',
+                'issues.upvote',
                 'issues.title',
                 'issues.body',
                 'lists.list_name',

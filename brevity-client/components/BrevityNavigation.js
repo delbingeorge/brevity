@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {Image, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useEffect} from 'react';
-import {authState, newUser, userInfo} from '../provider/RecoilStore';
+import {authState, getTheme, newUser, userInfo} from '../provider/RecoilStore';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
@@ -27,6 +27,7 @@ import ManageIssue from './ManageIssue';
 import Onboarding from '../pages/Onboarding/Onboarding';
 import WhoopOnboard from '../pages/Onboarding/WhoopOnboard';
 import OnboardClosure from '../pages/Onboarding/OnboardClosure';
+import colorScheme from '../assets/colors/colorScheme';
 
 const TabRoute = createBottomTabNavigator();
 const StackRoute = createNativeStackNavigator();
@@ -34,6 +35,9 @@ const StackRoute = createNativeStackNavigator();
 function TabNavigation() {
   const [authValue, setAuthValue] = useRecoilState(authState);
   const [userInfoState, setUserInfoState] = useRecoilState(userInfo);
+  const useTheme = useRecoilValue(getTheme);
+
+  const styles = createStyle(useTheme);
 
   useEffect(() => {
     initializeApp();
@@ -69,8 +73,14 @@ function TabNavigation() {
           marginTop: -5,
         },
         tabBarStyle: {
+          backgroundColor:
+            useTheme === 'dark'
+              ? colorScheme.darkTheme['primary-dark']
+              : colorScheme.lightTheme['primary-light'],
           display: authValue == true ? 'flex' : 'none',
-          height: 54,
+          borderTopColor:
+            useTheme === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0)',
+          height: 60,
         },
         tabBarHideOnKeyboard: true,
       }}>
@@ -234,15 +244,16 @@ function BrevityNavigation() {
 
 export default BrevityNavigation;
 
-const styles = StyleSheet.create({
-  NavIcon: {
-    height: 24,
-    width: 24,
-  },
-  IconFocused: {
-    height: 24,
-    width: 24,
-    color: 'blue',
-    tintColor: '#0047FE',
-  },
-});
+const createStyle = theme =>
+  StyleSheet.create({
+    NavIcon: {
+      height: 24,
+      width: 24,
+      tintColor: theme === 'dark' ? '#888888' : colorScheme.darkTheme.dark,
+    },
+    IconFocused: {
+      height: 24,
+      width: 24,
+      tintColor: theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'blue',
+    },
+  });
