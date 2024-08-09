@@ -16,6 +16,7 @@ import {
 import Config from 'react-native-config';
 import {
   authState,
+  getTheme,
   listMembershipStatus,
   ProfileModal,
   themeState,
@@ -25,6 +26,7 @@ import {
 import {useRecoilState, useRecoilValue} from 'recoil';
 import * as Burnt from 'burnt';
 import ReactNativeModal from 'react-native-modal';
+import colorScheme from '../assets/colors/colorScheme';
 
 const IssueComponent = () => {
   const navigation = useNavigation();
@@ -35,6 +37,9 @@ const IssueComponent = () => {
   const isListMember = useRecoilValue(listMembershipStatus);
   const [showSolutions, setShowSolutions] = useState(false);
   const authValue = useRecoilValue(authState);
+  const theme = useRecoilValue(getTheme);
+
+  const styles = createStyle(theme);
 
   const URL = Config.BASE_URL;
   const {
@@ -128,7 +133,10 @@ const IssueComponent = () => {
         }}>
         <Text
           style={{
-            color: 'black',
+            color:
+              theme === 'dark'
+                ? colorScheme.darkTheme['light']
+                : colorScheme.lightTheme.dark,
             fontFamily: 'Inter-Medium',
             fontSize: 16,
           }}>
@@ -173,7 +181,17 @@ const IssueComponent = () => {
         </View>
         <View style={styles.IssueActionView}>
           <View
-            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
+            style={[
+              styles.IssueAction,
+              {
+                backgroundColor:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme['pitch-grey']
+                    : 'rgba(0,0,0,0.05)',
+                borderWidth: 0.5,
+                borderColor: theme === 'dark' ? '#303030' : 'rgba(0,0,0,0)',
+              },
+            ]}>
             <Pressable onPress={handlePress}>
               <Image
                 style={styles.IssueActionIcon}
@@ -188,7 +206,10 @@ const IssueComponent = () => {
   };
 
   return (
-    <View style={{backgroundColor: 'white', flex: 1}}>
+    <View
+      style={{
+        flex: 1,
+      }}>
       <Pressable
         onPress={() => {
           navigation.goBack();
@@ -224,7 +245,17 @@ const IssueComponent = () => {
         </View>
         <View style={[styles.IssueActionView, {paddingBottom: 80}]}>
           <View
-            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
+            style={[
+              styles.IssueAction,
+              {
+                backgroundColor:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme['pitch-grey']
+                    : 'rgba(0,0,0,0.05)',
+                borderWidth: 0.5,
+                borderColor: theme === 'dark' ? '#303030' : 'rgba(0,0,0,0)',
+              },
+            ]}>
             <Pressable onPress={handlePress}>
               <Image
                 style={styles.IssueActionIcon}
@@ -256,9 +287,13 @@ const IssueComponent = () => {
             ItemSeparatorComponent={
               <View
                 style={{
-                  backgroundColor: 'rgba(0,0,0,0.05)',
-                  marginVertical: 7,
-                  height: 0.7,
+                  backgroundColor:
+                    theme === 'dark'
+                      ? colorScheme.lightTheme['text-color']
+                      : colorScheme.lightTheme['pitch-grey'],
+                  marginVertical: 10,
+                  height: 0.5,
+                  opacity: 0.2,
                   width: '100%',
                 }}></View>
             }
@@ -276,20 +311,25 @@ const IssueComponent = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'white',
+            backgroundColor:
+              theme === 'dark'
+                ? colorScheme.darkTheme['primary-dark']
+                : colorScheme.lightTheme['primary-light'],
           }}>
           {/* <Text style={{color: 'black'}}>Words 100/4000</Text> */}
           <View style={styles.SearchInput}>
             <TextInput
               placeholder="Post your solution"
               value={solution}
-              placeholderTextColor={'rgba(0,0,0,0.3)'}
+              placeholderTextColor={
+                theme === 'dark' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.3)'
+              }
               maxLength={2500}
               multiline={true}
               style={{
                 fontSize: 15,
                 fontFamily: 'Inter-Medium',
-                color: 'black',
+                color: theme === 'dark' ? 'white' : 'rgba(0,0,0,0.4)',
                 width: '85%',
               }}
               onChangeText={value => {
@@ -299,7 +339,10 @@ const IssueComponent = () => {
             <Pressable
               onPress={handClick}
               style={{
-                backgroundColor: 'rgba(0,0,0,0.05)',
+                backgroundColor:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme['primary-dark']
+                    : colorScheme.lightTheme['primary-light'],
                 padding: 8,
                 borderRadius: 8,
               }}>
@@ -317,158 +360,187 @@ const IssueComponent = () => {
 
 export default IssueComponent;
 
-const styles = StyleSheet.create({
-  IssueComponent: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-  },
-  IssueHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  HeaderImage: {
-    width: 20,
-    height: 20,
-    // width: 25,
-    // height: 25,
-    borderRadius: 100,
-    marginRight: 7,
-  },
-  HeaderUserName: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    // fontSize: 16,
-    fontSize: 14,
-  },
-  HeaderDivider: {
-    fontSize: 20,
-    color: '#687684',
-  },
-  HeaderListName: {
-    fontSize: 15,
-    color: '#687684',
-  },
+const createStyle = theme =>
+  StyleSheet.create({
+    IssueComponent: {
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      paddingHorizontal: 15,
+    },
+    IssueHeader: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    HeaderImage: {
+      width: 20,
+      height: 20,
+      // width: 25,
+      // height: 25,
+      borderRadius: 100,
+      marginRight: 7,
+    },
+    HeaderUserName: {
+      color: theme === 'dark' ? '#E6E6E6' : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-Medium',
+      fontSize: 14,
+    },
+    HeaderDivider: {
+      fontSize: 20,
+      color: '#687684',
+    },
+    HeaderListName: {
+      fontSize: 13.5,
+      color: theme === 'dark' ? '#757575' : colorScheme.lightTheme.dark,
+    },
 
-  IssueUserProfileModal: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+    IssueUserProfileModal: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
 
-  // Issue Content Styling
-  IssueContent: {rowGap: 5},
-  IssueTitle: {color: 'black', fontSize: 16.3, fontFamily: 'Inter-Medium'},
-  IssueText: {color: '#687684', fontSize: 16, lineHeight: 22},
+    // Issue Content Styling
+    IssueContent: {rowGap: 5},
+    IssueTitle: {
+      color: theme === 'dark' ? '#EBEBEB' : colorScheme.lightTheme.dark,
+      fontSize: 16.3,
+      fontFamily: 'Inter-Medium',
+    },
+    IssueText: {
+      color: theme === 'dark' ? '#CECECE' : '#687684',
+      fontSize: 16,
+      lineHeight: 22,
+    },
 
-  // Issue Action Styling
+    // Issue Action Styling
 
-  IssueActionView: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 25,
-    justifyContent: 'flex-start',
-  },
-  IssueAction: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 5,
-    borderRadius: 50,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginVertical: 10,
-  },
-  IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
-  IssueActionCount: {
-    color: 'black',
-    fontSize: 13.5,
-    fontFamily: 'Inter-Medium',
-  },
-  AuthView: {
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-    backgroundColor: 'white',
-    maxHeight: Dimensions.get('screen').height - 100,
-    width: '100%',
-    width: Dimensions.get('window').width,
-  },
-  AuthInnerView: {
-    marginTop: 15,
-  },
-  AuthTitle: {
-    color: 'black',
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 22,
-  },
-  AuthSubTitle: {
-    color: '#39404A',
-    fontFamily: 'Inter-Regular',
-    fontSize: 18,
-  },
-  AuthServiceLogo: {
-    width: 26,
-    height: 26,
-    objectFit: 'contain',
-  },
-  AuthBtn: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    borderRadius: 10,
-    gap: 8,
-    marginBottom: 10,
-    backgroundColor: '#F6F6F6',
-    paddingVertical: 15,
-    paddingHorizontal: 18,
-  },
-  AuthBtnText: {color: 'black', fontSize: 19, fontFamily: 'Inter-Medium'},
-  SubText: {
-    textDecorationLine: 'underline',
-    color: 'black',
-    fontSize: 15,
-    fontFamily: 'Inter-Medium',
-    marginTop: 15,
-    textAlign: 'center',
-  },
-  ReactModal: {
-    margin: 0,
-    position: 'absolute',
-    bottom: 0,
-    borderRadius: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  GoBack: {
-    backgroundColor: 'white',
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 13,
-    paddingHorizontal: 15,
-    paddingBottom: 5,
-    marginBottom: -5,
-    borderBottomWidth: 2.5,
-    borderColor: 'rgba(255,255,255,0.8)',
-  },
-  GoBackIcon: {
-    width: 25,
-    height: 25,
-  },
-  SearchInput: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    backgroundColor: '#fafafa',
-    borderRadius: 4,
-    marginVertical: 8,
-    fontFamily: 'Inter-Medium',
-    paddingHorizontal: 5,
-    marginHorizontal: 15,
-  },
-});
+    IssueActionView: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      columnGap: 25,
+      justifyContent: 'flex-start',
+    },
+    IssueAction: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      columnGap: 5,
+      borderRadius: 50,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      marginTop: 8,
+      marginBottom: 5,
+    },
+    IssueActionIcon: {
+      width: 17,
+      height: 17,
+      objectFit: 'contain',
+      tintColor: theme === 'dark' ? 'white' : colorScheme.lightTheme.dark,
+    },
+    IssueActionCount: {
+      fontSize: 13.5,
+      fontFamily: 'Inter-Medium',
+      color: theme === 'dark' ? 'white' : colorScheme.lightTheme.dark,
+    },
+    AuthView: {
+      borderTopLeftRadius: 25,
+      borderTopRightRadius: 25,
+      paddingHorizontal: 5,
+      paddingVertical: 10,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      maxHeight: Dimensions.get('screen').height - 100,
+      width: '100%',
+      width: Dimensions.get('window').width,
+    },
+    AuthInnerView: {
+      marginTop: 15,
+    },
+    AuthTitle: {
+      color: 'black',
+      fontFamily: 'Inter-SemiBold',
+      fontSize: 22,
+    },
+    AuthSubTitle: {
+      color: '#39404A',
+      fontFamily: 'Inter-Regular',
+      fontSize: 18,
+    },
+    AuthServiceLogo: {
+      width: 26,
+      height: 26,
+      objectFit: 'contain',
+    },
+    AuthBtn: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      borderRadius: 10,
+      gap: 8,
+      marginBottom: 10,
+      backgroundColor: '#F6F6F6',
+      paddingVertical: 15,
+      paddingHorizontal: 18,
+    },
+    AuthBtnText: {color: 'black', fontSize: 19, fontFamily: 'Inter-Medium'},
+    SubText: {
+      textDecorationLine: 'underline',
+      color: 'black',
+      fontSize: 15,
+      fontFamily: 'Inter-Medium',
+      marginTop: 15,
+      textAlign: 'center',
+    },
+    ReactModal: {
+      margin: 0,
+      position: 'absolute',
+      bottom: 0,
+      borderRadius: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    GoBack: {
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      display: 'flex',
+      flexDirection: 'row',
+      gap: 13,
+      paddingHorizontal: 15,
+      paddingBottom: 5,
+      marginBottom: -5,
+      borderBottomWidth: 2.5,
+      borderColor: 'rgba(255,255,255,0.8)',
+    },
+    GoBackIcon: {
+      tintColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.darkTheme.dark,
+      width: 25,
+      height: 25,
+    },
+    SearchInput: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor:
+        theme === 'dark' ? colorScheme.darkTheme['pitch-grey'] : '#f8f8f8',
+      borderRadius: 6,
+      marginVertical: 12,
+      fontFamily: 'Inter-Medium',
+      paddingHorizontal: 5,
+      marginHorizontal: 15,
+      paddingVertical: 3,
+    },
+  });

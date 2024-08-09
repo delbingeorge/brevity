@@ -426,7 +426,7 @@ const createStyle = theme =>
       fontFamily: 'Inter-Medium',
     },
     IssueText: {
-      color: theme === 'dark' ? '#CECECE' : colorScheme.lightTheme.dark,
+      color: theme === 'dark' ? '#CECECE' : '#687684',
       fontSize: 16,
       lineHeight: 22,
     },

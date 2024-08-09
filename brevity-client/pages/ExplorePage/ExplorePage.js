@@ -342,7 +342,7 @@ const createStyle = theme =>
       fontSize: 14.5,
       color:
         theme === 'dark'
-          ? colorScheme.darkTheme.white
+          ? colorScheme.darkTheme.light
           : colorScheme.lightTheme.dark,
       fontFamily: 'Inter-SemiBold',
     },

@@ -249,11 +249,12 @@ const createStyle = theme =>
     NavIcon: {
       height: 24,
       width: 24,
-      tintColor: theme === 'dark' ? '#888888' : colorScheme.darkTheme.dark,
+      tintColor:
+        theme === 'dark' ? 'rgba(255,255,255,0.7)' : colorScheme.darkTheme.dark,
     },
     IconFocused: {
       height: 24,
       width: 24,
-      tintColor: theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'blue',
+      tintColor: theme === 'dark' ? 'rgba(255,255,255,1)' : 'blue',
     },
   });

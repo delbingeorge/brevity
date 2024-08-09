@@ -262,38 +262,6 @@ const ProfilePage = () => {
           </View>
         </View>
       </ReactNativeModal>
-
-      {/* <ReactNativeModal
-        style={styles.ReactModal}
-        isVisible={signOutModal}
-        onBackdropPress={() => {
-          setSignOutModal(false);
-        }}
-        backdropColor="black">
-        <View style={styles.ProfileModal}>
-          <Text style={styles.SettingsText}>Do you want to sign out?</Text>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-            }}>
-            <Pressable
-              style={styles.ActionBtn}
-              onPress={() => {
-                signOut();
-              }}>
-              <Text style={styles.SignOutText}>Sign Out</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => {
-                setSignOutModal(false);
-              }}>
-              <Text style={styles.SignOutCancel}>Cancel</Text>
-            </Pressable>
-          </View>
-        </View>
-      </ReactNativeModal> */}
     </View>
   );
 };
@@ -389,11 +357,13 @@ const createStyle = theme =>
       borderRadius: 25,
       paddingHorizontal: 20,
       paddingVertical: 40,
-      backgroundColor: 'white',
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      // height: Dimensions.get('screen').height / 2.1,
       width: Dimensions.get('screen').width,
     },
     ReactModal: {
@@ -411,12 +381,18 @@ const createStyle = theme =>
     IssueCount: {
       fontSize: 45,
       fontFamily: 'Inter-ExtraBold',
-      color: 'black',
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
     },
     AccountSince: {
       fontSize: 17,
       fontFamily: 'Inter-Medium',
-      color: 'black',
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
       marginTop: -7,
     },
     ModalCloseTab: {
@@ -436,9 +412,16 @@ const createStyle = theme =>
     SocialButton: {
       padding: 10,
       borderRadius: 6,
-      backgroundColor: '#f6f6f6',
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['pitch-grey']
+          : colorScheme.lightTheme['off-white'],
     },
     SocialIcon: {
+      tintColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
       width: 30,
       height: 30,
     },

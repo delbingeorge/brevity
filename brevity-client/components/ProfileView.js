@@ -9,12 +9,20 @@ import {
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {ProfileModal, userInfo, UserProfileInfo} from '../provider/RecoilStore';
+import {
+  getTheme,
+  ProfileModal,
+  userInfo,
+  UserProfileInfo,
+} from '../provider/RecoilStore';
+import colorScheme from '../assets/colors/colorScheme';
 
 const ProfileView = () => {
   const profileInfo = useRecoilValue(userInfo);
   const ModalInfo = useRecoilValue(UserProfileInfo);
   const [profileModal, setProfileModal] = useRecoilState(ProfileModal);
+  const theme = useRecoilValue(getTheme);
+  const styles = createStyle(theme);
 
   return (
     <ReactNativeModal
@@ -38,7 +46,7 @@ const ProfileView = () => {
                 }
           }
         />
-        <Text style={styles.ProfileName}>{ModalInfo['name'] || 'test'}</Text>
+        <Text style={styles.ProfileName}>{ModalInfo['name']}</Text>
         <Text style={styles.UserName}>Epic Compiler</Text>
 
         <View style={styles.ModalView}>
@@ -110,73 +118,103 @@ const ProfileView = () => {
 
 export default ProfileView;
 
-const styles = StyleSheet.create({
-  ProfileImage: {
-    width: 100,
-    height: 100,
-    borderWidth: 3.5,
-    borderColor: 'black',
-    borderRadius: 50,
-    marginBottom: 5,
-  },
-  ProfileName: {color: 'black', fontSize: 19, fontFamily: 'Inter-SemiBold'},
-  UserName: {color: 'black', fontSize: 13, fontFamily: 'Inter-Medium'},
-  ProfileModal: {
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 40,
-    backgroundColor: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // height: Dimensions.get('screen').height / 2.1,
-    width: Dimensions.get('screen').width,
-  },
-  ReactModal: {
-    margin: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  ModalView: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  IssueCount: {
-    fontSize: 45,
-    fontFamily: 'Inter-ExtraBold',
-    color: 'black',
-  },
-  AccountSince: {
-    fontSize: 17,
-    fontFamily: 'Inter-Medium',
-    color: 'black',
-    marginTop: -7,
-  },
-  ModalCloseTab: {
-    position: 'absolute',
-    top: 4,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    borderRadius: 100,
-    width: 120,
-    height: 4,
-  },
-  SocialView: {
-    display: 'flex',
-    flexDirection: 'row',
-    columnGap: 8,
-    marginTop: 4,
-  },
-  SocialButton: {
-    padding: 10,
-    borderRadius: 6,
-    backgroundColor: '#f6f6f6',
-  },
-  SocialIcon: {
-    width: 30,
-    height: 30,
-  },
-});
+const createStyle = theme =>
+  StyleSheet.create({
+    ProfileImage: {
+      width: 100,
+      height: 100,
+      borderWidth: 3.5,
+      borderColor: 'black',
+      borderRadius: 50,
+      marginBottom: 5,
+    },
+    ProfileName: {
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      fontSize: 19,
+      fontFamily: 'Inter-SemiBold',
+    },
+    UserName: {
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      fontSize: 13,
+      fontFamily: 'Inter-Medium',
+    },
+    ProfileModal: {
+      borderTopEndRadius: 20,
+      borderTopStartRadius: 20,
+      paddingHorizontal: 20,
+      paddingVertical: 40,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: Dimensions.get('screen').width,
+    },
+    ReactModal: {
+      margin: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    ModalView: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20,
+    },
+    IssueCount: {
+      fontSize: 45,
+      fontFamily: 'Inter-ExtraBold',
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+    },
+    AccountSince: {
+      fontSize: 17,
+      fontFamily: 'Inter-Medium',
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      marginTop: -7,
+    },
+    ModalCloseTab: {
+      position: 'absolute',
+      top: 4,
+      backgroundColor: 'rgba(0,0,0,0.2)',
+      borderRadius: 100,
+      width: 120,
+      height: 4,
+    },
+    SocialView: {
+      display: 'flex',
+      flexDirection: 'row',
+      columnGap: 8,
+      marginTop: 4,
+    },
+    SocialButton: {
+      padding: 10,
+      borderRadius: 6,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['pitch-grey']
+          : colorScheme.lightTheme['off-white'],
+    },
+    SocialIcon: {
+      tintColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      width: 30,
+      height: 30,
+    },
+  });
