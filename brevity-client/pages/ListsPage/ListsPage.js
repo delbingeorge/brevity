@@ -20,6 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 import Config from 'react-native-config';
 import {Skeleton} from 'react-native-skeletons';
 import * as Burnt from 'burnt';
+import colorScheme from '../../assets/colors/colorScheme';
 
 const ListsPage = () => {
   const navigation = useNavigation();
@@ -197,7 +198,10 @@ const createStyle = theme =>
       fontFamily: 'Inter-SemiBold',
     },
     RenderItemSubtitle: {
-      color: theme === 'dark' ? colorScheme.darkTheme.white : 'rgba(0,0,0,0.4)',
+      color:
+        theme === 'dark'
+          ? colorScheme.lightTheme['off-white']
+          : 'rgba(0,0,0,0.4)',
       fontFamily: 'Inter-Regular',
     },
     NoListText: {

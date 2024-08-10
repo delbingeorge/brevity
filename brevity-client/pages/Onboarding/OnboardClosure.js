@@ -4,6 +4,7 @@ import {
   Dimensions,
   Image,
   Pressable,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -17,6 +18,7 @@ const OnboardClosure = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.OnboardingView}>
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <View
         style={{
           display: 'flex',

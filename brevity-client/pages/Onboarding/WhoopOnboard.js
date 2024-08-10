@@ -5,6 +5,7 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -14,6 +15,7 @@ const WhoopOnboard = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.OnboardingView}>
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <View
         style={{
           paddingHorizontal: 7,

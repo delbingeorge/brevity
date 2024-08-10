@@ -13,4 +13,7 @@ export default colorScheme = {
     'text-color': '#9B9B9B',
     'off-white': '#f6f6f6',
   },
+  brandColors: {
+    blue: '#3D7EFF',
+  },
 };

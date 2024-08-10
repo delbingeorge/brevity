@@ -42,6 +42,7 @@ class IssuePostController extends Controller
             ->join('lists', 'lists.id', '=', 'issues.list_id')
             ->where('users.id', $profileId)
             ->select('users.name', 'users.photo', 'issues.id as issueId', 'users.id as userId', 'lists.list_name', 'issues.title', 'issues.body', 'issues.created_at')
+            ->orderByDesc('lists.id')
             ->get();
         return response()->json(['content' => $postedIssues], 200);
     }

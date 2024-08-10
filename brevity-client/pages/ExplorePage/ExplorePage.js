@@ -301,7 +301,7 @@ const createStyle = theme =>
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-    ResultTextView: {flexDirection: 'row', columnGap: 4},
+    ResultTextView: {flexDirection: 'row', columnGap: 4, marginBottom: 5},
     ResponseText: {
       color:
         theme === 'dark'
@@ -347,7 +347,10 @@ const createStyle = theme =>
       fontFamily: 'Inter-SemiBold',
     },
     RenderItemSubtitle: {
-      color: theme === 'dark' ? colorScheme.darkTheme.white : 'rgba(0,0,0,0.4)',
+      color:
+        theme === 'dark'
+          ? colorScheme.lightTheme['off-white']
+          : 'rgba(0,0,0,0.4)',
       fontFamily: 'Inter-Regular',
     },
   });

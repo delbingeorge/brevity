@@ -53,6 +53,7 @@ const ProfilePage = () => {
         await GoogleSignin.signOut();
         await AsyncStorage.removeItem('userInfo');
         await AsyncStorage.removeItem('authToken');
+        await AsyncStorage.clear();
         setAuthValue(false);
         setUserInfoState({});
         resetTheme();

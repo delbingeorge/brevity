@@ -76,7 +76,7 @@ const IssuePostForm = () => {
       !issueContent.issueTitle ||
       !issueContent.issueBody
     ) {
-      Brunt.alert({
+      Burnt.alert({
         title: 'All fields are required!',
       });
       return;
@@ -119,7 +119,7 @@ const IssuePostForm = () => {
           placeholder="Issue title in short"
           maxLength={100}
           onChangeText={value => {
-            inputHandler('issueTitle', value);
+            inputHandler('issueTitle', value.trim().replace(/\s+/g, ' '));
           }}
           placeholderTextColor={'#c0c0c0'}
         />
@@ -131,7 +131,8 @@ const IssuePostForm = () => {
           onChangeText={value => {
             inputHandler('issueBody', value);
           }}
-          style={styles.IssueContent}></TextInput>
+          style={styles.IssueContent}
+        />
       </ScrollView>
 
       <View style={styles.ActionButtonView}>
@@ -156,9 +157,14 @@ const IssuePostForm = () => {
                 textAlign: 'left',
                 borderRadius: 8,
                 fontFamily: 'Inter-Medium',
-                color: 'black',
-                // backgroundColor: '#f6f6f6',
-                borderColor: '#f6f6f6',
+                color:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme.light
+                    : colorScheme.lightTheme.dark,
+                borderColor:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme['pitch-grey']
+                    : colorScheme.lightTheme['off-white'],
               }}>
               {value ? value : 'Select List'}
             </Text>
@@ -187,7 +193,7 @@ const IssuePostForm = () => {
         <TouchableOpacity
           onPress={issueHandler}
           style={{
-            backgroundColor: colorScheme['primary-color'],
+            backgroundColor: colorScheme.brandColors.blue,
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
@@ -197,8 +203,13 @@ const IssuePostForm = () => {
             borderRadius: 6,
             width: 90,
           }}>
-          <Text style={{fontSize: 16, color: 'white', fontWeight: '500'}}>
-            Post
+          <Text
+            style={{
+              fontSize: 16,
+              color: colorScheme.darkTheme.light,
+              fontWeight: '500',
+            }}>
+            Raise
           </Text>
           <Image
             style={{width: 20, height: 20}}
@@ -230,7 +241,10 @@ const IssuePostForm = () => {
                   style={{
                     paddingVertical: 10,
                     fontSize: 15,
-                    color: 'black',
+                    color:
+                      theme === 'dark'
+                        ? colorScheme.darkTheme.light
+                        : colorScheme.lightTheme.dark,
                     fontFamily: 'Inter-Medium',
                   }}>
                   {value.list_name}
@@ -297,7 +311,10 @@ const createStyle = theme =>
       flex: 1,
       lineHeight: 25,
       marginTop: -10,
-      color: 'black',
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
       fontFamily: 'Inter-Regular',
       fontSize: 16,
     },

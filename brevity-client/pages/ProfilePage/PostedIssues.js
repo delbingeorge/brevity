@@ -93,7 +93,9 @@ const PostedIssues = () => {
               source={require('../../assets/images/icons/date-icon-bk.png')}
               style={{width: 15, height: 15, objectFit: 'contain'}}
             />
-            <Text style={{color: 'black'}}>{`${daysAgo} days ago`}</Text>
+            <Text style={{color: 'black'}}>
+              {daysAgo === 0 ? 'Today' : `${daysAgo} days ago`}
+            </Text>
           </View>
           <Text style={{color: 'black'}}>|</Text>
           <View

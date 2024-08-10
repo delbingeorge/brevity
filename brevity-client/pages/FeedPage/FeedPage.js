@@ -103,7 +103,7 @@ const FeedPage = () => {
   const renderItem = ({item, index}) => {
     const isLongText = item.body.length > 250;
     const displayText = isLongText ? item.body.substring(0, 200) : item.body;
-    
+
     return (
       <Pressable
         onPress={() => navigation.navigate('IssueComponent', {item})}
@@ -128,7 +128,9 @@ const FeedPage = () => {
           </Pressable>
         </View>
         <View style={styles.IssueContent}>
-          <Text style={styles.IssueTitle}>{item.title}</Text>
+          <Text style={styles.IssueTitle}>
+            {item.title}
+          </Text>
           <Text style={styles.IssueText}>
             {displayText}
             {isLongText && (

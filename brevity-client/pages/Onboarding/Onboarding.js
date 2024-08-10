@@ -4,6 +4,7 @@ import {
   Dimensions,
   Image,
   Pressable,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -15,6 +16,7 @@ const Onboarding = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.OnboardingView}>
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <Pressable
         style={{
           position: 'absolute',
