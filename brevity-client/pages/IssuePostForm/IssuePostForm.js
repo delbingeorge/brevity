@@ -13,8 +13,8 @@ import {
 import colorScheme from '../../assets/colors/colorScheme';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {useRecoilState} from 'recoil';
-import {userInfo} from '../../provider/RecoilStore';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {getTheme, userInfo} from '../../provider/RecoilStore';
 import ReactNativeModal from 'react-native-modal';
 import Config from 'react-native-config';
 import * as Burnt from 'burnt';
@@ -25,6 +25,8 @@ const IssuePostForm = () => {
   const [listModalView, setListModalView] = useState(false);
   const [value, setValue] = useState();
   const [items, setItems] = useState([]);
+  const theme = useRecoilValue(getTheme);
+  const styles = createStyle(theme);
 
   const URL = Config.BASE_URL;
 
@@ -244,67 +246,75 @@ const IssuePostForm = () => {
 
 export default IssuePostForm;
 
-const styles = StyleSheet.create({
-  ReactModal: {
-    margin: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  AuthView: {
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 20,
-    backgroundColor: 'white',
-    // height: Dimensions.get('screen').height / 2.9,
-    width: Dimensions.get('screen').width,
-  },
-  FormMainView: {
-    flex: 1,
-    paddingHorizontal: 15,
-    backgroundColor: 'white',
-    // paddingBottom: 15,
-  },
-  CloseIcon: {
-    width: 18,
-    height: 18,
-    marginVertical: 8,
-    objectFit: 'contain',
-  },
-  IssueTitle: {
-    // marginTop: 10,
-    lineHeight: 25,
-    // fontWeight: '500',
-    fontFamily: 'Inter-Medium',
-    color: 'black',
-    fontSize: 19,
-    // borderBottomWidth: 1.2,
-    borderBottomColor: '#c0c0c0',
-  },
-  IssueContent: {
-    // marginTop: 5,
-    flex: 1,
-    lineHeight: 25,
-    marginTop: -10,
-    color: 'black',
-    fontFamily: 'Inter-Regular',
-    fontSize: 16,
-  },
-  ActionButtonView: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
-  ButtonView: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  ActionButtonIcon: {
-    width: 24,
-    height: 24,
-  },
-});
+const createStyle = theme =>
+  StyleSheet.create({
+    ReactModal: {
+      margin: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    AuthView: {
+      borderTopEndRadius: 20,
+      borderTopStartRadius: 20,
+      paddingHorizontal: 15,
+      paddingVertical: 20,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      width: Dimensions.get('screen').width,
+    },
+    FormMainView: {
+      flex: 1,
+      paddingHorizontal: 15,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+    },
+    CloseIcon: {
+      width: 16,
+      height: 16,
+      marginVertical: 8,
+      objectFit: 'contain',
+      tintColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['light']
+          : colorScheme.lightTheme['dark'],
+    },
+    IssueTitle: {
+      lineHeight: 25,
+      fontFamily: 'Inter-Medium',
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      fontSize: 19,
+      borderBottomColor: '#c0c0c0',
+    },
+    IssueContent: {
+      flex: 1,
+      lineHeight: 25,
+      marginTop: -10,
+      color: 'black',
+      fontFamily: 'Inter-Regular',
+      fontSize: 16,
+    },
+    ActionButtonView: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 10,
+    },
+    ButtonView: {
+      display: 'flex',
+      flexDirection: 'row',
+      gap: 8,
+    },
+    ActionButtonIcon: {
+      width: 24,
+      height: 24,
+    },
+  });

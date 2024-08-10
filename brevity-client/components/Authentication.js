@@ -11,8 +11,14 @@ import {
   View,
 } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
-import {authState, modalView, newUser, userInfo} from '../provider/RecoilStore';
-import {useRecoilState} from 'recoil';
+import {
+  authState,
+  getTheme,
+  modalView,
+  newUser,
+  userInfo,
+} from '../provider/RecoilStore';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   GoogleSignin,
   statusCodes,
@@ -22,6 +28,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
 import Config from 'react-native-config';
 import {useNavigation} from '@react-navigation/native';
+import colorScheme from '../assets/colors/colorScheme';
 
 const Authentication = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);
@@ -31,6 +38,8 @@ const Authentication = () => {
   const [loading, setLoading] = useState(false);
   const URL = Config.BASE_URL;
   const navigation = useNavigation();
+  const theme = useRecoilValue(getTheme);
+  const styles = createStyle(theme);
 
   const signInWithGoogle = async () => {
     try {
@@ -40,7 +49,7 @@ const Authentication = () => {
       const username = userInfo.user.email.split('@');
 
       const idToken = userInfo.idToken;
-      
+
       const response = await axios.post(`${URL}/api/google-signin`, {
         name: userInfo.user.name,
         username: username[0],
@@ -183,7 +192,10 @@ const Authentication = () => {
             <Text
               style={{
                 fontSize: 16.2,
-                color: 'black',
+                color:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme.light
+                    : colorScheme.lightTheme.dark,
                 textAlign: 'center',
                 fontFamily: 'Inter-SemiBold',
                 marginBottom: 5,
@@ -193,7 +205,7 @@ const Authentication = () => {
             <Text
               style={{
                 fontSize: 15,
-                color: 'rgba(0,0,0,0.7)',
+                color: theme === 'dark' ? '#C2C8CF' : 'rgba(0,0,0,0.7)',
                 textAlign: 'center',
                 fontFamily: 'Inter-Medium',
               }}>
@@ -202,7 +214,7 @@ const Authentication = () => {
             <Text
               style={{
                 fontSize: 15,
-                color: 'rgba(0,0,0,0.7)',
+                color: theme === 'dark' ? '#C2C8CF' : 'rgba(0,0,0,0.7)',
                 textAlign: 'center',
                 fontFamily: 'Inter-Medium',
               }}>
@@ -218,129 +230,87 @@ const Authentication = () => {
 
 export default Authentication;
 
-const styles = StyleSheet.create({
-  IssueComponent: {
-    borderBottomColor: '#D9D9D9',
-    backgroundColor: 'white',
-    borderBottomWidth: 1.3,
-    paddingVertical: 10,
-    // marginVertical: 8,
-    paddingHorizontal: 15,
-  },
-  IssueHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  HeaderImage: {
-    width: 25,
-    height: 25,
-    borderRadius: 100,
-    marginRight: 10,
-  },
-  HeaderUserName: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    fontSize: 16,
-  },
-  HeaderDivider: {
-    fontSize: 27,
-    color: '#687684',
-  },
-  HeaderListName: {
-    fontSize: 15,
-    color: '#687684',
-  },
-
-  IssueUserProfileModal: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  // Issue Content Styling
-  IssueContent: {rowGap: 5},
-  IssueTitle: {color: 'black', fontSize: 18, fontFamily: 'Inter-Medium'},
-  IssueText: {color: '#687684', fontSize: 17, lineHeight: 24},
-
-  // Issue Action Styling
-
-  IssueActionView: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  IssueAction: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 8,
-    marginVertical: 10,
-  },
-  IssueActionIcon: {width: 20, height: 20},
-  IssueActionCount: {color: 'black', fontSize: 16, fontFamily: 'Inter-Medium'},
-  AuthView: {
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 25,
-    backgroundColor: 'white',
-    // height: Dimensions.get('screen').height / 2.9,
-    width: Dimensions.get('screen').width,
-  },
-  AuthViewLoader: {
-    alignItems: 'center',
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 40,
-    backgroundColor: 'white',
-    width: Dimensions.get('screen').width,
-  },
-  AuthInnerView: {
-    marginTop: 15,
-  },
-  AuthTitle: {
-    color: 'black',
-    fontFamily: 'Inter-SemiBold',
-    fontSize: 22,
-  },
-  AuthSubTitle: {
-    color: '#39404A',
-    fontFamily: 'Inter-Regular',
-    fontSize: 18,
-  },
-  AuthServiceLogo: {
-    width: 26,
-    height: 26,
-    objectFit: 'contain',
-  },
-  AuthBtn: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    borderRadius: 10,
-    gap: 8,
-    marginBottom: 10,
-    backgroundColor: '#F6F6F6',
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-  },
-  AuthBtnText: {color: 'black', fontSize: 19, fontFamily: 'Inter-Medium'},
-  SubText: {
-    textDecorationLine: 'underline',
-    color: 'black',
-    fontSize: 15,
-    fontFamily: 'Inter-Medium',
-    marginTop: 15,
-    textAlign: 'center',
-  },
-  ReactModal: {
-    margin: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-});
+const createStyle = theme =>
+  StyleSheet.create({
+    AuthView: {
+      borderTopEndRadius: 20,
+      borderTopStartRadius: 20,
+      paddingHorizontal: 15,
+      paddingVertical: 25,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      width: Dimensions.get('screen').width,
+    },
+    AuthViewLoader: {
+      alignItems: 'center',
+      borderTopEndRadius: 20,
+      borderTopStartRadius: 20,
+      paddingHorizontal: 20,
+      paddingVertical: 40,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['pitch-grey']
+          : colorScheme.lightTheme['off-white'],
+      width: Dimensions.get('screen').width,
+    },
+    AuthInnerView: {
+      marginTop: 15,
+    },
+    AuthTitle: {
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-SemiBold',
+      fontSize: 22,
+    },
+    AuthSubTitle: {
+      color: theme === 'dark' ? '#C2C8CF' : '#39404A',
+      fontFamily: 'Inter-Regular',
+      fontSize: 18,
+    },
+    AuthServiceLogo: {
+      width: 26,
+      height: 26,
+      objectFit: 'contain',
+    },
+    AuthBtn: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      borderRadius: 10,
+      gap: 10,
+      marginBottom: 10,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['pitch-grey']
+          : colorScheme.lightTheme['off-white'],
+      paddingVertical: 14,
+      paddingHorizontal: 18,
+    },
+    AuthBtnText: {
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.darkTheme.dark,
+      fontSize: 19,
+      fontFamily: 'Inter-Medium',
+    },
+    SubText: {
+      textDecorationLine: 'underline',
+      color: theme === 'dark' ? '#C2C8CF' : '#39404A',
+      fontSize: 15,
+      fontFamily: 'Inter-Medium',
+      marginTop: 15,
+      textAlign: 'center',
+    },
+    ReactModal: {
+      margin: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+  });

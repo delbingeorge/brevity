@@ -65,9 +65,7 @@ const ProfileView = () => {
                 source={require('../assets/images/icons/socials/github-icon.png')}
               />
             </Pressable>
-          ) : (
-            ''
-          )}
+          ) : null}
           {ModalInfo['linkSecond'] != 'null' ? (
             <Pressable
               style={styles.SocialButton}
@@ -79,9 +77,7 @@ const ProfileView = () => {
                 source={require('../assets/images/icons/socials/linkedin-icon.png')}
               />
             </Pressable>
-          ) : (
-            ''
-          )}
+          ) : null}
           {ModalInfo['linkThird'] != 'null' ? (
             <Pressable
               style={styles.SocialButton}
@@ -93,9 +89,7 @@ const ProfileView = () => {
                 source={require('../assets/images/icons/socials/youtube-icon.png')}
               />
             </Pressable>
-          ) : (
-            ''
-          )}
+          ) : null}
           {ModalInfo['linkForth'] != 'null' ? (
             <Pressable
               style={styles.SocialButton}
@@ -107,9 +101,7 @@ const ProfileView = () => {
                 source={require('../assets/images/icons/socials/external-icon.png')}
               />
             </Pressable>
-          ) : (
-            ''
-          )}
+          ) : null}
         </View>
       </View>
     </ReactNativeModal>

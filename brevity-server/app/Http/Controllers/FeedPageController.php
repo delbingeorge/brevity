@@ -20,7 +20,7 @@ class FeedPageController extends Controller
                 ->where('issues.user_id', '!=', $getValue)
                 ->select(
                     'issues.id as issueId',
-                    'lists.id as listId',
+                    'lists.id ',
                     'issues.upvote',
                     'issues.title',
                     'issues.body',
@@ -57,7 +57,7 @@ class FeedPageController extends Controller
             ->leftJoin('issue_responses', 'issue_responses.issue_id', '=', 'issues.id') // Join issue_responses table
             ->select(
                 'issues.id as issueId',
-                'lists.id as listId',
+                'lists.id',
                 'issues.upvote',
                 'issues.title',
                 'issues.body',

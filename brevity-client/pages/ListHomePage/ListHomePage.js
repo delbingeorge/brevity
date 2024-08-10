@@ -18,6 +18,7 @@ import axios from 'axios';
 import {useRecoilState, useRecoilValue, waitForAll} from 'recoil';
 import {
   authState,
+  getTheme,
   listMembershipStatus,
   modalView,
   ProfileModal,
@@ -27,6 +28,7 @@ import {
 import Config from 'react-native-config';
 import ReactModal from '../../components/Authentication';
 import * as Burnt from 'burnt';
+import colorScheme from '../../assets/colors/colorScheme';
 
 const ListHomePage = () => {
   const URL = Config.BASE_URL;
@@ -50,6 +52,8 @@ const ListHomePage = () => {
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
   const [refreshing, setRefreshing] = useState(false);
+  const theme = useRecoilValue(getTheme);
+  const styles = createStyle(theme);
 
   useEffect(() => {
     getListIssues();
@@ -238,10 +242,20 @@ const ListHomePage = () => {
         </View>
         <View style={styles.IssueActionView}>
           <View
-            style={[styles.IssueAction, {backgroundColor: 'rgba(0,0,0,0.05)'}]}>
+            style={[
+              styles.IssueAction,
+              {
+                backgroundColor:
+                  theme === 'dark'
+                    ? colorScheme.darkTheme['pitch-grey']
+                    : 'rgba(0,0,0,0.05)',
+                borderWidth: 0.5,
+                borderColor: theme === 'dark' ? '#303030' : 'rgba(0,0,0,0)',
+              },
+            ]}>
             <Pressable onPress={handlePress}>
               <Image
-                style={styles.IssueActionIcon}
+                style={[styles.IssueActionIcon]}
                 source={require('../../assets/images/icons/issue-actions/issue-upvote.png')}
               />
             </Pressable>
@@ -310,7 +324,10 @@ const ListHomePage = () => {
           <View style={styles.HeaderIconView}>
             <View style={styles.ListHeaderIcons}>
               <Image
-                style={styles.HeaderIcon}
+                style={[
+                  styles.HeaderIcon,
+                  {tintColor: theme === 'dark' ? '#c2c8cf' : '#39404A'},
+                ]}
                 source={require('../../assets/images/icons/list-icons/list-member-count.png')}
               />
               <Text style={styles.HeaderIconText}>
@@ -348,7 +365,10 @@ const ListHomePage = () => {
               <Pressable
                 onPress={() => navigation.navigate('ScreamPage')}
                 style={{
-                  backgroundColor: '#f5f7f9',
+                  backgroundColor:
+                    theme === 'dark'
+                      ? colorScheme.darkTheme['pitch-grey']
+                      : colorScheme.lightTheme['off-white'],
                   alignItems: 'center',
                   justifyContent: 'center',
                   paddingVertical: 9,
@@ -356,7 +376,15 @@ const ListHomePage = () => {
                   width: '49%',
                 }}>
                 <Image
-                  style={{width: 23, height: 23, objectFit: 'contain'}}
+                  style={{
+                    width: 22,
+                    height: 22,
+                    objectFit: 'contain',
+                    tintColor:
+                      theme === 'dark'
+                        ? colorScheme.darkTheme.light
+                        : colorScheme.darkTheme.dark,
+                  }}
                   source={require('../../assets/images/icons/scream-icon-bk.png')}
                 />
               </Pressable>
@@ -435,178 +463,212 @@ const ListHomePage = () => {
 
 export default ListHomePage;
 
-const styles = StyleSheet.create({
-  ListHomePageView: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-  },
-  GoBack: {
-    backgroundColor: 'white',
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 13,
-    paddingVertical: 4,
-    borderBottomWidth: 2.5,
-    borderColor: 'rgba(255,255,255,0.8)',
-  },
-  ListHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 5,
-    justifyContent: 'space-between',
-  },
-  ListTitle: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    fontSize: 22,
-  },
-  ListSettings: {
-    width: 20,
-    height: 20,
-  },
-  ListDescription: {
-    color: '#2E3540',
-    lineHeight: 22,
-    fontSize: 16,
-  },
-  HeaderIconView: {
-    marginVertical: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  ListHeaderIcons: {flexDirection: 'row', columnGap: 7, alignItems: 'center'},
-  HeaderIcon: {width: 18, height: 18},
-  HeaderIconText: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    fontSize: 15,
-  },
-  ListNav: {
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-  },
-  ActiveListNavText: {
-    borderRadius: 8,
-    backgroundColor: '#f5f7f9',
-  },
-  ListNavText: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    paddingVertical: 6,
-    borderRadius: 8,
-    paddingHorizontal: 25,
-    fontSize: 14,
-    borderColor: '#F5F7F9',
-    borderWidth: 1,
-    textAlign: 'center',
-  },
-  GoBackIcon: {
-    width: 25,
-    height: 25,
-  },
-  GoBackText: {
-    fontFamily: 'Inter-Medium',
-    fontSize: 20,
-    color: 'black',
-  },
-  ListJoinBtn: {
-    backgroundColor: 'black',
-    paddingVertical: 9,
-    borderRadius: 8,
-    textAlign: 'center',
-    color: 'white',
-    fontFamily: 'Inter-Medium',
-    fontSize: 15,
-  },
-  ListLeaveBtn: {
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    paddingVertical: 9,
-    // paddingHorizontal: 5,
-    borderRadius: 8,
-    textAlign: 'center',
-    color: 'white',
-    fontFamily: 'Inter-Medium',
-    fontSize: 15,
-  },
-  IssueComponent: {
-    borderBottomColor: 'rgba(0,0,0,0.06)',
-    backgroundColor: 'white',
-    borderBottomWidth: 1.3,
-    marginBottom: 10,
-  },
-  IssueHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginBottom: 5,
-    alignItems: 'center',
-  },
-  HeaderImage: {
-    width: 20,
-    height: 20,
-    // width: 25,
-    // height: 25,
-    borderRadius: 100,
-    marginRight: 7,
-  },
-  HeaderUserName: {
-    color: 'black',
-    fontFamily: 'Inter-Medium',
-    // fontSize: 16,
-    fontSize: 14,
-  },
-  HeaderDivider: {
-    fontSize: 20,
-    color: '#687684',
-  },
-  HeaderListName: {
-    fontSize: 13.5,
-    color: '#687684',
-  },
+const createStyle = theme =>
+  StyleSheet.create({
+    ListHomePageView: {
+      flex: 1,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['primary-dark']
+          : colorScheme.lightTheme['primary-light'],
+      paddingHorizontal: 15,
+    },
+    GoBack: {
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['pitch-grey']
+          : colorScheme.lightTheme['off-white'],
+      display: 'flex',
+      flexDirection: 'row',
+      gap: 13,
+      paddingVertical: 4,
+      borderBottomWidth: 2.5,
+      // borderColor: 'rgba(255,255,255,0.8)',
+    },
+    ListHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingTop: 5,
+      justifyContent: 'space-between',
+    },
+    ListTitle: {
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-Medium',
+      fontSize: 21,
+    },
+    ListSettings: {
+      width: 20,
+      height: 20,
+    },
+    ListDescription: {
+      color: theme === 'dark' ? '#c2c8cf' : '#39404A',
+      lineHeight: 22,
+      fontSize: 16,
+    },
+    HeaderIconView: {
+      marginVertical: 5,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+    },
+    ListHeaderIcons: {flexDirection: 'row', columnGap: 7, alignItems: 'center'},
+    HeaderIcon: {
+      width: 18,
+      height: 18,
+    },
+    HeaderIconText: {
+      color: theme === 'dark' ? '#c2c8cf' : '#39404A',
+      fontFamily: 'Inter-Medium',
+      fontSize: 15,
+    },
+    ListNav: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginVertical: 10,
+    },
+    ActiveListNavText: {
+      borderRadius: 8,
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme['pitch-grey']
+          : colorScheme.lightTheme['off-white'],
+    },
+    ListNavText: {
+      color:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-Medium',
+      paddingVertical: 6,
+      borderRadius: 8,
+      paddingHorizontal: 25,
+      fontSize: 14,
+      textAlign: 'center',
+    },
+    GoBackIcon: {
+      tintColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme.light
+          : colorScheme.darkTheme.dark,
+      width: 25,
+      height: 25,
+    },
+    GoBackText: {
+      fontFamily: 'Inter-Medium',
+      fontSize: 20,
+    },
+    ListJoinBtn: {
+      backgroundColor:
+        theme === 'dark'
+          ? colorScheme.darkTheme.dark
+          : colorScheme.lightTheme.dark,
+      paddingVertical: 9,
+      borderRadius: 8,
+      textAlign: 'center',
+      color: 'white',
+      fontFamily: 'Inter-Medium',
+      fontSize: 15,
+    },
+    ListLeaveBtn: {
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      paddingVertical: 9,
+      // paddingHorizontal: 5,
+      borderRadius: 8,
+      textAlign: 'center',
+      color: 'white',
+      fontFamily: 'Inter-Medium',
+      fontSize: 15,
+    },
+    IssueComponent: {
+      borderBottomColor: 'rgba(0,0,0,0.06)',
+      borderBottomWidth: 1.3,
+      marginBottom: 10,
+    },
+    IssueHeader: {
+      display: 'flex',
+      flexDirection: 'row',
+      marginBottom: 5,
+      alignItems: 'center',
+    },
+    HeaderImage: {
+      width: 20,
+      height: 20,
+      // width: 25,
+      // height: 25,
+      borderRadius: 100,
+      marginRight: 7,
+    },
+    HeaderUserName: {
+      color: theme === 'dark' ? '#E6E6E6' : colorScheme.lightTheme.dark,
+      fontFamily: 'Inter-Medium',
+      // fontSize: 16,
+      fontSize: 14,
+    },
+    HeaderDivider: {
+      fontSize: 20,
+      color: theme === 'dark' ? '#CECECE' : '#687684',
+    },
+    HeaderListName: {
+      fontSize: 13.5,
+      color: theme === 'dark' ? '#757575' : colorScheme.lightTheme.dark,
+    },
 
-  IssueUserProfileModal: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+    IssueUserProfileModal: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
 
-  // Issue Content Styling
-  IssueContent: {rowGap: 5},
-  IssueTitle: {color: 'black', fontSize: 16.3, fontFamily: 'Inter-Medium'},
-  IssueText: {color: '#687684', fontSize: 16, lineHeight: 22},
+    // Issue Content Styling
+    IssueContent: {rowGap: 5},
+    IssueTitle: {
+      color: theme === 'dark' ? '#EBEBEB' : colorScheme.lightTheme.dark,
+      fontSize: 16.3,
+      fontFamily: 'Inter-Medium',
+    },
+    IssueText: {
+      color: theme === 'dark' ? '#CECECE' : '#687684',
+      fontSize: 16,
+      lineHeight: 22,
+    },
 
-  // Issue Action Styling
+    // Issue Action Styling
 
-  IssueActionView: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 25,
-    justifyContent: 'flex-start',
-  },
-  IssueAction: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 5,
-    borderRadius: 50,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginVertical: 10,
-  },
-  IssueActionIcon: {width: 17, height: 17, objectFit: 'contain'},
-  IssueActionCount: {
-    color: 'black',
-    fontSize: 13.5,
-    fontFamily: 'Inter-Medium',
-  },
-  ReadMoreText: {
-    color: 'rgba(0,0,0,0.6)',
-    fontSize: 13,
-    fontFamily: 'Inter-SemiBold',
-  },
-});
+    IssueActionView: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      columnGap: 25,
+      justifyContent: 'flex-start',
+    },
+    IssueAction: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      columnGap: 5,
+      borderRadius: 50,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      marginVertical: 10,
+    },
+    IssueActionIcon: {
+      width: 17,
+      height: 17,
+      objectFit: 'contain',
+      tintColor: theme === 'dark' ? 'white' : colorScheme.lightTheme.dark,
+    },
+    IssueActionCount: {
+      color: theme === 'dark' ? 'white' : colorScheme.lightTheme.dark,
+      fontSize: 13.5,
+      fontFamily: 'Inter-Medium',
+    },
+    ReadMoreText: {
+      color: 'rgba(0,0,0,0.6)',
+      fontSize: 13,
+      fontFamily: 'Inter-SemiBold',
+    },
+  });

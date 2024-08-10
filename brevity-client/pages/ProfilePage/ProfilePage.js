@@ -28,6 +28,7 @@ const ProfilePage = () => {
   const setAuthValue = useResetRecoilState(authState);
   const setUserInfoState = useResetRecoilState(userInfo);
   const [theme, setTheme] = useRecoilState(getTheme);
+  const resetTheme = useResetRecoilState(getTheme);
   const [loading, setLoading] = useState(false);
 
   const URL = Config.BASE_URL;
@@ -54,7 +55,7 @@ const ProfilePage = () => {
         await AsyncStorage.removeItem('authToken');
         setAuthValue(false);
         setUserInfoState({});
-        setTheme('light');
+        resetTheme();
         navigation.navigate('FeedPage');
       } else {
         Burnt.toast({

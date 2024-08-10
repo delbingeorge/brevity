@@ -29,7 +29,7 @@ import ProfileView from '../../components/ProfileView';
 import Authentication from '../../components/Authentication';
 import colorScheme from '../../assets/colors/colorScheme';
 import * as Burnt from 'burnt';
-import {useTheme} from '../../provider/ThemeProvider';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
@@ -44,6 +44,7 @@ const FeedPage = () => {
   const [isModalVisible, setModalVisible] = useRecoilState(ProfileModal);
   const [modalInfo, setModalInfo] = useRecoilState(UserProfileInfo);
   const [theme, setTheme] = useRecoilState(getTheme);
+  const [connectivity, setConnectivity] = useState(true);
   const styles = createStyle(theme);
 
   useEffect(() => {
@@ -93,13 +94,7 @@ const FeedPage = () => {
         });
       }
     } catch (error) {
-      Burnt.toast({
-        title: 'Feed page smww!',
-        preset: 'error',
-        haptic: 'error',
-        duration: 5,
-        from: 'bottom',
-      });
+      setConnectivity(false);
     } finally {
       setLoading(false);
     }
@@ -108,6 +103,7 @@ const FeedPage = () => {
   const renderItem = ({item, index}) => {
     const isLongText = item.body.length > 250;
     const displayText = isLongText ? item.body.substring(0, 200) : item.body;
+    
     return (
       <Pressable
         onPress={() => navigation.navigate('IssueComponent', {item})}
@@ -405,7 +401,7 @@ const createStyle = theme =>
     },
     HeaderDivider: {
       fontSize: 20,
-      color: '#687684',
+      color: theme === 'dark' ? '#C2C8CF' : '#687684',
     },
     HeaderListName: {
       fontSize: 13.5,
