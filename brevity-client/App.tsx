@@ -17,6 +17,7 @@ const App = () => {
 
   return (
     <RecoilRoot>
+      
       <NavigationContainer>
         <BrevityNavigation />
       </NavigationContainer>

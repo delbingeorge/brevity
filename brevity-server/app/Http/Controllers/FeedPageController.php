@@ -15,22 +15,22 @@ class FeedPageController extends Controller
                 ->join('lists', 'lists.id', '=', 'issues.list_id')
                 ->join('users', 'users.id', '=', 'issues.user_id')
                 ->join('user_lists', 'user_lists.list_id', '=', 'lists.id')
-                ->leftJoin('issue_responses', 'issue_responses.issue_id', '=', 'issues.id') // Join issue_responses table
-                ->where('user_lists.user_id', $getValue)
-                ->where('issues.user_id', '!=', $getValue)
+                ->leftJoin('issue_responses', 'issue_responses.issue_id', '=', 'issues.id')
+                ->where('user_lists.user_id', $getValue) 
+                ->where('issues.user_id', '!=', $getValue) 
                 ->select(
                     'issues.id as issueId',
-                    'lists.id ',
+                    'lists.id as listId', 
                     'issues.upvote',
                     'issues.title',
                     'issues.body',
                     'lists.list_name',
                     'lists.description',
                     'issues.created_at',
-                    'users.name',
+                    'users.name', 
                     'users.photo',
                     'users.id as userId',
-                    DB::raw('COUNT(issue_responses.id) as responseCount') // Count responses
+                    DB::raw('COUNT(issue_responses.id) as responseCount') 
                 )
                 ->groupBy(
                     'issues.id',
@@ -47,6 +47,7 @@ class FeedPageController extends Controller
                 )
                 ->orderBy('issues.created_at', 'desc')
                 ->get();
+
             return response()->json(['content' => $getIssues, $getValue], 200);
         }
 
