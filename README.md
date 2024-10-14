@@ -1,1 +1,0 @@
-Brevity - The Devlopers console
