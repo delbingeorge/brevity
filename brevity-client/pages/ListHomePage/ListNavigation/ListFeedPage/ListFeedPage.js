@@ -38,12 +38,12 @@
 //       }
 //     } catch (error) {
 //        Burnt.toast({
-        title: 'Something went wrong!',
-        preset: 'error',
-        haptic: 'error',
-        duration: 5,
-        from: 'bottom',
-      });
+      //   title: 'Something went wrong!',
+      //   preset: 'error',
+      //   haptic: 'error',
+      //   duration: 5,
+      //   from: 'bottom',
+      // });
 //     }
 //   };
 

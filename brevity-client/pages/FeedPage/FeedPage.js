@@ -47,6 +47,9 @@ const FeedPage = () => {
   const [connectivity, setConnectivity] = useState(true);
   const styles = createStyle(theme);
 
+  // const networkStatus = useNetInfo();
+  // console.log(networkStatus.isConnected());
+
   useEffect(() => {
     getFeedData();
   }, [authValue[0], navigation, listMembershipStatusCheck]);
@@ -128,9 +131,7 @@ const FeedPage = () => {
           </Pressable>
         </View>
         <View style={styles.IssueContent}>
-          <Text style={styles.IssueTitle}>
-            {item.title}
-          </Text>
+          <Text style={styles.IssueTitle}>{item.title}</Text>
           <Text style={styles.IssueText}>
             {displayText}
             {isLongText && (

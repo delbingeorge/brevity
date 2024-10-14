@@ -1,4 +1,4 @@
-import {Image, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {Image, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {Dimensions} from 'react-native';
 
 const SplashScreen = () => {

@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {Image, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useEffect} from 'react';
-import {authState, getTheme, newUser, userInfo} from '../provider/RecoilStore';
+import {authState, getTheme, userInfo} from '../provider/RecoilStore';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Burnt from 'burnt';
@@ -79,7 +79,7 @@ function TabNavigation() {
               : colorScheme.lightTheme['primary-light'],
           display: authValue == true ? 'flex' : 'none',
           borderTopColor:
-            useTheme === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0)',
+            useTheme === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
           height: 60,
         },
         tabBarHideOnKeyboard: true,
