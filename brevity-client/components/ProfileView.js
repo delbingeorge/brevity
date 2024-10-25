@@ -1,4 +1,8 @@
+// Module imports
 import React from 'react';
+import ReactNativeModal from 'react-native-modal';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import colorScheme from '../assets/colors/colorScheme';
 import {
   Dimensions,
   Image,
@@ -7,15 +11,12 @@ import {
   Text,
   View,
 } from 'react-native';
-import ReactNativeModal from 'react-native-modal';
-import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   getTheme,
   ProfileModal,
   userInfo,
   UserProfileInfo,
 } from '../provider/RecoilStore';
-import colorScheme from '../assets/colors/colorScheme';
 
 const ProfileView = () => {
   const profileInfo = useRecoilValue(userInfo);

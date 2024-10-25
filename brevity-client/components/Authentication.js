@@ -1,4 +1,13 @@
+// Module imports
+import axios from 'axios';
+import * as Burnt from 'burnt';
 import React, {useState} from 'react';
+import Config from 'react-native-config';
+import ReactNativeModal from 'react-native-modal';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import colorScheme from '../assets/colors/colorScheme';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   ActivityIndicator,
   Dimensions,
@@ -10,7 +19,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import ReactNativeModal from 'react-native-modal';
 import {
   authState,
   getTheme,
@@ -18,17 +26,10 @@ import {
   newUser,
   userInfo,
 } from '../provider/RecoilStore';
-import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Burnt from 'burnt';
-import Config from 'react-native-config';
-import {useNavigation} from '@react-navigation/native';
-import colorScheme from '../assets/colors/colorScheme';
 
 const Authentication = () => {
   const [showModalView, setShowModalView] = useRecoilState(modalView);

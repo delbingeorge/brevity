@@ -1,6 +1,11 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
+// Module imports
 import axios from 'axios';
 import React, {useState} from 'react';
+import * as Burnt from 'burnt';
+import Config from 'react-native-config';
+import {Switch} from 'react-native-switch';
+import ReactNativeModal from 'react-native-modal';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Dimensions,
@@ -11,10 +16,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import Config from 'react-native-config';
-import ReactNativeModal from 'react-native-modal';
-import {Switch} from 'react-native-switch';
-import * as Burnt from 'burnt';
 
 const ManageIssue = () => {
   const {
