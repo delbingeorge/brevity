@@ -38,7 +38,7 @@ const ListHomePage = () => {
   } = useRoute();
 
   console.log(item);
-  
+
   const navigation = useNavigation();
   const [listJoin, setListJoin] = useState(false);
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
