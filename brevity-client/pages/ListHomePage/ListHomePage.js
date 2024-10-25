@@ -37,8 +37,6 @@ const ListHomePage = () => {
     params: {item},
   } = useRoute();
 
-  console.log(item);
-
   const navigation = useNavigation();
   const [listJoin, setListJoin] = useState(false);
   const [profileInfo, setProfileInfo] = useRecoilState(userInfo);
@@ -359,12 +357,12 @@ const ListHomePage = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Pressable onPress={ListLeaveLogic} style={{width: '49%'}}>
+              <Pressable onPress={ListLeaveLogic} style={{width: '100%'}}>
                 <Text style={styles.ListLeaveBtn}>
                   {loading ? <ActivityIndicator /> : 'Leave List'}
                 </Text>
               </Pressable>
-              <Pressable
+              {/* <Pressable
                 onPress={() => navigation.navigate('ScreamPage')}
                 style={{
                   backgroundColor:
@@ -389,7 +387,7 @@ const ListHomePage = () => {
                   }}
                   source={require('../../assets/images/icons/scream-icon-bk.png')}
                 />
-              </Pressable>
+              </Pressable> */}
             </View>
           ) : (
             <Pressable
