@@ -16,21 +16,21 @@ class FeedPageController extends Controller
                 ->join('users', 'users.id', '=', 'issues.user_id')
                 ->join('user_lists', 'user_lists.list_id', '=', 'lists.id')
                 ->leftJoin('issue_responses', 'issue_responses.issue_id', '=', 'issues.id')
-                ->where('user_lists.user_id', $getValue) 
-                ->where('issues.user_id', '!=', $getValue) 
+                ->where('user_lists.user_id', $getValue)
+                ->where('issues.user_id', '!=', $getValue)
                 ->select(
                     'issues.id as issueId',
-                    'lists.id as listId', 
+                    'lists.id as id',
                     'issues.upvote',
                     'issues.title',
                     'issues.body',
                     'lists.list_name',
                     'lists.description',
                     'issues.created_at',
-                    'users.name', 
+                    'users.name',
                     'users.photo',
                     'users.id as userId',
-                    DB::raw('COUNT(issue_responses.id) as responseCount') 
+                    DB::raw('COUNT(issue_responses.id) as responseCount')
                 )
                 ->groupBy(
                     'issues.id',

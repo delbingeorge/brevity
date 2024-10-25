@@ -1,3 +1,9 @@
+// Module imports
+import axios from 'axios';
+import Config from 'react-native-config';
+import {useEffect, useState} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import * as Burnt from 'burnt';
 import {
   Dimensions,
   Image,
@@ -20,16 +26,12 @@ import {
   userInfo,
   UserProfileInfo,
 } from '../../provider/RecoilStore';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import axios from 'axios';
-import Config from 'react-native-config';
-import {useEffect, useState} from 'react';
+
+// Component imports
 import FeedContentLoader from '../../components/Skeleton/FeedContentLoader';
 import ProfileView from '../../components/ProfileView';
 import Authentication from '../../components/Authentication';
 import colorScheme from '../../assets/colors/colorScheme';
-import * as Burnt from 'burnt';
-import {useNetInfo} from '@react-native-community/netinfo';
 
 const FeedPage = () => {
   const URL = Config.BASE_URL;
