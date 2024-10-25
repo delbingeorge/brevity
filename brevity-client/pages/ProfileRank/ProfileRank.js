@@ -154,7 +154,7 @@ const ProfileRank = () => {
         style={{
           backgroundColor: 'white',
           paddingHorizontal: 15,
-          paddingBottom: 2,
+          paddingBottom: 5,
         }}>
         <View>
           <Pressable

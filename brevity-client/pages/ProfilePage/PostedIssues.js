@@ -1,4 +1,9 @@
 import axios from 'axios';
+import * as Burnt from 'burnt';
+import {useRecoilValue} from 'recoil';
+import Config from 'react-native-config';
+import {userInfo} from '../../provider/RecoilStore';
+import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -9,11 +14,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import Config from 'react-native-config';
-import {useRecoilValue} from 'recoil';
-import {userInfo} from '../../provider/RecoilStore';
-import {useNavigation} from '@react-navigation/native';
-import * as Burnt from 'burnt';
 
 const PostedIssues = () => {
   const URL = Config.BASE_URL;

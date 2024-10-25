@@ -23,11 +23,44 @@ const ManageIssue = () => {
   } = useRoute();
   const navigation = useNavigation();
   const URL = Config.BASE_URL;
-  const [isPressed, setIsPressed] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [showIssueMenu, setShowIssueMenu] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => {
+      const newState = !previousState;
+      setIssueStatus(newState);
+      return newState;
+    });
+  };
+
+  const setIssueStatus = async status => {
+    try { 
+      const response = await axios.post(
+        `${URL}/api/set-issue-status/${item.issueId}`,
+        {
+          isEnabled: status,
+        },
+      );
+      Burnt.toast({
+        title: 'Status Updated!',
+        preset: 'success',
+        haptic: 'success',
+        duration: 5,
+        from: 'bottom',
+      });
+    } catch (error) {
+      Burnt.toast({
+        title: 'Failed to update status!',
+        preset: 'error',
+        haptic: 'error',
+        duration: 5,
+        from: 'bottom',
+      });
+      setIsEnabled(false);
+    }
+  };
 
   const removeIssueHandler = async () => {
     try {
@@ -56,20 +89,6 @@ const ManageIssue = () => {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const setIssueStatus = async () => {
-    try {
-      const response = await axios.post(`${URL}/api/set-issue-status/`);
-    } catch (error) {
-      Burnt.toast({
-        title: 'Something went wrong!',
-        preset: 'error',
-        haptic: 'error',
-        duration: 5,
-        from: 'bottom',
-      });
     }
   };
 
