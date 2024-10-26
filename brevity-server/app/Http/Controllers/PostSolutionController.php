@@ -18,6 +18,8 @@ class PostSolutionController extends Controller
 
         $issueResponse = IssueResponse::create([
             'body' => $validated['content'],
+            'solution' => 0,
+            'upvote' => 1,
             'user_id' => $validated['userId'],
             'issue_id' => $validated['issueId'],
         ]);

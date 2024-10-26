@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('issue_responses', function (Blueprint $table) {
             $table->id();
             $table->text('body');
+            $table->boolean('solution');
+            $table->integer('upvote');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('issue_id')->constrained()->onDelete('cascade');
             $table->timestamps();

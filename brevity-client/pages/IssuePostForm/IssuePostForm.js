@@ -42,7 +42,7 @@ const IssuePostForm = () => {
       }
     } catch (error) {
       Burnt.toast({
-        title: 'Something went wrong!',
+        title: 'Something went wrong! 1',
         preset: 'error',
         haptic: 'error',
         duration: 5,
@@ -82,14 +82,17 @@ const IssuePostForm = () => {
       return;
     }
     try {
+      console.log('Attempting to post issue:', issueContent);
+      console.log('API URL:', `${URL}/api/post-issue`);
+
       const response = await axios.post(`${URL}/api/post-issue`, issueContent);
       if (response.status == 201) {
-        // navigation.navigate('IssuePostStatus');
         navigation.goBack();
       }
     } catch (error) {
+      console.error('Error posting issue:', error.response || error);
       Burnt.toast({
-        title: 'Something went wrong!',
+        title: 'Something went wrong! 2',
         preset: 'error',
         haptic: 'error',
         duration: 5,

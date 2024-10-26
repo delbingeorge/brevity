@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Issue extends Model
 {
     protected $fillable = [
-        'title', 'body', 'user_id', 'list_id',
+        'title',
+        'body',
+        'status',
+        'upvote',
+        'user_id',
+        'list_id',
     ];
 
     // Relationships

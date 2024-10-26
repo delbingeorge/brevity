@@ -9,6 +9,10 @@ class IssueResponse extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'body', 'user_id', 'issue_id'
+        'body',
+        'solution',
+        'upvote',
+        'user_id',
+        'issue_id'
     ];
 }
