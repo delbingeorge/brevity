@@ -261,7 +261,7 @@ const IssueComponent = () => {
                 source={require('../assets/images/icons/issue-actions/issue-upvote.png')}
               />
             </Pressable>
-            <Text style={styles.IssueActionCount}>0</Text>
+            <Text style={styles.IssueActionCount}>1</Text>
           </View>
           <Pressable
             onPress={() => postedSolutions.length > 0 && setShowSolutions(true)}

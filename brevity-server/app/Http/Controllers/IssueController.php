@@ -8,20 +8,47 @@ use Illuminate\Support\Facades\DB;
 
 class IssueController extends Controller
 {
-    public function upvoteIssue($issueId)
+    // Updated upvoteIssue method in IssueController
+    public function upvoteIssue(Request $request, $issueId)
     {
-        $issue = DB::table('issues')->where('id', $issueId)->first();
+        $userId = $request->user()->id;
 
-        if (!$issue) {
-            return response()->json(['error' => 'Issue not found'], 404);
+        // Check if the user has already upvoted this issue
+        $existingUpvote = DB::table('issue_upvotes')
+            ->where('issue_id', $issueId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($existingUpvote) {
+            // Remove the upvote
+            DB::table('issue_upvotes')
+                ->where('issue_id', $issueId)
+                ->where('user_id', $userId)
+                ->delete();
+
+            // Decrement the upvote count in the issues table
+            DB::table('issues')
+                ->where('id', $issueId)
+                ->decrement('upvote');
+        } else {
+            // Add the upvote
+            DB::table('issue_upvotes')->insert([
+                'issue_id' => $issueId,
+                'user_id' => $userId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Increment the upvote count in the issues table
+            DB::table('issues')
+                ->where('id', $issueId)
+                ->increment('upvote');
         }
 
-        // Toggle upvote logic
-        $newUpvoteCount = $issue->upvote ? $issue->upvote - 1 : $issue->upvote + 1;
-
-        DB::table('issues')
+        // Fetch the updated upvote count for response
+        $newUpvoteCount = DB::table('issues')
             ->where('id', $issueId)
-            ->update(['upvote' => $newUpvoteCount]);
+            ->value('upvote');
 
         return response()->json(['issueId' => $issueId, 'newUpvoteCount' => $newUpvoteCount]);
     }
