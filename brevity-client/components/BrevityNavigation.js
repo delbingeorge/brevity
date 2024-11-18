@@ -70,7 +70,7 @@ function TabNavigation() {
         tabBarLabelStyle: {
           fontFamily: 'Inter-Medium',
           fontSize: 12,
-          marginTop: -5,
+          // marginTop: -5,
         },
         tabBarStyle: {
           backgroundColor:
@@ -80,7 +80,7 @@ function TabNavigation() {
           display: authValue == true ? 'flex' : 'none',
           borderTopColor:
             useTheme === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
-          height: 60,
+          height: 55,
         },
         tabBarHideOnKeyboard: true,
       }}>

@@ -225,9 +225,7 @@ const FeedPage = () => {
       </View>
 
       {loading == true ? (
-        <>
-          <FeedContentLoader />
-        </>
+        <FeedContentLoader />
       ) : (
         <FlatList
           data={feedData}
