@@ -18,6 +18,7 @@ Route::post('/google-signin', [AuthController::class, 'SignIn']);
 Route::get('/google-signout', [AuthController::class, 'signOut']);
 
 // Routes which needs authentication
+
 Route::post('/profile/update', [ProfileController::class, 'editProfile']);
 Route::post('/post-issue', [IssuePostController::class, 'postIssue']);
 Route::post('/explore-search', [ExploreController::class, 'exploreSearch']);
@@ -28,13 +29,9 @@ Route::get('/lists-details/{list_id}', [ListController::class, 'getListsDetails'
 Route::get('/get-posted-issues/{profileId}', [IssuePostController::class, 'getUserIssues']);
 Route::post('/post-response', [PostSolutionController::class, 'postSolution']);
 Route::get('/get-issue-solutions/{issueId}', [PostSolutionController::class, 'resSolution']);
-Route::get('/upvote/{issueId}', [IssueController::class, 'upvoteIssue']);
 
 // Routes free of authentication
 
 Route::get('/get-list-issues/{listId}', [ListController::class, 'getListIssues']);
 Route::get('/get-feed/{authValue}', [FeedPageController::class, 'getFeed']);
 Route::delete('/delete-issue/{delParams}', [IssuePostController::class, 'deleteIssue']);
-
-
-Route::post('/issues/{issueId}/upvote', [IssueController::class, 'upvoteIssue']);

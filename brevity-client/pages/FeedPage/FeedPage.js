@@ -62,22 +62,7 @@ const FeedPage = () => {
     setRefreshing(false);
   };
 
-  const handlePress = async issueId => {
-    if (!authValue[0]) {
-      setShowModalView(true);
-    } else {
-      try {
-        const response = await axios.get(`${URL}/api/upvote/${issueId}`);
-        if (response.status === 200) {
-          console.log(response.data);
-        } else {
-          console.log(response.statusText);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  const handlePress = async issueId => {};
 
   const getFeedData = async () => {
     try {
